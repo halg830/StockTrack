@@ -5,14 +5,12 @@ import http from 'http';
 import * as io from 'socket.io'
 import controllerSockets from "./sockets/controller.js"
 import persona from './routes/persona.js';
-import login from './routes/login(temporal).js';
 
 const port=process.env.PORT
 let app = express();
 app.use(express.json());
 app.use(express.static('public'))
 app.use("/api/persona", persona)
-app.use("/api/personaL", login)
 const server = http.createServer(app)
 
 let ioServer = new io.Server(server);

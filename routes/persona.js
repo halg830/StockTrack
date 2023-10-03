@@ -24,4 +24,6 @@ router.post('/registro',[
     validarCampos
 ],httpPersona.registroVendedor)
 
+router.post("/login", httpPersona.login)
+
 export default router
