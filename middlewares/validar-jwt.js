@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import Vendedor from "../models/vendedor.js";
+import Persona from "../models/persona.js";
 
 const generarJWT = (uid) => {
     return new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ const validarJWT = async (req, res, next) => {
     try {
         const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY)
 
-        let usuario = await Vendedor.findById(uid);
+        let usuario = await Persona.findById(uid);
 
         if (!usuario) {
             return res.status(401).json({
@@ -42,7 +42,7 @@ const validarJWT = async (req, res, next) => {
                 msg: "Token no válido " //- usuario con estado: false
             })
         }
-        req.vendedor=usuario
+        req.persona=usuario
 
         next();
 
