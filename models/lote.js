@@ -8,4 +8,4 @@ const loteSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("Lote", loteSchemaSchema)
+export default mongoose.model("Lote", loteSchema)
