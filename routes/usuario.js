@@ -21,7 +21,7 @@ router.post('/registro',[
         return true;
     }),
     validarCampos
-],httpUsuario.registroVendedor)
+],httpUsuario.registroUsuario)
 
 router.post("/login", httpUsuario.login)
 

@@ -2,9 +2,9 @@ import Usuario from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
 import { generarJWT } from "../middlewares/validar-jwt.js";
 
-const httpPersona = {
+const httpUsuario = {
   //Post registro usuario
-  registroVendedor: async (req, res) => {
+  registroUsuario: async (req, res) => {
     try {
       const {
         nombre,
@@ -76,4 +76,4 @@ const httpPersona = {
   },
 };
 
-export default httpPersona;
+export default httpUsuario;
