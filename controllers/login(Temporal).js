@@ -5,11 +5,11 @@ import { log } from "console";
 
 const httpPersona = {
   login: async (req, res) => {
-    const { usuario, contraseña } = req.body;
+    const { nombreUsuario, contraseña } = req.body;
 
     try {
-        const persona = await Persona.findOne({ usuario })
-        console.log(persona);
+        const persona = await Persona.findOne({ nombreUsuario })
+        console.log("a",persona);
         
         if (!persona) {
             return res.status(400).json({
