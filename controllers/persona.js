@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs"
 import  {generarJWT} from "../middlewares/validar-jwt.js";
 
 const httpPersona = {
+    //Post registro persona
     registroVendedor: async (req, res) => {
         try {
             const { nombre, identificacion, nombreUsuario, correo, telefono, codigoRol,contraseña} = req.body
