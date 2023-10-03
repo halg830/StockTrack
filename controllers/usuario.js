@@ -1,54 +1,52 @@
-import Persona from "../models/persona.js";
+import Usuario from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
 import { generarJWT } from "../middlewares/validar-jwt.js";
 
 const httpPersona = {
-  //Post registro persona
+  //Post registro usuario
   registroVendedor: async (req, res) => {
     try {
       const {
         nombre,
         identificacion,
-        nombreUsuario,
         correo,
         telefono,
-        codigoRol,
+        rol,
         contraseña,
       } = req.body;
-      const persona = new Persona({
+      const usuario = new Usuario({
         nombre,
         identificacion,
-        nombreUsuario,
         correo,
         telefono,
-        codigoRol,
+        rol,
         contraseña,
       });
       const salt = bcryptjs.genSaltSync();
-      persona.contraseña = bcryptjs.hashSync(contraseña, salt);
+      usuario.contraseña = bcryptjs.hashSync(contraseña, salt);
 
-      await persona.save();
+      await usuario.save();
 
-      res.json({ persona });
+      res.json({ usuario });
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
   login: async (req, res) => {
-    const { nombreUsuario, contraseña } = req.body;
+    const { identificacion, contraseña } = req.body;
 
     try {
-      const persona = await Persona.findOne({ nombreUsuario });
-      console.log("a", persona);
+      const usuario = await Usuario.findOne({ identificacion });
+      console.log("a", usuario);
 
-      if (!persona) {
+      if (!usuario) {
         return res.status(400).json({
           msg: "Usuario / Password no son correctos",
         });
       }
 
-      /* if (persona.estado === 0) {
+      /* if (usuario.estado === 0) {
                 return res.status(400).json({
                     msg: "Usuario Inactivo"
                 })
@@ -56,7 +54,7 @@ const httpPersona = {
 
       const validPassword = bcryptjs.compareSync(
         contraseña,
-        persona.contraseña
+        usuario.contraseña
       );
       if (!validPassword) {
         return res.status(401).json({
@@ -64,10 +62,10 @@ const httpPersona = {
         });
       }
 
-      const token = await generarJWT(persona.id);
+      const token = await generarJWT(usuario.id);
 
       res.json({
-        persona,
+        usuario,
         token,
       });
     } catch (error) {

@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import http from 'http';
 import * as io from 'socket.io'
 import controllerSockets from "./sockets/controller.js"
-import persona from './routes/persona.js';
+import persona from './routes/usuario.js';
 
 const port=process.env.PORT
 let app = express();
