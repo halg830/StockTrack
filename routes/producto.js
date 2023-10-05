@@ -1,5 +1,5 @@
 import { Router } from "express"
-import httpProducto from "../controllers/lote.js";
+import httpProducto from "../controllers/producto.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -9,6 +9,17 @@ const router=new Router()
 router.get('/obtenerProductos',[
     validarJWT
 ],httpProducto.getObtenerProducto)
+
+router.get('/obtenerPorLote/:loteId', [
+    validarJWT,
+    check("loteId", "Ingrese un ID de lote válido").not().isEmpty().isMongoId()
+], httpProducto.getObtenerProductosPorLote);
+
+router.get('/obtenerPorFechas', [
+    validarJWT,
+    check("fechaInicio", "Ingrese una fecha de inicio válida").not().isEmpty().isISO8601(),
+    check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty().isISO8601(),
+], httpProducto.getObtenerProductosPorFechas);
 
 router.post('/agregar',[
     validarJWT,
@@ -42,16 +53,7 @@ router.put('/inactivar-activar/:id', [
 ], httpProducto.putProductoInactivar);
 
 
-router.get('/obtenerPorLote/:loteId', [
-    validarJWT,
-    check("loteId", "Ingrese un ID de lote válido").not().isEmpty().isMongoId()
-], httpProducto.getObtenerProductosPorLote);
 
-router.get('/obtenerPorFechas', [
-    validarJWT,
-    check("fechaInicio", "Ingrese una fecha de inicio válida").not().isEmpty().isISO8601(),
-    check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty().isISO8601(),
-], httpProducto.getObtenerProductosPorFechas);
 
 
 export default router
