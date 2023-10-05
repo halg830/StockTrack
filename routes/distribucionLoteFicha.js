@@ -19,6 +19,7 @@ router.get('/obtenerAsignacionId/:id',[
 ],httpDistribucionLoteFicha.getAsignacionById)
 
 router.post('/agregar',[
+    validarJWT,
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),

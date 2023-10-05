@@ -24,7 +24,7 @@ router.get('/obtenerFichaNumero/:numero',[
 ],httpFicha.getObtenerFichasNumero)
 
 router.post('/agregar', [
-  
+    validarJWT,
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
     check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
