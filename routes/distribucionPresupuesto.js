@@ -8,10 +8,11 @@ import helpersPresupuesto from "../helpers/presupuesto.js";
 const router=new Router()
 
 // Get
-router.get('/all', httpDistribucion.obtenerAllDistribucion)
+router.get('/all', validarJWT, httpDistribucion.obtenerAllDistribucion)
 
 // Post
 router.post('/agregar',[
+    validarJWT,
     check("idLote", "ID no válido").isMongoId(),
     check("idItem", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
@@ -21,6 +22,7 @@ router.post('/agregar',[
 
 // Put
 router.put('/editar', [
+    validarJWT,
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
@@ -28,11 +30,13 @@ router.put('/editar', [
 ], httpDistribucion.editarDistribucion)
 
 router.put('/inactivar', [
+    validarJWT,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpDistribucion.inactivarDistribucion)
 
 router.put('/activar', [
+    validarJWT,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpDistribucion.activarDistribucion)

@@ -4,7 +4,13 @@ const httpDistribucionesPresupuesto = {
   obtenerAllDistribucion: async (req, res) => {
     //checkear
     try {
-      const distribuciones = await Distribucion.find();
+      const distribuciones = await Distribucion.find()
+      const distribucionesPromesas = await Distribucion.map(async d=>{
+        return await Distribucion.findById(d._id).populate('Lote').populate('ItemPresupuesto')
+      })
+
+
+
       res.json({ distribuciones });
     } catch (error) {
       res.status(400).json({ error });
