@@ -1,4 +1,4 @@
-import Item from "../models/ItemPresupuesto.js";
+import Item from "../models/itemsPresupuesto.js";
 
 const httpItemPresupuesto = {
   obtenerAllItem: async (req, res) => {

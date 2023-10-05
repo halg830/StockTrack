@@ -1,4 +1,4 @@
-import Area from "../models/area"; 
+import Area from "../models/area.js"; 
 
 const httpArea = {
   obtenerAreas: async (req, res) => {
@@ -22,8 +22,8 @@ const httpArea = {
 
   crearArea: async (req, res) => {
     try {
-      const { Nombre } = req.body;
-      const nuevaArea = new Area({ Nombre });
+      const { nombre } = req.body;
+      const nuevaArea = new Area({ nombre });
       const areaGuardada = await nuevaArea.save();
       res.json({ area: areaGuardada });
     } catch (error) {
@@ -34,9 +34,9 @@ const httpArea = {
   actualizarArea: async (req, res) => {
     try {
       const { id } = req.params;
-      const { Nombre } = req.body;
-      const areaActualizada = await Area.findByIdAndUpdate(id, { Nombre }, { new: true });
-      res.json({ area: areaActualizada });
+      const { nombre } = req.body;
+      const areaActualizada = await Area.findByIdAndUpdate(id, { nombre }, { new: true });
+      res.json({ areaActualizada });
     } catch (error) {
       res.status(400).json({ error });
     }

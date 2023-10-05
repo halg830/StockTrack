@@ -9,6 +9,8 @@ import distribucionLoteFicha from './routes/distribucionLoteFicha.js'
 import lote from './routes/lote.js'
 import itemPresupuesto from './routes/itemPresupuesto.js'
 import distribucionPresupuesto from './routes/distribucionPresupuesto.js';
+import ficha from './routes/ficha.js'
+import area from "./routes/area.js"
 
 const port=process.env.PORT
 let app = express();
@@ -19,6 +21,8 @@ app.use("/api/asignacion", distribucionLoteFicha)
 app.use("/api/lote", lote)
 app.use("/api/item", itemPresupuesto)
 app.use("/api/distribucion", distribucionPresupuesto)
+app.use("/api/ficha", ficha)
+app.use("/api/area", area)
 const server = http.createServer(app)
 
 let ioServer = new io.Server(server);
