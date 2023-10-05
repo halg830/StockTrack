@@ -3,6 +3,7 @@ import httpFicha from "../controllers/ficha.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
+import helpersFicha from "../helpers/ficha.js";
 
 const router=new Router()
 
@@ -29,6 +30,7 @@ router.post('/agregar', [
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
     check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
+    check('fechaInicio',"Fecha Invalida").custom(helpersFicha.validarFechas),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
     check('idArea', "Digite el id del area").not().isEmpty(),
     check('idArea', "Digite el id del area").isMongoId(),
