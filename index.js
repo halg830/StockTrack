@@ -11,6 +11,8 @@ import itemPresupuesto from './routes/itemPresupuesto.js'
 import distribucionPresupuesto from './routes/distribucionPresupuesto.js';
 import ficha from './routes/ficha.js'
 import area from "./routes/area.js"
+import session from 'express-session';
+
 
 const port=process.env.PORT
 let app = express();
@@ -23,6 +25,11 @@ app.use("/api/item", itemPresupuesto)
 app.use("/api/distribucion", distribucionPresupuesto)
 app.use("/api/ficha", ficha)
 app.use("/api/area", area)
+
+app.use(session({
+  name: 'stockTrackCokkie', 
+  secret: 'secreto',
+}));
 const server = http.createServer(app)
 
 let ioServer = new io.Server(server);

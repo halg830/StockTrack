@@ -87,7 +87,7 @@ const httpUsuario = {
         if (err) {
           return res.status(500).json({ mensaje: 'Error al cerrar sesión' });
         }
-        res.clearCookie('nombreCookie');
+        res.clearCookie('stockTrackCokkie');
         return res.status(200).json({ mensaje: 'Sesión cerrada con éxito' });
       });
     } catch (error) {
