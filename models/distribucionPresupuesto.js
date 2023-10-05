@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const distribucionPresupuestoSchema = new mongoose.Schema({
     presupuesto: { type:Number, require:true},
-    id_lote: {type:mongoose.Schema.Types.ObjectId,ref:'Lote', require:true},
-    id_item : {type:mongoose.Schema.Types.ObjectId,ref:'ItemPresupuesto', require:true},
+    idLote: {type:mongoose.Schema.Types.ObjectId,ref:'Lote', require:true},
+    idItem : {type:mongoose.Schema.Types.ObjectId,ref:'ItemPresupuesto', require:true},
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}
 });
