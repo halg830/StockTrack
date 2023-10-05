@@ -6,7 +6,7 @@ const usuarioSchema = new mongoose.Schema({
     correo: { type: String, require:true},
     telefono: { type: String, required: true, validate: /^\d{10}$/ },
     rol : {type:String, require:true},
-    contraseña : {type:String, require:true},
+    password : {type:String, require:true},
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}
 });
