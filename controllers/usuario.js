@@ -53,9 +53,46 @@ const httpUsuario = {
       });
     }
   },
-  putCambioPassword: async(req,res)=>{
-    const {id} = req.params
-
+  putCambioPassword: async (req, res) => {
+    const { id } = req.params;
+    const { password, newPassword } = req.body;
+  
+    try {
+      const usuario = await Usuario.findById(id);
+  
+      if (!usuario) {
+        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+      }
+  
+      const validPassword = bcryptjs.compareSync(password, usuario.password);
+  
+      if (!validPassword) {
+        return res.status(400).json({ mensaje: 'Contraseña actual incorrecta' });
+      }
+  
+      const salt = bcryptjs.genSaltSync();
+      const cryptNewPassword = bcryptjs.hashSync(newPassword, salt);
+  
+      usuario.password = cryptNewPassword;
+      await usuario.save();
+  
+      return res.status(200).json({ mensaje: 'Contraseña actualizada con éxito' });
+    } catch (error) {
+      return res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
+  },
+  logOut: async (req, res) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ mensaje: 'Error al cerrar sesión' });
+        }
+        res.clearCookie('nombreCookie');
+        return res.status(200).json({ mensaje: 'Sesión cerrada con éxito' });
+      });
+    } catch (error) {
+      return res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
   },
 };
 

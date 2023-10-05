@@ -3,6 +3,7 @@ import httpUsuario from "../controllers/usuario.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
+import httpDetallePedido from "../controllers/detallePedido.js";
 
 const router=new Router()
 
@@ -35,5 +36,5 @@ router.put('/cambioPassword/:id',[
     check('newPassword', "Digite la nueva contraseña").not().isEmpty()
 ],httpUsuario.putCambioPassword)
 
-
+router.get('/logOut',httpUsuario.logOut)
 export default router
