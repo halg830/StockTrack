@@ -13,8 +13,39 @@ router.get('/obtenerDetallesPedidos',[
 router.get('/obtenerDetallesById/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
-    check('id', "Digite el id").isMongoId()
+    check('id', "Digite el id").isMongoId(),
+    validarCampos
+],httpDetallePedido.getDetallePedidoById)
 
-])
+router.post('/agregarDetallePedido',[
+    validarJWT,
+    check('cantidad', "Digite la Cantidad").not().isEmpty(),
+    check('idPedido', "Digite el id del pedido").not().isEmpty(),
+    check('idPedido', "Digite el id del pedido").isMongoId(),
+    check('idProducto', "Digite el id del pedido").not().isEmpty(),
+    check('idProducto', "Digite el id del pedido").isMongoId(),
+    validarCampos
+],httpDetallePedido.postDetallePedido)
 
+router.put('/editarDetallePedido/:id',[
+    validarJWT,
+    check('id', "Digite el id").not().isEmpty(),
+    check('id', "Digite el id").isMongoId(),
+    check('cantidad', "Digite la Cantidad").not().isEmpty(),
+    validarCampos
+],httpDetallePedido.putEditarDetallePedido)
+
+router.delete('/borrarDetallePedido/:id',[
+    validarJWT,
+    check('id', "Digite el id").not().isEmpty(),
+    check('id', "Digite el id").isMongoId(),
+    validarCampos
+],httpDetallePedido.deleteDetallePedido)
+
+router.put('/incativarDetallePedido/:id',[
+    validarJWT,
+    check('id', "Digite el id").not().isEmpty(),
+    check('id', "Digite el id").isMongoId(),
+    validarCampos
+],httpDetallePedido.putDetallePedidoInactivar)
 export default router
