@@ -44,17 +44,8 @@ router.put('/editarFicha/:id',[
     check('nivelFormacion', "Digite el nivel de formacion").not.isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
-    check('idArea', "Digite el id del area").not().isEmpty(),
-    check('idArea', "Digite el id del area").isMongoId(),
     validarCampos
 ],httpFicha.putEditarFicha)
-
-router.delete('/eliminarFicha/:id',[
-    validarJWT,
-    check("id", "Digite el id").not().isEmpty(),
-    check("id", "No es mongo ID").isMongoId(),
-    validarCampos
-],httpFicha.deleteFicha)
 
 router.put('/inactivarFicha/:id', [
     validarJWT,

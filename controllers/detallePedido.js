@@ -4,6 +4,8 @@ const httpDetallePedido ={
     getDetallesPedidos: async(req, res)=>{
         try {
             const detallePedido = await DetallePedido.find()
+            .populate('idPedido', 'fechaCreacion subtotal')
+            .populate('idProducto', 'nombre descripcion precioUnitario')
             res.json({ detallePedido })
         } catch (error) {
             res.status(400).json({ error })
@@ -13,6 +15,8 @@ const httpDetallePedido ={
         try {
             const {id} = req.params
             const detallePedido = await DetallePedido.findById({id})
+            .populate('idPedido', 'fechaCreacion subtotal')
+            .populate('idProducto', 'nombre descripcion precioUnitario')
             res.json({detallePedido})
         } catch (error) {
             res.status(400).json({error})
