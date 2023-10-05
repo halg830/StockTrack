@@ -23,11 +23,11 @@ router.get('/obtenerFichaNumero/:numero',[
     validarCampos
 ],httpFicha.getObtenerFichasNumero)
 
-router.post('/agregarFicha', [
+router.post('/agregar', [
     validarJWT,
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
-    check('nivelFormacion', "Digite el nivel de formacion").not.isEmpty(),
+    check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
     check('idArea', "Digite el id del area").not().isEmpty(),
@@ -41,7 +41,7 @@ router.put('/editarFicha/:id',[
     check("id", "No es mongo ID").isMongoId(),
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
-    check('nivelFormacion', "Digite el nivel de formacion").not.isEmpty(),
+    check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
     validarCampos

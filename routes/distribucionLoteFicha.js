@@ -3,6 +3,7 @@ import httpDistribucionLoteFicha from "../controllers/distribucionloteficha.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
+import helpersPresupuesto from "../helpers/presupuesto.js";
 
 const router=new Router()
 
@@ -17,13 +18,14 @@ router.get('/obtenerAsignacionId/:id',[
     validarCampos
 ],httpDistribucionLoteFicha.getAsignacionById)
 
-router.post('/agregarAsignacion',[
+router.post('/agregar',[
     validarJWT,
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
     check("idFicha", "Digite el id de la ficha").not().isEmpty(),
     check("idFicha", "Digite el id de la ficha").isMongoId(),
+    check("idDistribucionPresupuesto", "Presupuesto no valido").custom(helpersPresupuesto.obtenerDistribucionPresupuestoPorId),
     validarCampos
 ],httpDistribucionLoteFicha.postAsignacion)
 
