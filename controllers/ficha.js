@@ -1,6 +1,4 @@
 import Ficha from "../models/ficha.js";
-import bcryptjs from "bcryptjs";
-import { generarJWT } from "../middlewares/validar-jwt.js"; 
 
 const httpFicha ={
     getObtenerFichas: async (req, res) => {

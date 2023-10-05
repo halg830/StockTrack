@@ -1,4 +1,4 @@
-import mongoose, { trusted } from "mongoose";
+import mongoose from "mongoose";
 
 const productoSchema = new mongoose.Schema({
     codigo: {type:String, require:true},

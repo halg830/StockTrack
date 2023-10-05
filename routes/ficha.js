@@ -6,20 +6,25 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router=new Router()
 
-router.get('/obtenerFichas',httpFicha.getObtenerFichas)
+router.get('/obtenerFichas',[
+    validarJWT
+],httpFicha.getObtenerFichas)
 
 router.get('/obtenerFichaById/:id',[
+    validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
 ],httpFicha.getObtenerFichasid)
 
 router.get('/obtenerFichaNumero/:numero',[
+    validarJWT,
     check("numero","Digite el numero de la ficha").not().isEmpty(),
     validarCampos
 ],httpFicha.getObtenerFichasNumero)
 
 router.post('/agregarFicha', [
+    validarJWT,
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
     check('nivelFormacion', "Digite el nivel de formacion").not.isEmpty(),
@@ -31,6 +36,7 @@ router.post('/agregarFicha', [
 ],httpFicha.postAgregarFichas)
 
 router.put('/editarFicha/:id',[
+    validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
@@ -44,24 +50,30 @@ router.put('/editarFicha/:id',[
 ],httpFicha.putEditarFicha)
 
 router.delete('/eliminarFicha/:id',[
+    validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
 ],httpFicha.deleteFicha)
 
 router.put('/inactivarFicha/:id', [
+    validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
 ],httpFicha.putFichaInactivar)
 
 router.get('/obtenerFichasPorArea/:idArea',[
+    validarJWT,
     check("idArea", "Digite el id").not().isEmpty(),
     check("idArea", "No es mongo ID").isMongoId(),
     validarCampos
 ],httpFicha.getFichasPorArea)
 
 router.get('/obtenerFichasPorEstado/:estado',[
+    validarJWT,
     check('estado',"Digite el estado").not().isEmpty(),
 ],httpFicha.getFichasEstado)
+
+
 export default router
