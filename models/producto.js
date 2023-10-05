@@ -7,7 +7,7 @@ const productoSchema = new mongoose.Schema({
     unidadMedida: {type:String, require:true },
     precioUnitario: {type:Number, require:true},
     iva: {type:Number, require:true},
-    consumible: {type:Number, require:true},
+    tipoProducto: {type:Number, require:true},
     estado:{type:Boolean, default:1},
     createAT : {type:Date,default: Date.now }
 });
