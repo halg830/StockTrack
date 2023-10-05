@@ -6,14 +6,50 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router=new Router()
 
+router.get('/obtenerAsignaciones',[
+    validarJWT
+],httpDistribucionLoteFicha.getAsignaciones)
 
-router.post('/asignacion',[
-    check("presupuesto", "Digite el presupuesto").not().isEmpty(),
-    check("id_distribucion_presupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
-    check("id_ficha", "Digite el id de la ficha").isMongoId(),
+router.get('/obtenerAsignacionId/:id',[
+    validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
     validarCampos
-],httpDistribucionLoteFicha.asignacionPresupuesto)
+],httpDistribucionLoteFicha.getAsignacionById)
 
+router.post('/agregarAsignacion',[
+    validarJWT,
+    check("presupuesto", "Digite el presupuesto").not().isEmpty(),
+    check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
+    check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
+    check("idFicha", "Digite el id de la ficha").not().isEmpty(),
+    check("idFicha", "Digite el id de la ficha").isMongoId(),
+    validarCampos
+],httpDistribucionLoteFicha.postAsignacion)
+
+router.put('/editarAsignacion',[
+    validarJWT,
+    check("presupuesto", "Digite el presupuesto").not().isEmpty(),
+    check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
+    check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
+    check("idFicha", "Digite el id de la ficha").not().isEmpty(),
+    check("idFicha", "Digite el id de la ficha").isMongoId(),
+    validarCampos
+],httpDistribucionLoteFicha.putEditarAsignacion)
+
+router.delete('/eliminarAsignacion/:id',[
+    validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
+    validarCampos
+],httpDistribucionLoteFicha.deleteAsignacion)
+
+router.put('/inactivarAsignacion/:id', [
+    validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
+    validarCampos
+],httpDistribucionLoteFicha.putAsignacionInactivar)
 
 
 export default router   
