@@ -28,7 +28,7 @@ const controladorDistribucionLoteFicha = {
       const { presupuesto, idDistribucionPresupuesto, idFicha } = req.body;
 
       // Obtener el presupuesto de distribución correspondiente
-      const distribucionPresupuesto = await getDistribucionPresupuestoById(idDistribucionPresupuesto);
+      const distribucionPresupuesto = await obtenerDistribucionPresupuestoPorId(idDistribucionPresupuesto);
 
       if (!distribucionPresupuesto) {
         return res.status(404).json({ error: "Distribución de presupuesto no encontrada" });
@@ -58,7 +58,7 @@ const controladorDistribucionLoteFicha = {
       const { presupuesto, idDistribucionPresupuesto, idFicha } = req.body;
 
       // Obtener el presupuesto de distribución correspondiente
-      const distribucionPresupuesto = await getDistribucionPresupuestoById(idDistribucionPresupuesto);
+      const distribucionPresupuesto = await obtenerDistribucionPresupuestoPorId(idDistribucionPresupuesto);
 
       if (!distribucionPresupuesto) {
         return res.status(404).json({ error: "Distribución de presupuesto no encontrada" });
@@ -80,7 +80,6 @@ const controladorDistribucionLoteFicha = {
     }
   },
 
-  // ...
 
 
   // Delete
