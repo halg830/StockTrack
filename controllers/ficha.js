@@ -54,6 +54,8 @@ const httpFicha ={
     postAgregarFichas: async(req, res)=>{
         try {
             const {codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea} = req.body
+            
+            
             const ficha = new Ficha({ codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea })
             await ficha.save()
 
