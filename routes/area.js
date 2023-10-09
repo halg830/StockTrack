@@ -2,38 +2,31 @@ import { Router } from "express";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
-import  areaController from "../controllers/area.js"; 
+import httpArea from "../controllers/area.js";
 
 const router = new Router();
 
-router.get("/todos", validarJWT, areaController.obtenerAreas);
+router.get("/todos", validarJWT, httpArea.obtenerAreas);
 
-router.get("/areas/:id", validarJWT, areaController.obtenerAreaPorId);
-
-router.post(
-  "/agregar",
-  [
-    check("nombre", "Digite el nombre del área").not().isEmpty(),
-    validarCampos,
-  ],
+router.get("/areas/:id",[
   validarJWT,
-  areaController.crearArea
+  check("id", "Digite el id").not().isEmpty(),
+  check("id", "El id es invalido").isMongoId()
+],httpArea.obtenerAreaPorId);
+
+router.post("/agregar", [
+  validarJWT,
+  check("nombre", "Digite el nombre del área").not().isEmpty(),
+  validarCampos
+], httpArea.crearArea
 );
 
-router.put(
-  "/areas/:id",
-  [
-    check("nombre", "Digite el nombre del área").not().isEmpty(),
-    validarCampos,
-  ],
+router.put("/areas/:id",[
   validarJWT,
-  areaController.actualizarArea
+  check("nombre", "Digite el nombre del área").not().isEmpty(),
+  validarCampos,
+],httpArea.actualizarArea
 );
 
-router.delete("/areas/:id", validarJWT, areaController.eliminarArea);
-
-// router.get("/areas/buscar", validarJWT, areaController.);
-
-// router.get("/areas/:id/fichas", validarJWT, areaController.verFichas);
 
 export default router;
