@@ -1,4 +1,3 @@
-import distribucionPresupuesto from "../models/distribucionPresupuesto.js";
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 
 const helpersPresupuesto={
