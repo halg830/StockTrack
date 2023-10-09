@@ -4,7 +4,9 @@ const controladorDistribucionLoteFicha = {
   // Get
   getAsignaciones: async (req, res) => {
     try {
-      const asignaciones = await Asignacion.find();
+      const asignaciones = await Asignacion.find()
+      .populate('idDistribucionPresupuesto', 'presupuesto')
+      .populate('idFicha', 'presupuesto')
       res.json({ asignaciones });
     } catch (error) {
       res.status(400).json({ error });
@@ -14,7 +16,9 @@ const controladorDistribucionLoteFicha = {
   getAsignacionById: async (req, res) => {
     try {
       const { id } = req.params;
-      const asignacion = await Asignacion.findById(id);
+      const asignacion = await Asignacion.findById(id)
+      .populate('idDistribucionPresupuesto', 'presupuesto')
+      .populate('idFicha', 'presupuesto');
       res.json({ asignacion });
     } catch (error) {
       res.status(400).json({ error });
@@ -54,15 +58,15 @@ const controladorDistribucionLoteFicha = {
   },
 
   // Delete 
-  deleteAsignacion: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const asignacion = await Asignacion.findByIdAndDelete(id);
-      res.json(`Asignación eliminada: ${asignacion}`);
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  },
+  // deleteAsignacion: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const asignacion = await Asignacion.findByIdAndDelete(id);
+  //     res.json(`Asignación eliminada: ${asignacion}`);
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // },
 
   // Put inactivar
   putAsignacionInactivar: async (req, res) => {

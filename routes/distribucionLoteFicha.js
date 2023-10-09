@@ -29,8 +29,10 @@ router.post('/agregar',[
     validarCampos
 ],httpDistribucionLoteFicha.postAsignacion)
 
-router.put('/editarAsignacion',[
+router.put('/editarAsignacion/:id',[
     validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
@@ -39,12 +41,12 @@ router.put('/editarAsignacion',[
     validarCampos
 ],httpDistribucionLoteFicha.putEditarAsignacion)
 
-router.delete('/eliminarAsignacion/:id',[
-    validarJWT,
-    check("id", "Digite el id").not().isEmpty(),
-    check("id", "No es mongo ID").isMongoId(),
-    validarCampos
-],httpDistribucionLoteFicha.deleteAsignacion)
+// router.delete('/eliminarAsignacion/:id',[
+//     validarJWT,
+//     check("id", "Digite el id").not().isEmpty(),
+//     check("id", "No es mongo ID").isMongoId(),
+//     validarCampos
+// ],httpDistribucionLoteFicha.deleteAsignacion)
 
 router.put('/inactivarAsignacion/:id', [
     validarJWT,
