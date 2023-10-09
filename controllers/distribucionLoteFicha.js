@@ -21,28 +21,14 @@ const controladorDistribucionLoteFicha = {
     }
   },
 
-
   // Post
   postAsignacion: async (req, res) => {
     try {
-      const { presupuesto, idDistribucionPresupuesto, idFicha } = req.body;
-
-      // Obtener el presupuesto de distribución correspondiente
-      const distribucionPresupuesto = await obtenerDistribucionPresupuestoPorId(idDistribucionPresupuesto);
-
-      if (!distribucionPresupuesto) {
-        return res.status(404).json({ error: "Distribución de presupuesto no encontrada" });
-      }
-
-      // Verificar la validación
-      if (presupuesto > distribucionPresupuesto.presupuesto) {
-        return res.status(400).json({ error: "El presupuesto asignado es mayor que el presupuesto de distribución." });
-      }
-
+      const { presupuesto, id_distribucion_presupuesto, id_ficha } = req.body;
       const asignacion = new Asignacion({
         presupuesto,
-        idDistribucionPresupuesto,
-        idFicha,
+        id_distribucion_presupuesto,
+        id_ficha,
       });
       await asignacion.save();
       res.json({ asignacion });
@@ -51,27 +37,14 @@ const controladorDistribucionLoteFicha = {
     }
   },
 
-  // Put
+  // PutEditar
   putEditarAsignacion: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuesto, idDistribucionPresupuesto, idFicha } = req.body;
-
-      // Obtener el presupuesto de distribución correspondiente
-      const distribucionPresupuesto = await obtenerDistribucionPresupuestoPorId(idDistribucionPresupuesto);
-
-      if (!distribucionPresupuesto) {
-        return res.status(404).json({ error: "Distribución de presupuesto no encontrada" });
-      }
-
-      // Verificar la validación
-      if (presupuesto > distribucionPresupuesto.presupuesto) {
-        return res.status(400).json({ error: "El presupuesto asignado es mayor que el presupuesto de distribución." });
-      }
-
+      const { presupuesto, id_distribucion_presupuesto, id_ficha } = req.body;
       const asignacion = await Asignacion.findByIdAndUpdate(
         id,
-        { presupuesto, idDistribucionPresupuesto, idFicha },
+        { presupuesto, id_distribucion_presupuesto, id_ficha },
         { new: true }
       );
       res.json({ asignacion });
@@ -80,9 +53,7 @@ const controladorDistribucionLoteFicha = {
     }
   },
 
-
-
-  // Delete
+  // Delete 
   deleteAsignacion: async (req, res) => {
     try {
       const { id } = req.params;
