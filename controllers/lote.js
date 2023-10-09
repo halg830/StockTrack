@@ -27,6 +27,9 @@ const httpLote = {
   agregarLote: async (req, res) => {
     //chekear
     try {
+      const { usuario } = req;
+      if (!usuario.rol == "admin") res.json({ msg: "Rol no válido" });
+
       const { nombre, presupuesto } = req.body;
       const lote = new Lote({ nombre, presupuesto });
 
@@ -41,6 +44,9 @@ const httpLote = {
   editarLote: async (req, res) => {
     //checkear
     try {
+      const { usuario } = req;
+      if (!usuario.rol == "admin") res.json({ msg: "Rol no válido" });
+
       const { id, presupuesto } = req.body;
       const lote = await Lote.findByIdAndUpdate(
         id,
@@ -56,24 +62,22 @@ const httpLote = {
 
   inactivarLote: async (req, res) => {
     //chekear
+    const { usuario } = req;
+    if (!usuario.rol == "admin") res.json({ msg: "Rol no válido" });
+
     const { id } = req.params;
-    const lote = await Lote.findByIdAndUpdate(
-      id,
-      { estado:0 },
-      { new: true }
-    );
+    const lote = await Lote.findByIdAndUpdate(id, { estado: 0 }, { new: true });
 
     res.json({ lote });
   },
-  
+
   activarLote: async (req, res) => {
     //chekear
+    const { usuario } = req;
+    if (!usuario.rol == "admin") res.json({ msg: "Rol no válido" });
+
     const { id } = req.params;
-    const lote = await Lote.findByIdAndUpdate(
-      id,
-      { estado:1 },
-      { new: true }
-    );
+    const lote = await Lote.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
     res.json({ lote });
   },

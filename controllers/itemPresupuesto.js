@@ -25,6 +25,8 @@ const httpItemPresupuesto = {
   // Post
   agregarItem: async (req, res) => {
     // checkear
+    const {usuario} = req
+      if(!usuario.rol=="admin") res.json({msg: "Rol no válido"})
     try {
       const { nombre, presupuesto } = req.body;
       const itemPresupuesto = new Item({ nombre, presupuesto });
@@ -39,6 +41,8 @@ const httpItemPresupuesto = {
   // Put
   editarItem: async (req, res) => {
     //checkear
+    const {usuario} = req
+      if(!usuario.rol=="admin") res.json({msg: "Rol no válido"})
     try {
       const { id, presupuesto } = req.body;
       const item = await Item.findByIdAndUpdate(
@@ -55,6 +59,8 @@ const httpItemPresupuesto = {
 
   inactivarItem: async (req, res) => {
     //chekear
+    const {usuario} = req
+      if(!usuario.rol=="admin") res.json({msg: "Rol no válido"})
     const { id } = req.params;
     const item = await Item.findByIdAndUpdate(id, { estado: 0 }, { new: true });
 
@@ -63,6 +69,8 @@ const httpItemPresupuesto = {
 
   activarItem: async (req, res) => {
     //chekear
+    const {usuario} = req
+      if(!usuario.rol=="admin") res.json({msg: "Rol no válido"})
     const { id } = req.params;
     const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 

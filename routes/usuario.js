@@ -15,6 +15,7 @@ router.post('/registro',[
     check("correo", "Digite el correo").isEmail(),
     check("telefono", "Digite el telefono").not().isEmpty(),
     check("rol", "Digite el codigo del rol").not().isEmpty(),
+    check("rol", "Rol no válido: admin, instructor, bodega").custom(helpersUsuario.validarRol),
     check("password", "La contraseña debe contener al menos 1 mayúscula, 1 minúscula, al menos 2 números y un carácter especial").custom(helpersUsuario.validarPassword),
     validarCampos
 ],httpUsuario.registroUsuario)

@@ -16,6 +16,12 @@ const helpersUsuario = {
             throw new Error("La contraseña no cumple con los requisitos.");
         }
             return true;   
+    }, 
+    validarRol: async(rol, req)=>{
+        const roles = ["admin", "instructor", "bodega"]
+        if(!roles.includes(rol.toLowerCase())){
+            throw new Error("Rol no válido")
+        }
     }
 }
 export default helpersUsuario
