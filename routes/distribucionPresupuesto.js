@@ -13,30 +13,33 @@ router.get('/all', validarJWT, httpDistribucion.obtenerAllDistribucion)
 // Post
 router.post('/agregar',[
     validarJWT,
-    check("idLote", "ID no válido").isMongoId(),
-    check("idItem", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("idLote", "ID no válido").isMongoId(),
+    check("idItem", "ID no válido").isMongoId(),
     validarCampos
 ],httpDistribucion.agregarDistribucion)
 
 // Put
-router.put('/editar', [
+router.put('/editar/:id', [
     validarJWT,
+    check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
 ], httpDistribucion.editarDistribucion)
 
-router.put('/inactivar', [
+router.put('/inactivar/:id', [
     validarJWT,
+    check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpDistribucion.inactivarDistribucion)
 
-router.put('/activar', [
+router.put('/activar/:id', [
     validarJWT,
+    check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpDistribucion.activarDistribucion)
