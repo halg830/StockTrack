@@ -35,17 +35,18 @@ router.put('/editarDetallePedido/:id',[
     validarCampos
 ],httpDetallePedido.putEditarDetallePedido)
 
-router.delete('/borrarDetallePedido/:id',[
-    validarJWT,
-    check('id', "Digite el id").not().isEmpty(),
-    check('id', "Digite el id").isMongoId(),
-    validarCampos
-],httpDetallePedido.deleteDetallePedido)
+// router.delete('/borrarDetallePedido/:id',[
+//     validarJWT,
+//     check('id', "Digite el id").not().isEmpty(),
+//     check('id', "Digite el id").isMongoId(),
+//     validarCampos
+// ],httpDetallePedido.deleteDetallePedido)
 
-router.put('/incativarDetallePedido/:id',[
+router.put('/inactivarDetallePedido/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
     check('id', "Digite el id").isMongoId(),
     validarCampos
 ],httpDetallePedido.putDetallePedidoInactivar)
+
 export default router

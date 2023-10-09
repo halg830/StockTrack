@@ -11,6 +11,7 @@ import itemPresupuesto from './routes/itemPresupuesto.js'
 import distribucionPresupuesto from './routes/distribucionPresupuesto.js';
 import ficha from './routes/ficha.js'
 import area from "./routes/area.js"
+import detallePedido from "./routes/detallePedido.js"
 import session from 'express-session';
 
 
@@ -25,6 +26,7 @@ app.use("/api/item", itemPresupuesto)
 app.use("/api/distribucion", distribucionPresupuesto)
 app.use("/api/ficha", ficha)
 app.use("/api/area", area)
+app.use("/api/detallePedido", detallePedido)
 
 app.use(session({
   name: 'stockTrackCokkie', 

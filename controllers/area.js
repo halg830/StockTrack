@@ -42,15 +42,15 @@ const httpArea = {
     }
   },
 
-  eliminarArea: async (req, res) => {
-    try {
-      const { id } = req.params;
-      await Area.findByIdAndDelete(id);
-      res.json({ mensaje: "Área eliminada exitosamente" });
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  },
+  // eliminarArea: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     await Area.findByIdAndDelete(id);
+  //     res.json({ mensaje: "Área eliminada exitosamente" });
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // },
 
 };
 
