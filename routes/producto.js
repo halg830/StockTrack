@@ -10,15 +10,13 @@ router.get('/obtenerProductos',[
     validarJWT
 ],httpProducto.getObtenerProducto)
 
-router.get('/obtenerPorLote/:loteId', [
-    validarJWT,
-    check("loteId", "Ingrese un ID de lote válido").not().isEmpty().isMongoId()
-], httpProducto.getObtenerProductosPorLote);
-
 router.get('/obtenerPorFechas', [
     validarJWT,
-    check("fechaInicio", "Ingrese una fecha de inicio válida").not().isEmpty().isISO8601(),
-    check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty().isISO8601(),
+    check("fechaInicio", "Ingrese una fecha de inicio válida").not().isEmpty(),
+    check("fechaInicio", "Ingrese una fecha de inicio válida").isISO8601(),
+    check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty(),
+    check("fechaFin", "Ingrese una fecha de fin válida").isISO8601(),
+    validarCampos
 ], httpProducto.getObtenerProductosPorFechas);
 
 router.post('/agregar',[
@@ -36,6 +34,8 @@ router.post('/agregar',[
 
 router.put('/editar/:id', [
     validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
     check("codigo", "Ingrese un codigo").not().isEmpty(),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("descripcion", "Ingrese una descripcion").not().isEmpty(),
@@ -49,11 +49,8 @@ router.put('/editar/:id', [
 
 router.put('/inactivar-activar/:id', [
     validarJWT,
-    check("id","Ingrese el id").not().isEmpty().isMongoId()
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId()
 ], httpProducto.putProductoInactivar);
-
-
-
-
 
 export default router

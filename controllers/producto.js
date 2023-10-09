@@ -3,7 +3,7 @@ import Producto from "../models/producto.js";
 const httpProducto ={
     getObtenerProducto: async (req, res) => {
         try {
-            const producto = await producto.find()
+            const producto = await Producto.find()
             res.json({ producto })
         } catch (error) {
             res.status(400).json({ error })
@@ -41,10 +41,28 @@ const httpProducto ={
             res.json({producto})
         } catch (error) {
             res.status(400).json({error})
-            
         }
+    },
+
+    getObtenerProductoPorFechas: async(req, res)=>{
+        try {
+            const { fechaInicio, fechaFin } = req.query;
+        
+            if (!fechaInicio || !fechaFin) {
+                return res.status(400).json({ error: 'Debes proporcionar fechas de inicio y fin.' });
+            }
+        
+            const producto = await Producto.find({
+                fecha_agg: {
+                    $gte: new Date(fechaInicio),
+                    $lte: new Date(fechaFin),
+                },
+              }); 
+              res.json({producto})
+            } catch (error) {
+                res.status(400).json({ error })
+            }
     }
-    
 }
 
 
