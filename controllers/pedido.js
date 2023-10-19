@@ -1,4 +1,4 @@
-import Pedido from "../models/pedidoModel";
+import Pedido from "../models/pedido";
 
 // Función para crear un nuevo pedido
 export const crearPedido = async (req, res) => {
