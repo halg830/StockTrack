@@ -4,6 +4,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersPresupuesto from "../helpers/presupuesto.js";
+import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router=new Router()
 
@@ -13,6 +14,7 @@ router.get('/all', validarJWT, httpDistribucion.obtenerAllDistribucion)
 // Post
 router.post('/agregar',[
     validarJWT,
+    validarRolAdmin,
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     check("idLote", "ID no válido").isMongoId(),
