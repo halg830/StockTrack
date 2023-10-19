@@ -4,6 +4,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersPresupuesto from "../helpers/presupuesto.js";
+import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router=new Router()
 
@@ -20,6 +21,7 @@ router.get('/obtenerAsignacionId/:id',[
 
 router.post('/agregar',[
     validarJWT,
+    validarRolAdmin,
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
     check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").isMongoId(),
@@ -31,6 +33,7 @@ router.post('/agregar',[
 
 router.put('/editarAsignacion/:id',[
     validarJWT,
+    validarRolAdmin,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
@@ -50,6 +53,7 @@ router.put('/editarAsignacion/:id',[
 
 router.put('/inactivarAsignacion/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
