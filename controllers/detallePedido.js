@@ -43,19 +43,21 @@ const httpDetallePedido ={
             
         }
     },
-    // deleteDetallePedido: async(req,res)=>{
-    //     try {
-    //         const { id } = req.params
-    //         const detallePedido = await DetallePedido.findByIdAndDelete(id)
-    //         res.json(detallePedido + `Detalle pedido eliminado`)
-    //     } catch (error) {
-    //         res.status(400).json({error})
-    //     }
-    // },
+
     putDetallePedidoInactivar: async (req,res)=>{
         try {
             const {id} = req.params
             const detallePedido =await DetallePedido.findByIdAndUpdate(id,{estado:0},{new:true})
+            res.json({detallePedido})
+        } catch (error) {
+            res.status(400).json({error})
+            
+        }
+    },
+    putDetallePedidoActivar: async (req,res)=>{
+        try {
+            const {id} = req.params
+            const detallePedido =await DetallePedido.findByIdAndUpdate(id,{estado:1},{new:true})
             res.json({detallePedido})
         } catch (error) {
             res.status(400).json({error})

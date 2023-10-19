@@ -33,7 +33,7 @@ router.post('/agregar', [
     check('fechaInicio',"Fecha Invalida").custom(helpersFicha.validarFechas),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
     check('idArea', "Digite el id del area").not().isEmpty(),
-    check('idArea', "Digite el id del area").isMongoId(),
+    check('idArea', "No es Mongo Id").isMongoId(),
     validarCampos
 ],httpFicha.postAgregarFichas)
 
@@ -55,6 +55,13 @@ router.put('/inactivarFicha/:id', [
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
 ],httpFicha.putFichaInactivar)
+
+router.put('/activarFicha/:id', [
+    validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
+    validarCampos
+],httpFicha.putFichaActivar)
 
 router.get('/obtenerFichasPorArea/:idArea',[
     validarJWT,

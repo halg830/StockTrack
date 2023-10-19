@@ -86,9 +86,16 @@ const httpFicha ={
             res.status(400).json({error})
             
         }
+    },
+    putFichaActivar: async(req,res)=>{
+        try {
+            const {id} = req.params
+            const ficha =await Ficha.findByIdAndUpdate(id,{estado:1},{new:true})
+            res.json({ficha})
+        } catch (error) {
+            res.status(400).json({error})      
+        }
     }
 }
-
-
 
 export default httpFicha;
