@@ -3,6 +3,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpArea from "../controllers/area.js";
+import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router = new Router();
 
@@ -16,6 +17,7 @@ router.get("/areas/:id",[
 
 router.post("/agregar", [
   validarJWT,
+  validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
   validarCampos
 ], httpArea.crearArea
@@ -23,6 +25,7 @@ router.post("/agregar", [
 
 router.put("/areas/:id",[
   validarJWT,
+  validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
   validarCampos,
 ],httpArea.actualizarArea
