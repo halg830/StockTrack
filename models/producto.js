@@ -8,6 +8,7 @@ const productoSchema = new mongoose.Schema({
     precioUnitario: {type:Number, require:true},
     tipoProducto: {type:String, require:true},
     iva: {type:Number, require:true},
+    estadoProducto:{ type:String, default:"Pendiente"},
     estado:{type:Boolean, default:1},
     createAT : {type:Date,default: Date.now }
 });
