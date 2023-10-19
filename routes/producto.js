@@ -17,7 +17,7 @@ router.get('/obtenerPorFechas', [
     check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty(),
     check("fechaFin", "Ingrese una fecha de fin válida").isISO8601(),
     validarCampos
-], httpProducto.getObtenerProductosPorFechas);
+], httpProducto.getObtenerProductoPorFechas);
 
 router.post('/agregar',[
     validarJWT,

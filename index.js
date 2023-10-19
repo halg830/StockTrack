@@ -12,6 +12,9 @@ import distribucionPresupuesto from './routes/distribucionPresupuesto.js';
 import ficha from './routes/ficha.js'
 import area from "./routes/area.js"
 import detallePedido from "./routes/detallePedido.js"
+import pedido from "./routes/pedido.js"
+import producto from "./routes/producto.js"
+
 import session from 'express-session';
 
 
@@ -27,6 +30,9 @@ app.use("/api/distribucion", distribucionPresupuesto)
 app.use("/api/ficha", ficha)
 app.use("/api/area", area)
 app.use("/api/detallePedido", detallePedido)
+app.use("/api/pedido", pedido)
+app.use("/api/producto", producto)
+
 
 app.use(session({
   name: 'stockTrackCokkie', 

@@ -22,7 +22,7 @@ router.post('/agregar',[
 ],httpLote.agregarLote)
 
 // Put
-router.put('/editar', [
+router.put('/editar/:id', [
     validarJWT,
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
@@ -30,13 +30,13 @@ router.put('/editar', [
     validarCampos
 ], httpLote.editarLote)
 
-router.put('/inactivar', [
+router.put('/inactivar/:id', [
     validarJWT,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpLote.inactivarLote)
 
-router.put('/activar', [
+router.put('/activar/:id', [
     validarJWT,
     check("id", "ID no válido").isMongoId(),
     validarCampos
