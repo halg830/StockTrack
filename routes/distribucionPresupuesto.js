@@ -25,6 +25,7 @@ router.post('/agregar',[
 // Put
 router.put('/editar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
@@ -34,6 +35,7 @@ router.put('/editar/:id', [
 
 router.put('/inactivar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
@@ -41,6 +43,7 @@ router.put('/inactivar/:id', [
 
 router.put('/activar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos

@@ -15,6 +15,7 @@ router.get('/buscar/:nombre', validarJWT, httpLote.buscarLote)
 // Post
 router.post('/agregar',[
     validarJWT,
+    validarRolAdmin,
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("nombre", "El nombre debe tener menos de 15 caracteres").isLength({max:15}),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
@@ -25,6 +26,7 @@ router.post('/agregar',[
 // Put
 router.put('/editar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
@@ -33,12 +35,14 @@ router.put('/editar/:id', [
 
 router.put('/inactivar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpLote.inactivarLote)
 
 router.put('/activar/:id', [
     validarJWT,
+    validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpLote.activarLote)

@@ -4,6 +4,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersPresupuesto from "../helpers/presupuesto.js";
+import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router=new Router()
 
@@ -14,6 +15,7 @@ router.get('/buscar/:nombre', validarJWT, httpItem.buscarItem)
 // Post
 router.post('/agregar',[
   validarJWT,
+  validarRolAdmin,
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("nombre", "El nombre debe tener menos de 15 caracteres").isLength({max:15}),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
@@ -24,6 +26,7 @@ router.post('/agregar',[
 // Put
 router.put('/editar/:id', [
   validarJWT,
+  validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
@@ -32,12 +35,14 @@ router.put('/editar/:id', [
 
 router.put('/inactivar/:id', [
   validarJWT,
+  validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpItem.inactivarItem)
 
 router.put('/activar/:id', [
   validarJWT,
+  validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpItem.activarItem)

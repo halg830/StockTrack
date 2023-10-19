@@ -17,6 +17,8 @@ const validarRolAdmin = async(req, res, next) => {
     if(usuario.rol!="admin"){
       return res.status(401).json({msg: "Rol no autorizado"})
     }
+
+    next()
   } catch (error) {}
 };
 
@@ -36,6 +38,8 @@ const validarRolInstructor = async(req, res, next) => {
     if(usuario.rol!="instructor" && usuario.rol!="admin"){
       return res.status(401).json({msg: "Rol no autorizado"})
     }
+
+    next()
   } catch (error) {}
 };
 
@@ -55,6 +59,8 @@ const validarRolBodega = async(req, res, next) => {
     if(usuario.rol!="admin" && usuario.rol!="bodega"){
       return res.status(401).json({msg: "Rol no autorizado"})
     }
+
+    next()
   } catch (error) {}
 };
 
