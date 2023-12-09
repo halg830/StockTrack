@@ -1,5 +1,5 @@
 import { Router } from "express"
-import httpDistribucionLoteFicha from "../controllers/distribucionloteficha.js";
+import httpDistribucionLoteFicha from "../controllers/distribucionLoteFicha.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
