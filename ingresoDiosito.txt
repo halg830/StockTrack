@@ -1,0 +1,9 @@
+{
+        "identificacion": "1234567890",
+        "nombre": "Dios",
+        "apellido": "Chat GPT",
+        "telefono": "1234567890",
+        "correo": "chatgpt@gmail.com",
+        "rol": "admin",
+        "password": "Dioschat123@"
+    }

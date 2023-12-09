@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
 const usuarioSchema = new mongoose.Schema({
-    nombre: { type: String, minlenght: 5, require:true },
-    identificacion: { type: String, require:true, unique:true },
+    nombre: { type: String,  require:true },
+    apellido: { type: String,  require:true },
+    identificacion: { type: String, require:true, unique:true, minlength:7, maxlength: 10 },
     correo: { type: String, require:true},
-    telefono: { type: String, required: true, validate: /^\d{10}$/ },
+    telefono: { type: String, required: true, unique:true, minlength:10, maxlength: 10, validate: /^\d{10}$/ },
     rol : {type:String, require:true},
     password : {type:String, require:true},
     createAT : {type:Date,default: Date.now },
