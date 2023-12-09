@@ -8,7 +8,7 @@ import helpersUsuario from "../helpers/usuario.js";
 const router=new Router()
 
 router.post('/registro',[
-    // validarJWT,
+    validarJWT,
     check("nombre", "Digite el nombre").not().isEmpty(),
     check("identificacion", "Digite la identificacion").not().isEmpty(),
     check("correo", "Digite el correo").not().isEmpty(),
