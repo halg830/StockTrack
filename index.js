@@ -14,13 +14,14 @@ import area from "./routes/area.js"
 import detallePedido from "./routes/detallePedido.js"
 import pedido from "./routes/pedido.js"
 import producto from "./routes/producto.js"
-
+import cors from 'cors'
 import session from 'express-session';
 
 
 const port=process.env.PORT
 let app = express();
 app.use(express.json());
+app.use(cors());
 app.use(express.static('public'))
 app.use("/api/persona", persona)
 app.use("/api/asignacion", distribucionLoteFicha)
