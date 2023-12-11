@@ -1,32 +1,32 @@
 import Asignacion from "../models/distribucionLoteFicha.js";
 
-const controladorDistribucionLoteFicha = {
+const httpDistribucionLoteFicha = {
   // Get
-  getAsignaciones: async (req, res) => {
+  getAll: async (req, res) => {
     try {
       const asignaciones = await Asignacion.find()
-      .populate('idDistribucionPresupuesto', 'presupuesto')
-      .populate('idFicha', 'presupuesto')
-      res.json({ asignaciones });
+        .populate("idDistribucionPresupuesto", "presupuesto")
+        .populate("idFicha", "presupuesto");
+      res.json(asignaciones);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
-  getAsignacionById: async (req, res) => {
+  getPorId: async (req, res) => {
     try {
       const { id } = req.params;
       const asignacion = await Asignacion.findById(id)
-      .populate('idDistribucionPresupuesto', 'presupuesto')
-      .populate('idFicha', 'presupuesto');
-      res.json({ asignacion });
+        .populate("idDistribucionPresupuesto", "presupuesto")
+        .populate("idFicha", "presupuesto");
+      res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
   // Post
-  postAsignacion: async (req, res) => {
+  post: async (req, res) => {
     try {
       const { presupuesto, id_distribucion_presupuesto, id_ficha } = req.body;
       const asignacion = new Asignacion({
@@ -35,14 +35,14 @@ const controladorDistribucionLoteFicha = {
         id_ficha,
       });
       await asignacion.save();
-      res.json({ asignacion });
+      res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
-  // PutEditar
-  putEditarAsignacion: async (req, res) => {
+  // Put
+  putEditar: async (req, res) => {
     try {
       const { id } = req.params;
       const { presupuesto, id_distribucion_presupuesto, id_ficha } = req.body;
@@ -51,25 +51,13 @@ const controladorDistribucionLoteFicha = {
         { presupuesto, id_distribucion_presupuesto, id_ficha },
         { new: true }
       );
-      res.json({ asignacion });
+      res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
-  // Delete 
-  // deleteAsignacion: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
-  //     const asignacion = await Asignacion.findByIdAndDelete(id);
-  //     res.json(`Asignación eliminada: ${asignacion}`);
-  //   } catch (error) {
-  //     res.status(400).json({ error });
-  //   }
-  // },
-
-  // Put inactivar
-  putAsignacionInactivar: async (req, res) => {
+  putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
       const asignacion = await Asignacion.findByIdAndUpdate(
@@ -77,11 +65,24 @@ const controladorDistribucionLoteFicha = {
         { estado: 0 },
         { new: true }
       );
-      res.json({ asignacion });
+      res.json(asignacion);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  putActivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const asignacion = await Asignacion.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+      res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 };
 
-export default controladorDistribucionLoteFicha;
+export default httpDistribucionLoteFicha;

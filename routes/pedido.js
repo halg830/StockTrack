@@ -1,12 +1,21 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
-import { crearPedido, obtenerPedidos, obtenerPedidoPorId, actualizarPedido, eliminarPedido } from "../controllers/pedido.js";
+import httpPedido from "../controllers/pedido.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router = new Router();
 
-router.post("/pedidos", [
+router.get("/all", validarJWT, httpPedido.getAll);
+
+router.get("/buscarId/:id", [
+    validarJWT,
+    check("id", "Digite el ID").not().isEmpty(),
+    check("id", "No es un Mongo ID válido").isMongoId(),
+    validarCampos
+], httpPedido.getPorId);
+
+router.post("/guardar", [
     validarJWT,
     check('fechaCreacion', "Digite la fecha de creación").not().isEmpty(),
     check('fechaEntrega', "Digite la fecha de entrega").not().isEmpty(),
@@ -16,18 +25,9 @@ router.post("/pedidos", [
     check('idInstructorEncargado', "No es un Mongo ID válido").isMongoId(),
     check('subtotal', "Digite el subtotal").not().isEmpty(), 
     validarCampos,
-], crearPedido);
+], httpPedido.post);
 
-router.get("/pedidos", validarJWT, obtenerPedidos);
-
-router.get("/pedidos/:id", [
-    validarJWT,
-    check("id", "Digite el ID").not().isEmpty(),
-    check("id", "No es un Mongo ID válido").isMongoId(),
-    validarCampos
-], obtenerPedidoPorId);
-
-router.put("/pedidos/:id", [
+router.put("/editar/:id", [
     validarJWT,
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "No es un Mongo ID válido").isMongoId(),
@@ -39,13 +39,6 @@ router.put("/pedidos/:id", [
     check('idInstructorEncargado', "No es un Mongo ID válido").isMongoId(),
     check('subtotal', "Digite el subtotal").not().isEmpty(),
     validarCampos,
-],  actualizarPedido);
-
-router.delete("/pedidos/:id", [
-    validarJWT,
-    check("id", "Digite el ID").not().isEmpty(),
-    check("id", "No es un Mongo ID válido").isMongoId(),
-    validarCampos,
-],  eliminarPedido);
+],  httpPedido.putEditar);
 
 export default router;

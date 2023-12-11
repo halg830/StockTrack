@@ -9,8 +9,8 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpItem.obtenerAllItem)
-router.get('/buscar/:nombre', validarJWT, httpItem.buscarItem) 
+router.get('/all', validarJWT, httpItem.getAll)
+router.get('/buscarNombre/:nombre', validarJWT, httpItem.getPorNombre) 
 
 // Post
 router.post('/agregar',[
@@ -21,7 +21,7 @@ router.post('/agregar',[
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
-],httpItem.agregarItem)
+],httpItem.post)
 
 // Put
 router.put('/editar/:id', [
@@ -31,20 +31,20 @@ router.put('/editar/:id', [
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
-], httpItem.editarItem)
+], httpItem.putEditar)
 
 router.put('/inactivar/:id', [
   validarJWT,
   validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpItem.inactivarItem)
+], httpItem.putInactivar)
 
 router.put('/activar/:id', [
   validarJWT,
   validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpItem.activarItem)
+], httpItem.putActivar)
 
 export default router

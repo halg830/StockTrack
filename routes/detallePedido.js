@@ -6,18 +6,18 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router=new Router()
 
-router.get('/obtenerDetallesPedidos',[
+router.get('/all',[
     validarJWT
-],httpDetallePedido.getDetallesPedidos)
+],httpDetallePedido.getAll)
 
-router.get('/obtenerDetallesById/:id',[
+router.get('/buscarId/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
     check('id', "No es Mongo Id").isMongoId(),
     validarCampos
-],httpDetallePedido.getDetallePedidoById)
+],httpDetallePedido.getPorId)
 
-router.post('/agregarDetallePedido',[
+router.post('/agregar',[
     validarJWT,
     check('cantidad', "Digite la Cantidad").not().isEmpty(),
     check('idPedido', "Digite el id del pedido").not().isEmpty(),
@@ -25,30 +25,30 @@ router.post('/agregarDetallePedido',[
     check('idProducto', "Digite el id del pedido").not().isEmpty(),
     check('idProducto', "No es Mongo Id").isMongoId(),
     validarCampos
-],httpDetallePedido.postDetallePedido)
+],httpDetallePedido.post)
 
-router.put('/editarDetallePedido/:id',[
+router.put('/editar/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
     check('id', "No es Mongo Id").isMongoId(),
     check('cantidad', "Digite la Cantidad").not().isEmpty(),
     validarCampos
-],httpDetallePedido.putEditarDetallePedido)
+],httpDetallePedido.putEditar)
 
 
-router.put('/inactivarDetallePedido/:id',[
+router.put('/inactivar/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
     check('id', "No es Mongo Id").isMongoId(),
     validarCampos
-],httpDetallePedido.putDetallePedidoInactivar)
+],httpDetallePedido.putInactivar)
 
 
-router.put('/activarDetallePedido/:id',[
+router.put('/activar/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),
     check('id', "No es Mongo Id").isMongoId(),
     validarCampos
-],httpDetallePedido.putDetallePedidoActivar)
+],httpDetallePedido.putActivar)
 
 export default router

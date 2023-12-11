@@ -7,22 +7,34 @@ import helpersFicha from "../helpers/ficha.js";
 
 const router=new Router()
 
-router.get('/obtenerFichas',[
+router.get('/all',[
     validarJWT
-],httpFicha.getObtenerFichas)
+],httpFicha.getAll)
 
-router.get('/obtenerFichaById/:id',[
+router.get('/buscarId/:id',[
     validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
-],httpFicha.getObtenerFichasid)
+],httpFicha.getPorId)
 
-router.get('/obtenerFichaNumero/:numero',[
+router.get('/buscarNumero/:numero',[
     validarJWT,
     check("numero","Digite el numero de la ficha").not().isEmpty(),
     validarCampos
-],httpFicha.getObtenerFichasNumero)
+],httpFicha.getPorNumero)
+
+router.get('/buscarArea/:idArea',[
+    validarJWT,
+    check("idArea", "Digite el id").not().isEmpty(),
+    check("idArea", "No es mongo ID").isMongoId(),
+    validarCampos
+],httpFicha.getPorArea)
+
+router.get('/buscarEstado/:estado',[
+    validarJWT,
+    check('estado',"Digite el estado").not().isEmpty(),
+],httpFicha.getEstado)
 
 router.post('/agregar', [
     validarJWT,
@@ -35,9 +47,9 @@ router.post('/agregar', [
     check('idArea', "Digite el id del area").not().isEmpty(),
     check('idArea', "No es Mongo Id").isMongoId(),
     validarCampos
-],httpFicha.postAgregarFichas)
+],httpFicha.post)
 
-router.put('/editarFicha/:id',[
+router.put('/editar/:id',[
     validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
@@ -47,33 +59,20 @@ router.put('/editarFicha/:id',[
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
     validarCampos
-],httpFicha.putEditarFicha)
+],httpFicha.putEditar)
 
-router.put('/inactivarFicha/:id', [
+router.put('/inactivar/:id', [
     validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
-],httpFicha.putFichaInactivar)
+],httpFicha.putInactivar)
 
-router.put('/activarFicha/:id', [
+router.put('/activar/:id', [
     validarJWT,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     validarCampos
-],httpFicha.putFichaActivar)
-
-router.get('/obtenerFichasPorArea/:idArea',[
-    validarJWT,
-    check("idArea", "Digite el id").not().isEmpty(),
-    check("idArea", "No es mongo ID").isMongoId(),
-    validarCampos
-],httpFicha.getFichasPorArea)
-
-router.get('/obtenerFichasPorEstado/:estado',[
-    validarJWT,
-    check('estado',"Digite el estado").not().isEmpty(),
-],httpFicha.getFichasEstado)
-
+],httpFicha.putActivar)
 
 export default router

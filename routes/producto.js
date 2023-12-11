@@ -1,25 +1,29 @@
-import { Router } from "express"
+import { Router } from "express";
 import httpProducto from "../controllers/producto.js";
 import { check } from "express-validator";
-import validarCampos from "../middlewares/validar.js"
+import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
-const router=new Router()
+const router = new Router();
 
-router.get('/obtenerProductos',[
-    validarJWT
-],httpProducto.getObtenerProducto)
+router.get("/all", [validarJWT], httpProducto.getAll);
 
-router.get('/obtenerPorFechas', [
+router.get(
+  "/getPorFechas",
+  [
     validarJWT,
     check("fechaInicio", "Ingrese una fecha de inicio válida").not().isEmpty(),
     check("fechaInicio", "Ingrese una fecha de inicio válida").isISO8601(),
     check("fechaFin", "Ingrese una fecha de fin válida").not().isEmpty(),
     check("fechaFin", "Ingrese una fecha de fin válida").isISO8601(),
-    validarCampos
-], httpProducto.getObtenerProductoPorFechas);
+    validarCampos,
+  ],
+  httpProducto.getPorFechas
+);
 
-router.post('/agregar',[
+router.post(
+  "/agregar",
+  [
     validarJWT,
     check("codigo", "Ingrese un codigo").not().isEmpty(),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
@@ -29,10 +33,14 @@ router.post('/agregar',[
     check("precioUnitario", "El precio unitario debe ser mayor a 0").custom(),
     check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
-    validarCampos
-],httpProducto.postAgregarProducto)
+    validarCampos,
+  ],
+  httpProducto.post
+);
 
-router.put('/editar/:id', [
+router.put(
+  "/editar/:id",
+  [
     validarJWT,
     check("id", "Ingrese un ID válido").not().isEmpty(),
     check("id", "Ingrese un ID válido").isMongoId(),
@@ -41,16 +49,33 @@ router.put('/editar/:id', [
     check("descripcion", "Ingrese una descripcion").not().isEmpty(),
     check("unidadMedida", "Ingrese la unidad de medida").not().isEmpty(),
     check("precioUnitario", "Ingrese un precio unitario").not().isEmpty(),
-    check("precioUnitario", "El precio unitario debe ser mayor a 0").isFloat({ gt: 0 }),
+    check("precioUnitario", "El precio unitario debe ser mayor a 0").isFloat({
+      gt: 0,
+    }),
     check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
-    validarCampos
-], httpProducto.putEditarProducto);
+    validarCampos,
+  ],
+  httpProducto.putEditar
+);
 
-router.put('/inactivar-activar/:id', [
+router.put(
+  "/inactivar/:id",
+  [
     validarJWT,
     check("id", "Ingrese un ID válido").not().isEmpty(),
-    check("id", "Ingrese un ID válido").isMongoId()
-], httpProducto.putProductoInactivar);
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpProducto.putInactivar
+);
+router.put(
+  "/activar/:id",
+  [
+    validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpProducto.putActivar
+);
 
-export default router
+export default router;

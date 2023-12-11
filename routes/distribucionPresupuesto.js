@@ -9,7 +9,7 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpDistribucion.obtenerAllDistribucion)
+router.get('/all', validarJWT, httpDistribucion.getAll)
 
 // Post
 router.post('/agregar',[
@@ -20,7 +20,7 @@ router.post('/agregar',[
     check("idLote", "ID no válido").isMongoId(),
     check("idItem", "ID no válido").isMongoId(),
     validarCampos
-],httpDistribucion.agregarDistribucion)
+],httpDistribucion.post)
 
 // Put
 router.put('/editar/:id', [
@@ -31,7 +31,7 @@ router.put('/editar/:id', [
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
-], httpDistribucion.editarDistribucion)
+], httpDistribucion.putEditar)
 
 router.put('/inactivar/:id', [
     validarJWT,
@@ -39,7 +39,7 @@ router.put('/inactivar/:id', [
     check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpDistribucion.inactivarDistribucion)
+], httpDistribucion.putInactivar)
 
 router.put('/activar/:id', [
     validarJWT,
@@ -47,6 +47,6 @@ router.put('/activar/:id', [
     check("id", "Digitel el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpDistribucion.activarDistribucion)
+], httpDistribucion.putActivar)
 
 export default router

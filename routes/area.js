@@ -7,28 +7,28 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router = new Router();
 
-router.get("/todos", validarJWT, httpArea.obtenerAreas);
+router.get("/all", validarJWT, httpArea.getAll);
 
-router.get("/areas/:id",[
+router.get("/buscarId/:id",[
   validarJWT,
   check("id", "Digite el id").not().isEmpty(),
   check("id", "El id es invalido").isMongoId()
-],httpArea.obtenerAreaPorId);
+],httpArea.getPorId);
 
 router.post("/agregar", [
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
   validarCampos
-], httpArea.crearArea
+], httpArea.post
 );
 
-router.put("/areas/:id",[
+router.put("/editar/:id",[
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
   validarCampos,
-],httpArea.actualizarArea
+],httpArea.putEditar
 );
 
 

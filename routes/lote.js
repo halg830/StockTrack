@@ -9,8 +9,8 @@ import {validarRolAdmin} from "../middlewares/validar-rol.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpLote.obtenerLotes)
-router.get('/buscar/:nombre', validarJWT, httpLote.buscarLote) 
+router.get('/all', validarJWT, httpLote.getAll)
+router.get('/buscarNombre/:nombre', validarJWT, httpLote.getPorNombre) 
 
 // Post
 router.post('/agregar',[
@@ -21,7 +21,7 @@ router.post('/agregar',[
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
-],httpLote.agregarLote)
+],httpLote.post)
 
 // Put
 router.put('/editar/:id', [
@@ -31,20 +31,20 @@ router.put('/editar/:id', [
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     validarCampos
-], httpLote.editarLote)
+], httpLote.putEditar)
 
 router.put('/inactivar/:id', [
     validarJWT,
     validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpLote.inactivarLote)
+], httpLote.putInactivar)
 
 router.put('/activar/:id', [
     validarJWT,
     validarRolAdmin,
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpLote.activarLote)
+], httpLote.putActivar)
 
 export default router
