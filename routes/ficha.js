@@ -44,8 +44,6 @@ router.post('/agregar', [
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaInicio',"Fecha Invalida").custom(helpersFicha.validarFechas),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
-    check('idArea', "Digite el id del area").not().isEmpty(),
-    check('idArea', "No es Mongo Id").isMongoId(),
     validarCampos
 ],httpFicha.post)
 

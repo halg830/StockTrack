@@ -22,8 +22,8 @@ const httpArea = {
 
   post: async (req, res) => {
     try {
-      const { nombre } = req.body;
-      const nuevaArea = new Area({ nombre });
+      const { nombre, idFicha } = req.body;
+      const nuevaArea = new Area({ nombre, idFicha });
       const areaGuardada = await nuevaArea.save();
       res.json({ area: areaGuardada });
     } catch (error) {
@@ -34,13 +34,39 @@ const httpArea = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre } = req.body;
+      const { nombre, idFicha } = req.body;
       const areaActualizada = await Area.findByIdAndUpdate(
         id,
-        { nombre },
+        { nombre, idFicha },
         { new: true }
       );
       res.json({ area: areaActualizada });
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  putInactivar: async(req, res)=>{
+    try {
+      const { id } = req.params;
+      const area = await Area.findByIdAndUpdate(
+        id,
+        { estado: 0 },
+        { new: true }
+      );
+      res.json(area);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  putActivar: async(req, res)=>{
+    try {
+      const { id } = req.params;
+      const area = await Area.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+      res.json(area);
     } catch (error) {
       res.status(400).json({ error });
     }

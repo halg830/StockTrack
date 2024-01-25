@@ -19,6 +19,8 @@ router.post("/agregar", [
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
+  check("idFicha", "Digite el ID de la ficha").not().isEmpty(),
+  check("idFicha", "No es mongo ID").isMongoId(),
   validarCampos
 ], httpArea.post
 );
@@ -27,8 +29,28 @@ router.put("/editar/:id",[
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
+  check("idFicha", "Digite el ID de la ficha").not().isEmpty(),
+  check("idFicha", "No es mongo ID").isMongoId(),
   validarCampos,
 ],httpArea.putEditar
+);
+
+router.put("/inactivar/:id",[
+  validarJWT,
+  validarRolAdmin,
+  check("id", "No exite ID en la petición").not().isEmpty(),
+  check("id", "No es Mongo ID").isMongoId(),
+  validarCampos,
+],httpArea.putInactivar
+);
+
+router.put("/activar/:id", [
+  validarJWT,
+  validarRolAdmin,
+  check("id", "No exite ID en la petición").not().isEmpty(),
+  check("id", "No es Mongo ID").isMongoId(),
+  validarCampos,
+],httpArea.putActivar
 );
 
 

@@ -59,7 +59,7 @@ const httpFicha = {
 
   post: async (req, res) => {
     try {
-      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea } =
+      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin } =
         req.body;
 
       const ficha = new Ficha({
@@ -68,7 +68,6 @@ const httpFicha = {
         nivelFormacion,
         fechaInicio,
         fechaFin,
-        idArea,
       });
       await ficha.save();
 
@@ -81,11 +80,11 @@ const httpFicha = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea } =
+      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin  } =
         req.body;
       const ficha = await Ficha.findByIdAndUpdate(
         id,
-        { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea },
+        { codigo, nombre, nivelFormacion, fechaInicio, fechaFin },
         { new: true }
       );
       res.json(ficha);
