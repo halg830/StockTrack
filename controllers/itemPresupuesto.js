@@ -36,10 +36,11 @@ const httpItemPresupuesto = {
   // Put
   putEditar: async (req, res) => {
     try {
-      const { id, presupuesto } = req.body;
+      const {id} = req.params;
+      const { nombre, presupuesto } = req.body;
       const item = await Item.findByIdAndUpdate(
         id,
-        { presupuesto },
+        { nombre, presupuesto },
         { new: true }
       );
 
