@@ -3,7 +3,7 @@ import httpLote from "../controllers/lote.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
-import helpersPresupuesto from "../helpers/presupuesto.js";
+// import helpersPresupuesto from "../helpers/presupuesto.js";
 import {validarRolAdmin} from "../middlewares/validar-rol.js";
 
 const router=new Router()
@@ -16,10 +16,9 @@ router.get('/buscarNombre/:nombre', validarJWT, httpLote.getPorNombre)
 router.post('/agregar',[
     validarJWT,
     validarRolAdmin,
+    check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
-    check("nombre", "El nombre debe tener menos de 15 caracteres").isLength({max:15}),
-    check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
-    check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("descripcion", "Ingrese una descripción").not().isEmpty(),
     validarCampos
 ],httpLote.post)
 
@@ -27,15 +26,18 @@ router.post('/agregar',[
 router.put('/editar/:id', [
     validarJWT,
     validarRolAdmin,
+    check("id", "ID no válido").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
-    check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
-    check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
+    check("nombre", "Ingrese un nombre").not().isEmpty(),
+    check("descripcion", "Ingrese una descripción").not().isEmpty(),
     validarCampos
 ], httpLote.putEditar)
 
 router.put('/inactivar/:id', [
     validarJWT,
     validarRolAdmin,
+    check("id", "Digite el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpLote.putInactivar)
@@ -43,6 +45,7 @@ router.put('/inactivar/:id', [
 router.put('/activar/:id', [
     validarJWT,
     validarRolAdmin,
+    check("id", "Digite el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
 ], httpLote.putActivar)

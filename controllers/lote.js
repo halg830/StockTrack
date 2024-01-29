@@ -24,8 +24,8 @@ const httpLote = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, presupuesto } = req.body;
-      const lote = new Lote({ nombre, presupuesto });
+      const { codigo, nombre, descripcion } = req.body;
+      const lote = new Lote({codigo, nombre, descripcion });
 
       await lote.save();
       res.json(lote);
@@ -37,10 +37,11 @@ const httpLote = {
   // Put
   putEditar: async (req, res) => {
     try {
-      const { id, presupuesto } = req.body;
+      const { id } = req.params;
+      const {codigo, nombre, descripcion} = req.body
       const lote = await Lote.findByIdAndUpdate(
         id,
-        { presupuesto },
+        { codigo, nombre, descripcion },
         { new: true }
       );
 
