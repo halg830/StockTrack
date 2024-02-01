@@ -1,5 +1,6 @@
 import Usuario from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
+import nodemailer from 'nodemailer';
 import { generarJWT } from "../middlewares/validar-jwt.js";
 
 const httpUsuario = {
@@ -57,6 +58,43 @@ const httpUsuario = {
         error: "Hable con el WebMaster",
       });
     }
+  },
+
+  recuperarPassword: async(req,res)=>{
+    const {correo} = req.body;
+
+    const usuario = await Usuario.findOne({correo});
+    
+    if(!usuario) return res.status(404).json({error: 'Usuario no encontrado'})
+
+    const token = await generarJWT(usuario.id);
+  
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.userEmail,
+        pass: process.env.password,
+      },
+    });
+  
+    // Contenido del correo electrónico
+    const mailOptions = {
+      from: process.env.userEmail,
+      to: correo,
+      subject: 'Recuperación de Contraseña',
+      text: 'Haz clic en el siguiente enlace para restablecer tu contraseña: http://tu-app.com/reset-password?token=TU_TOKEN',
+    };
+  
+    // Envía el correo electrónico
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error al enviar el correo electrónico.' });
+      } else {
+        console.log('Correo electrónico enviado: ' + info.response);
+        res.json({ success: true, message: 'Correo electrónico enviado con éxito.' });
+      }
+    });
   },
   putCambioPassword: async (req, res) => {
     const { id } = req.params;
