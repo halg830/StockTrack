@@ -1,4 +1,4 @@
-import Usuario from "../models/usuario.js";
+                                  import Usuario from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
 import { generarJWT } from "../middlewares/validar-jwt.js";
 
@@ -103,6 +103,15 @@ const httpUsuario = {
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   },
+
+  getAll: async ( req, res ) =>{
+    try {
+      const usuario = await Usuario.find();
+      res.json(usuario);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  }
 };
 
 export default httpUsuario;

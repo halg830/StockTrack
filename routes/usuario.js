@@ -36,4 +36,8 @@ router.put('/cambioPassword/:id',[
 router.get('/logOut',[
     validarJWT
 ],httpUsuario.logOut)
+
+router.get('/all', [
+    validarJWT,
+],httpUsuario.getAll)
 export default router
