@@ -4,6 +4,7 @@ import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpArea from "../controllers/area.js";
 import { validarRolAdmin } from "../middlewares/validar-rol.js";
+import helpersArea from "../helpers/area.js";
 
 const router = new Router();
 
@@ -18,8 +19,9 @@ router.get("/buscarId/:id",[
 router.post("/agregar", [
   validarJWT,
   validarRolAdmin,
-  check("nombre", "Digite el nombre del área").not().isEmpty(),
-  check("descripcion", "Digite una descripcion del área").not().isEmpty(),
+  check("nombre", "Digite el nombre del area").not().isEmpty(),
+  check('nombre').custom(helpersArea.existeNombre),
+  check("descripcion", "Digite una descripcion del area").not().isEmpty(),
   validarCampos
 ], httpArea.post
 );
@@ -28,7 +30,8 @@ router.put("/editar/:id",[
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
-  check("descripcion", "Digite una descripcion del área").not().isEmpty(),
+  check('nombre').custom(helpersArea.existeNombre),
+  check("descripcion", "Digite una descripcion del area").not().isEmpty(),
   validarCampos,
 ],httpArea.putEditar
 );

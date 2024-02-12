@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const itemsPresupuestoSchema = new mongoose.Schema({
-    nombre: { type: String, minlenght: 5, require:true },
+    nombre: { type: String, index: "text", require:true, unique: true},
     presupuesto: { type:Number, require:true},
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}

@@ -61,7 +61,7 @@ const httpItemPresupuesto = {
     const { id } = req.params;
     const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
-    res.json({ item });
+    res.json( item );
   },
 };
 

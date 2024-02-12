@@ -25,6 +25,8 @@ router.post("/login",[
     check('password', "Digite la contraseña").not().isEmpty(),
 ], httpUsuario.login)
 
+router.post('/recuperar-password', httpUsuario.recuperarPassword)
+
 router.put('/cambioPassword/:id',[
     validarJWT,
     check('id', "Digite el id").not().isEmpty(),

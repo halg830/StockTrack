@@ -16,11 +16,12 @@ import pedido from "./routes/pedido.js"
 import producto from "./routes/producto.js"
 import cors from 'cors'
 import session from 'express-session';
-
+import bodyParser from 'body-parser';
 
 const port=process.env.PORT
 let app = express();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'))
 app.use("/api/persona", persona)
@@ -33,7 +34,6 @@ app.use("/api/area", area)
 app.use("/api/detallePedido", detallePedido)
 app.use("/api/pedido", pedido)
 app.use("/api/producto", producto)
-
 
 app.use(session({
   name: 'stockTrackCokkie', 
