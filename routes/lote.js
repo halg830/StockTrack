@@ -5,6 +5,7 @@ import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
 // import helpersPresupuesto from "../helpers/presupuesto.js";
 import {validarRolAdmin} from "../middlewares/validar-rol.js";
+import helpersLote from "../helpers/lote.js";
 
 const router=new Router()
 
@@ -17,6 +18,7 @@ router.post('/agregar',[
     validarJWT,
     validarRolAdmin,
     check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
+    check("codigo", "Lote ya registrado").custom(helpersLote.validarLoteUnico),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("descripcion", "Ingrese una descripción").not().isEmpty(),
     validarCampos
@@ -29,6 +31,10 @@ router.put('/editar/:id', [
     check("id", "ID no válido").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
+    check("codigo", "Lote ya registrado").custom((value, { req }) => {
+        const { id } = req.params;
+        return helpersLote.validarLoteUnicoEditar(id, value);
+    }),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("descripcion", "Ingrese una descripción").not().isEmpty(),
     validarCampos

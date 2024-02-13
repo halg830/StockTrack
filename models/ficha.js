@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const fichaSchema = new mongoose.Schema({
-    codigo: {type:String, require:true},
+    codigo: {type:String, require:true, unique:true},
     nombre: {type:String, require:true},
     nivelFormacion: {type:String, require:true},
     fechaInicio:{type:Date, require:true},

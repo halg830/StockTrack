@@ -39,6 +39,7 @@ router.get('/buscarEstado/:estado',[
 router.post('/agregar', [
     validarJWT,
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
+    check('codigo',"Ya existe una ficha con este codigo").custom(helpersFicha.validarFichaUnica),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
     check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
@@ -54,6 +55,10 @@ router.put('/editar/:id',[
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
     check('codigo',"Digite el codigo de la ficha").not().isEmpty(),
+    check('codigo',"Ya existe una ficha con este codigo").custom((value, { req }) => {
+        const { id } = req.params;
+        return helpersFicha.validarFichaUnicaEditar(id, value);
+    }),
     check('nombre',"Digite el nombre de la ficha").not().isEmpty(),
     check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),

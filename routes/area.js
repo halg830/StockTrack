@@ -4,6 +4,7 @@ import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpArea from "../controllers/area.js";
 import { validarRolAdmin } from "../middlewares/validar-rol.js";
+import helpersArea from "../helpers/area.js";
 
 const router = new Router();
 
@@ -19,6 +20,7 @@ router.post("/agregar", [
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
+  check("nombre", "Nombre ya registrado").custom(helpersArea.validarAreaUnica),
   check("descripcion", "Digite una descripcion del área").not().isEmpty(),
   validarCampos
 ], httpArea.post
@@ -28,6 +30,10 @@ router.put("/editar/:id",[
   validarJWT,
   validarRolAdmin,
   check("nombre", "Digite el nombre del área").not().isEmpty(),
+  check("nombre", "Nombre ya registrado").custom((value, { req }) => {
+    const { id } = req.params;
+    return helpersArea.validarAreaUnicaEditar(id, value);
+  }),
   check("descripcion", "Digite una descripcion del área").not().isEmpty(),
   validarCampos,
 ],httpArea.putEditar
