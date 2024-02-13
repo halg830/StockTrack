@@ -11,7 +11,18 @@ const httpUsuario = {
       const usuario = await Usuario.find();
       res.json(usuario);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
+    }
+  },
+
+  getByRol: async (req, res) => {
+    try {
+      const { rol } = req.params;
+      const usuarios = await Usuario.find({ rol });
+
+      res.json(usuarios);
+    } catch (error) {
+      res.status(500).json({ error });
     }
   },
 
@@ -48,7 +59,7 @@ const httpUsuario = {
 
       res.json(usuario);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
@@ -85,55 +96,58 @@ const httpUsuario = {
   },
 
   recuperarPassword: async (req, res) => {
-    const { correo } = req.body;
+    try {
+      const { correo } = req.body;
 
-    const usuario = await Usuario.findOne({ correo });
+      const usuario = await Usuario.findOne({ correo });
 
-    if (!usuario)
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      if (!usuario)
+        return res.status(404).json({ error: "Usuario no encontrado" });
 
-    const token = await generarJWT(usuario.id);
+      const token = await generarJWT(usuario.id);
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.userEmail,
-        pass: process.env.password,
-      },
-    });
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.userEmail,
+          pass: process.env.password,
+        },
+      });
 
-    const mailOptions = {
-      from: process.env.userEmail,
-      to: correo,
-      subject: "Recuperación de Contraseña",
-      text:
-        "Haz clic en el siguiente enlace para restablecer tu contraseña: http://localhost:5173/#/recuperar-password?token=" +
-        token,
-    };
+      const mailOptions = {
+        from: process.env.userEmail,
+        to: correo,
+        subject: "Recuperación de Contraseña",
+        text:
+          "Haz clic en el siguiente enlace para restablecer tu contraseña: http://localhost:5173/#/recuperar-password?token=" +
+          token,
+      };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        res.status(500).json({
-          success: false,
-          msg: "Error al enviar el correo electrónico.",
-        });
-      } else {
-        console.log("Correo electrónico enviado: " + info.response);
-        res.json({
-          success: true,
-          msg: "Correo electrónico enviado con éxito.",
-        });
-      }
-    });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({
+            success: false,
+            msg: "Error al enviar el correo electrónico.",
+          });
+        } else {
+          console.log("Correo electrónico enviado: " + info.response);
+          res.json({
+            success: true,
+            msg: "Correo electrónico enviado con éxito.",
+          });
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   },
 
   //Put
   putCambioPassword: async (req, res) => {
-    const { id } = req.params;
-    const { password, newPassword } = req.body;
-
     try {
+      const { id } = req.params;
+      const { password, newPassword } = req.body;
       const usuario = await Usuario.findById(id);
 
       if (!usuario) {
@@ -195,7 +209,7 @@ const httpUsuario = {
 
       res.json(usuario);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
@@ -209,10 +223,10 @@ const httpUsuario = {
       );
       res.json(usuario);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
-  
+
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
@@ -223,7 +237,7 @@ const httpUsuario = {
       );
       res.json(usuario);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
