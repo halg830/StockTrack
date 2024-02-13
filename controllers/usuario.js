@@ -199,6 +199,34 @@ const httpUsuario = {
     }
   },
 
+  putActivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const usuario = await Usuario.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+      res.json(usuario);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  
+  putInactivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const usuario = await Usuario.findByIdAndUpdate(
+        id,
+        { estado: 0 },
+        { new: true }
+      );
+      res.json(usuario);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+
   logOut: async (req, res) => {
     try {
       req.session.destroy((err) => {

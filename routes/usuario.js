@@ -78,5 +78,28 @@ router.put(
   httpUsuario.editarUsuario
 );
 
+router.put(
+    "/inactivar/:id",
+    [
+      validarJWT,
+      check("id", "Ingrese un ID válido").not().isEmpty(),
+      check("id", "Ingrese un ID válido").isMongoId(),
+      check('id').custom(helpersUsuario.existeHolderById),
+      validarCampos
+    ],
+    httpUsuario.putInactivar
+  );
+  router.put(
+    "/activar/:id",
+    [
+      validarJWT,
+      check("id", "Ingrese un ID válido").not().isEmpty(),
+      check("id", "Ingrese un ID válido").isMongoId(),
+      check('id').custom(helpersUsuario.existeHolderById),
+      validarCampos
+    ],
+    httpUsuario.putActivar
+  );
+
 router.get("/logOut", [validarJWT], httpUsuario.logOut);
 export default router;
