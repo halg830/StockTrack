@@ -1,4 +1,4 @@
-import Ficha from "../models/ficha";
+import Ficha from "../models/ficha.js";
 
 const helpersFicha = {
     validarFechas: async (fechaInicio, req) => {

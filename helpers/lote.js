@@ -1,4 +1,4 @@
-import Lote from "../models/lote.js.js";
+import Lote from "../models/lote.js";
 
 const helpersLote = {
     validarLoteUnico: async(codigo, )=>{
