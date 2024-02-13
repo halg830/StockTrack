@@ -44,10 +44,21 @@ const helpersGeneral = {
       (match) => tildes[match] || match
     );
   },
-  primeraMayuscula: async(cadena) => {
-    console.log("C",cadena);
-    const mayus = cadena.toLowerCase()
+  primeraMayuscula: async (cadena) => {
+    console.log("C", cadena);
+    const mayus = cadena.toLowerCase();
     return mayus.charAt(0).toUpperCase() + mayus.slice(1);
+  },
+
+  mayusAllPalabras: async (frase) => {
+    const palabras = frase.split(" ");
+
+    const palabrasCapitalizadas = palabras.map((palabra) => {
+      return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+    });
+
+    const fraseCapitalizada = palabrasCapitalizadas.join(" ");
+    return fraseCapitalizada;
   },
 };
 
