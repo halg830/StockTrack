@@ -25,7 +25,7 @@ const httpArea = {
       const { nombre, descripcion } = req.body;
       const nuevaArea = new Area({ nombre, descripcion });
       const areaGuardada = await nuevaArea.save();
-      res.json({ area: areaGuardada });
+      res.json(areaGuardada);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -40,7 +40,7 @@ const httpArea = {
         { nombre, descripcion },
         { new: true }
       );
-      res.json({ area: areaActualizada });
+      res.json(areaActualizada);
     } catch (error) {
       res.status(400).json({ error });
     }
