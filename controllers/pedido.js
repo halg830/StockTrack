@@ -3,7 +3,7 @@ import Pedido from "../models/pedido.js";
 const httpPedido = {
   getAll: async (req, res) => {
     try {
-      const pedidos = await Pedido.find();
+      const pedidos = await Pedido.find().populate("idFicha").populate("idInstructorEncargado");
       res.json(pedidos);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -12,7 +12,7 @@ const httpPedido = {
 
   getPorId: async (req, res) => {
     try {
-      const pedido = await Pedido.findById(req.params.id);
+      const pedido = await Pedido.findById(req.params.id).populate("idFicha").populate("idInstructorEncargado");
       if (!pedido) {
         return res.status(404).json({ mensaje: "Pedido no encontrado" });
       }
