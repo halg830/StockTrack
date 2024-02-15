@@ -25,7 +25,7 @@ const httpDetallePedido = {
   getByPedido: async (req, res) => {
     try {
       const { idPedido } = req.params;
-      const pedidos = await DetallePedido.findOne({ idPedido }).populate("idPedido").populate("idProducto");
+      const pedidos = await DetallePedido.find({ idPedido }).populate("idPedido").populate("idProducto");
       res.json(pedidos);
     } catch (error) {
       res.status(500).json({ error });

@@ -14,7 +14,7 @@ const httpProducto = {
   getByLote: async (req, res) => {
     try {
       const { idLote } = req.params;
-      const productos = await Producto.findOne({ idLote }).populate("idLote");
+      const productos = await Producto.find({ idLote }).populate("idLote");
       res.json(productos);
     } catch (error) {
       res.status(500).json({ error });
