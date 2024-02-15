@@ -23,6 +23,14 @@ router.get(
   httpDetallePedido.getPorId
 );
 
+router.get("/getPorPedido/:idPedido", [
+  validarJWT,
+  check("idPedido", "Ingrese el pedido").not().isEmpty(),
+  check("idPedido", "Id de pedido no válida").isMongoId(),
+  check("idPedido").custom(helpersPedido.existeId),
+  validarCampos,
+], httpDetallePedido.getByPedido);
+
 router.post(
   "/agregar",
   [
