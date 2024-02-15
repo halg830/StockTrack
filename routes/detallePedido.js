@@ -22,8 +22,10 @@ router.post('/agregar',[
     check('cantidad', "Digite la Cantidad").not().isEmpty(),
     check('idPedido', "Digite el id del pedido").not().isEmpty(),
     check('idPedido', "No es Mongo Id").isMongoId(),
-    check('idProducto', "Digite el id del pedido").not().isEmpty(),
-    check('idProducto', "No es Mongo Id").isMongoId(),
+    check('idPedido').custom(),
+    check('idDistribucionLoteFicha', "Digite el ID de DistribucionLoteFicha").not().isEmpty(),
+    check('idDistribucionLoteFicha', "No es un Mongo ID válido").isMongoId(),
+    check('idDistribucionLoteFicha').custom(),
     validarCampos
 ],httpDetallePedido.post)
 
@@ -32,6 +34,8 @@ router.put('/editar/:id',[
     check('id', "Digite el id").not().isEmpty(),
     check('id', "No es Mongo Id").isMongoId(),
     check('cantidad', "Digite la Cantidad").not().isEmpty(),
+    check('idDistribucionLoteFicha', "Digite el ID de DistribucionLoteFicha").not().isEmpty(),
+    check('idDistribucionLoteFicha', "No es un Mongo ID válido").isMongoId(),
     validarCampos
 ],httpDetallePedido.putEditar)
 

@@ -18,12 +18,12 @@ router.get("/buscarId/:id", [
 router.post("/guardar", [
     validarJWT,
     check('fechaCreacion', "Digite la fecha de creación").not().isEmpty(),
-    check('fechaEntrega', "Digite la fecha de entrega").not().isEmpty(),
-    check('idDistribucionLoteFicha', "Digite el ID de DistribucionLoteFicha").not().isEmpty(),
-    check('idDistribucionLoteFicha', "No es un Mongo ID válido").isMongoId(),
+    //check('fechaEntrega', "Digite la fecha de entrega").not().isEmpty(),
     check('idInstructorEncargado', "Digite el ID de InstructorEncargado").not().isEmpty(),
     check('idInstructorEncargado', "No es un Mongo ID válido").isMongoId(),
-    check('subtotal', "Digite el subtotal").not().isEmpty(), 
+    check('total', "Digite el total").not().isEmpty(), 
+    check('total', "El total no es válido").isNumeric(),
+    check('total').custom(), 
     validarCampos,
 ], httpPedido.post);
 

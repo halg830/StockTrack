@@ -3,32 +3,40 @@ import DetallePedido from "../models/detallePedido.js";
 const httpDetallePedido = {
   getAll: async (req, res) => {
     try {
-      const detallePedido = await DetallePedido.find()
-        .populate("idPedido", "fechaCreacion subtotal")
-        .populate("idProducto", "nombre descripcion precioUnitario");
+      const detallePedido = await DetallePedido.find();
+
       res.json(detallePedido);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
+
   getPorId: async (req, res) => {
     try {
       const { id } = req.params;
-      const detallePedido = await DetallePedido.findById({ id })
-        .populate("idPedido", "fechaCreacion subtotal")
-        .populate("idProducto", "nombre descripcion precioUnitario");
+      const detallePedido = await DetallePedido.findById({ id });
+
       res.json(detallePedido);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
+
   post: async (req, res) => {
     try {
-      const { cantidad, idPedido, idProducto } = req.body;
+      const {
+        cantidad,
+        idPedido,
+        idDistribucionLoteFicha,
+        idProducto,
+        subTotal,
+      } = req.body;
       const detallePedido = new DetallePedido({
         cantidad,
         idPedido,
+        idDistribucionLoteFicha,
         idProducto,
+        subTotal,
       });
       await detallePedido.save();
       res.json(detallePedido);
@@ -36,13 +44,20 @@ const httpDetallePedido = {
       res.status(400).json({ error });
     }
   },
+
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { cantidad, idPedido, idProducto } = req.body;
+      const {
+        cantidad,
+        idPedido,
+        idDistribucionLoteFicha,
+        idProducto,
+        subTotal,
+      } = req.body;
       const detallePedido = await DetallePedido.findByIdAndUpdate(
         id,
-        { cantidad, idPedido, idProducto },
+        { cantidad, idPedido, idDistribucionLoteFicha, idProducto, subTotal },
         { new: true }
       );
       res.json(detallePedido);
@@ -64,6 +79,7 @@ const httpDetallePedido = {
       res.status(400).json({ error });
     }
   },
+
   putActivar: async (req, res) => {
     try {
       const { id } = req.params;

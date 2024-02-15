@@ -23,8 +23,8 @@ const httpItemPresupuesto = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, presupuesto } = req.body;
-      const itemPresupuesto = new Item({ nombre, presupuesto });
+      const { nombre, presupuesto, year } = req.body;
+      const itemPresupuesto = new Item({ nombre, presupuesto, year });
 
       await itemPresupuesto.save();
       res.json(itemPresupuesto);
@@ -36,11 +36,11 @@ const httpItemPresupuesto = {
   // Put
   putEditar: async (req, res) => {
     try {
-      const {id} = req.params;
-      const { nombre, presupuesto } = req.body;
+      const { id } = req.params;
+      const { nombre, presupuesto, year } = req.body;
       const item = await Item.findByIdAndUpdate(
         id,
-        { nombre, presupuesto },
+        { nombre, presupuesto, year },
         { new: true }
       );
 
@@ -61,7 +61,7 @@ const httpItemPresupuesto = {
     const { id } = req.params;
     const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
-    res.json( item );
+    res.json(item);
   },
 };
 
