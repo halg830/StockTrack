@@ -5,7 +5,7 @@ const httpDistribucionLoteFicha = {
   getAll: async (req, res) => {
     try {
       const asignaciones = await Asignacion.find()
-        .populate("idDistribucionPresupuesto")
+        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" }, populate: { path: "idLote"} })
         .populate("idFicha");
       res.json(asignaciones);
     } catch (error) {
@@ -17,7 +17,7 @@ const httpDistribucionLoteFicha = {
     try {
       const { id } = req.params;
       const asignacion = await Asignacion.findById(id)
-        .populate("idDistribucionPresupuesto")
+        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" }, populate: { path: "idLote"} })
         .populate("idFicha");
       res.json(asignacion);
     } catch (error) {
@@ -69,6 +69,12 @@ const httpDistribucionLoteFicha = {
       const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
       asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
 
+      const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
+      asignacion.idDistribucionPresupuesto.idItem = item;
+
+      const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
+      asignacion.idDistribucionPresupuesto.idItem = lote;
+
       const ficha = await Asignacion.findById(asignacion.idFicha);
       asignacion.idFicha = ficha;
 
@@ -88,9 +94,15 @@ const httpDistribucionLoteFicha = {
       const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
       asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
 
+      const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
+      asignacion.idDistribucionPresupuesto.idItem = item;
+
+      const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
+      asignacion.idDistribucionPresupuesto.idItem = lote;
+
       const ficha = await Asignacion.findById(asignacion.idFicha);
       asignacion.idFicha = ficha;
-      
+
       res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
