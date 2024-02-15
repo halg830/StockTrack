@@ -17,7 +17,9 @@ router.post('/agregar',[
     validarRolAdmin,
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("idLote", "ID no válido").not().isEmpty(),
     check("idLote", "ID no válido").isMongoId(),
+    check("idItem", "ID no válido").not().isEmpty(),
     check("idItem", "ID no válido").isMongoId(),
     validarCampos
 ],httpDistribucion.post)
@@ -30,6 +32,10 @@ router.put('/editar/:id', [
     check("id", "ID no válido").isMongoId(),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("idLote", "ID no válido").not().isEmpty(),
+    check("idLote", "ID no válido").isMongoId(),
+    check("idItem", "ID no válido").not().isEmpty(),
+    check("idItem", "ID no válido").isMongoId(),
     validarCampos
 ], httpDistribucion.putEditar)
 

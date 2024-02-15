@@ -1,18 +1,11 @@
-import Distribucion from "../models/distribucionPresupuesto.js";
+import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 
 const httpDistribucionesPresupuesto = {
+ 
   getAll: async (req, res) => {
     try {
-      const distribuciones = await Distribucion.find();
-      const distribucionesPromesas = distribuciones.map(async (d) => {
-        return await Distribucion.findById(d._id)
-          .populate("Lote")
-          .populate("ItemPresupuesto");
-      });
-
-      const distribucionesPopulate = await Promise.all(distribucionesPromesas);
-
-      res.json({distribuciones: distribucionesPopulate});
+      const distribucion = await DistribucionPresupuesto.find().populate("idLote").populate("idItem");
+      res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -21,17 +14,12 @@ const httpDistribucionesPresupuesto = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, presupuesto } = req.body;
-      const distribucion = new Distribucion({ nombre, presupuesto });
+      const { presupuesto, idLotem, idItem  } = req.body;
 
+      const distribucion = new DistribucionPresupuesto({ presupuesto, idLotem, idItem });
       await distribucion.save();
-      const distribucionesPopulate = await Distribucion.findById(
-        distribucion._id
-      )
-        .populate("Lote")
-        .populate("ItemPresupuesto");
 
-      res.json({distribuciones: distribucionesPopulate});
+      res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -40,54 +28,44 @@ const httpDistribucionesPresupuesto = {
   // Put
   putEditar: async (req, res) => {
     try {
-      const { id, presupuesto } = req.body;
-      const distribucion = await Distribucion.findByIdAndUpdate(
+      const { id } = req.params;
+      const { presupuesto, idLotem, idItem  } = req.body;
+      const distribucion = await DistribucionPresupuesto.findByIdAndUpdate(
         id,
-        { presupuesto },
+        { presupuesto, idLotem, idItem  },
         { new: true }
       );
-
-      const distribucionesPopulate = await Distribucion.findById(
-        distribucion._id
-      )
-        .populate("Lote")
-        .populate("ItemPresupuesto");
-
-      res.json({distribuciones: distribucionesPopulate});
+      res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
   putInactivar: async (req, res) => {
-    const { id } = req.params;
-    const distribucion = await Distribucion.findByIdAndUpdate(
-      id,
-      { estado: 0 },
-      { new: true }
-    );
-
-    const distribucionesPopulate = await Distribucion.findById(distribucion._id)
-      .populate("Lote")
-      .populate("ItemPresupuesto");
-
-    res.json({distribuciones: distribucionesPopulate});
+    try {
+      const { id } = req.params;
+      const distribucion = await DistribucionPresupuesto.findByIdAndUpdate(
+        id,
+        { estado: 0 },
+        { new: true }
+      );
+      res.json(distribucion);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
   },
-
   putActivar: async (req, res) => {
-    const { id } = req.params;
-    const distribucion = await Distribucion.findByIdAndUpdate(
-      id,
-      { estado: 1 },
-      { new: true }
-    );
-
-    const distribucionesPopulate = await Distribucion.findById(distribucion._id)
-      .populate("Lote")
-      .populate("ItemPresupuesto");
-
-    res.json({distribuciones: distribucionesPopulate});
+    try {
+      const { id } = req.params;
+      const distribucion = await DistribucionPresupuesto.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+      res.json(distribucion);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
   },
 };
-
 export default httpDistribucionesPresupuesto;

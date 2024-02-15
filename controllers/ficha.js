@@ -3,7 +3,7 @@ import Ficha from "../models/ficha.js";
 const httpFicha = {
   getAll: async (req, res) => {
     try {
-      const ficha = await Ficha.find().populate("idArea", "nombre");
+      const ficha = await Ficha.find().populate("idArea");
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });
@@ -13,7 +13,7 @@ const httpFicha = {
   getPorId: async (req, res) => {
     const { id } = req.params;
     try {
-      const ficha = await Ficha.findById({ id }).populate("idArea", "nombre");
+      const ficha = await Ficha.findById({ id }).populate("idArea");
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });
@@ -24,7 +24,7 @@ const httpFicha = {
     const { numero } = req.params;
 
     try {
-      const ficha = await Ficha.find(numero).populate("idArea", "nombre");
+      const ficha = await Ficha.find(numero).populate("idArea");
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });
@@ -33,10 +33,7 @@ const httpFicha = {
   getPorArea: async (req, res) => {
     try {
       const idArea = req.params;
-      const fichasPorArea = await Ficha.find({ idArea }).populate(
-        "idArea",
-        "nombre"
-      );
+      const fichasPorArea = await Ficha.find({ idArea }).populate("idArea");
       res.json(fichasPorArea);
     } catch (error) {
       res.status(500).json({ error: "Error al obtener las fichas por área" });
@@ -46,10 +43,7 @@ const httpFicha = {
     try {
       const estado = req.params;
 
-      const fichasPorEstado = await Ficha.find({ estado }).populate(
-        "idArea",
-        "nombre"
-      );
+      const fichasPorEstado = await Ficha.find({ estado }).populate("idArea");
 
       res.json(fichasPorEstado);
     } catch (error) {
