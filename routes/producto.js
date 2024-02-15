@@ -3,11 +3,20 @@ import httpProducto from "../controllers/producto.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
-import helpersProducto from '../helpers/producto.js'
+import helpersProducto from "../helpers/producto.js";
+import helpersLote from "../helpers/lote.js";
 
 const router = new Router();
 
 router.get("/all", [validarJWT], httpProducto.getAll);
+
+router.get("/getPorLote/:idLote", [
+  validarJWT,
+  check("idLote", "Ingrese el lote").not().isEmpty(),
+  check("idLote", "Id de lote no válida").isMongoId(),
+  check("idLote").custom(helpersLote.existeId),
+  validarCampos,
+], httpProducto.getByLote);
 
 router.get(
   "/getPorFechas",
@@ -31,9 +40,14 @@ router.post(
     check("descripcion", "Ingrese una descripcion").not().isEmpty(),
     check("unidadMedida", "Ingrese la unidad de medida").not().isEmpty(),
     check("precioUnitario", "Ingrese un precio unitario").not().isEmpty(),
-    check("precioUnitario", "El precio unitario debe ser mayor a 0").custom(helpersProducto.precioValido),
+    check("precioUnitario", "El precio unitario debe ser mayor a 0").custom(
+      helpersProducto.precioValido
+    ),
     check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
+    check("idLote", "Ingrese el lote").not().isEmpty(),
+    check("idLote", "Id de lote no válida").isMongoId(),
+    check("idLote").custom(helpersLote.existeId),
     validarCampos,
   ],
   httpProducto.post
@@ -55,6 +69,9 @@ router.put(
     }),
     check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
+    check("idLote", "Ingrese el lote").not().isEmpty(),
+    check("idLote", "Id de lote no válida").isMongoId(),
+    check("idLote").custom(helpersLote.existeId),
     validarCampos,
   ],
   httpProducto.putEditar

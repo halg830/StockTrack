@@ -6,7 +6,17 @@ const httpProducto = {
       const producto = await Producto.find();
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
+    }
+  },
+
+  getByLote: async (req, res) => {
+    try {
+      const { idLote } = req.params;
+      const productos = await Producto.findOne({ idLote });
+      res.json(productos);
+    } catch (error) {
+      res.status(500).json({ error });
     }
   },
 
@@ -28,7 +38,7 @@ const httpProducto = {
       });
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
@@ -43,6 +53,7 @@ const httpProducto = {
         iva,
         tipoProducto,
         consumible,
+        idLote,
       } = req.body;
       const producto = new Producto({
         codigo,
@@ -53,12 +64,13 @@ const httpProducto = {
         iva,
         tipoProducto,
         consumible,
+        idLote,
       });
       await producto.save();
 
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
@@ -74,6 +86,7 @@ const httpProducto = {
         iva,
         tipoProducto,
         consumible,
+        idLote,
       } = req.body;
       const producto = await Producto.findByIdAndUpdate(
         id,
@@ -86,12 +99,13 @@ const httpProducto = {
           iva,
           tipoProducto,
           consumible,
+          idLote,
         },
         { new: true }
       );
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 
@@ -105,9 +119,10 @@ const httpProducto = {
       );
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
+
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
@@ -118,7 +133,7 @@ const httpProducto = {
       );
       res.json(producto);
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     }
   },
 };
