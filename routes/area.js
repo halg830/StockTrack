@@ -10,52 +10,67 @@ const router = new Router();
 
 router.get("/all", validarJWT, httpArea.getAll);
 
-router.get("/buscarId/:id",[
-  validarJWT,
-  check("id", "Digite el id").not().isEmpty(),
-  check("id", "El id es invalido").isMongoId()
-],httpArea.getPorId);
-
-router.post("/agregar", [
-  validarJWT,
-  validarRolAdmin,
-  check("nombre", "Digite el nombre del área").not().isEmpty(),
-  check("nombre", "Nombre ya registrado").custom(helpersArea.validarAreaUnica),
-  check("descripcion", "Digite una descripcion del área").not().isEmpty(),
-  validarCampos
-], httpArea.post
+router.get(
+  "/buscarId/:id",
+  [
+    validarJWT,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "El id es invalido").isMongoId(),
+  ],
+  httpArea.getPorId
 );
 
-router.put("/editar/:id",[
-  validarJWT,
-  validarRolAdmin,
-  check("nombre", "Digite el nombre del área").not().isEmpty(),
-  check("nombre", "Nombre ya registrado").custom((value, { req }) => {
-    const { id } = req.params;
-    return helpersArea.validarAreaUnicaEditar(id, value);
-  }),
-  check("descripcion", "Digite una descripcion del área").not().isEmpty(),
-  validarCampos,
-],httpArea.putEditar
+router.post(
+  "/agregar",
+  [
+    validarJWT,
+    validarRolAdmin,
+    check("nombre", "Digite el nombre del área").not().isEmpty(),
+    check("nombre", "Nombre ya registrado").custom(
+      helpersArea.validarAreaUnica
+    ),
+    validarCampos,
+  ],
+  httpArea.post
 );
 
-router.put("/inactivar/:id",[
-  validarJWT,
-  validarRolAdmin,
-  check("id", "No exite ID en la petición").not().isEmpty(),
-  check("id", "No es Mongo ID").isMongoId(),
-  validarCampos,
-],httpArea.putInactivar
+router.put(
+  "/editar/:id",
+  [
+    validarJWT,
+    validarRolAdmin,
+    check("nombre", "Digite el nombre del área").not().isEmpty(),
+    check("nombre", "Nombre ya registrado").custom((value, { req }) => {
+      const { id } = req.params;
+      return helpersArea.validarAreaUnicaEditar(id, value);
+    }),
+    validarCampos,
+  ],
+  httpArea.putEditar
 );
 
-router.put("/activar/:id", [
-  validarJWT,
-  validarRolAdmin,
-  check("id", "No exite ID en la petición").not().isEmpty(),
-  check("id", "No es Mongo ID").isMongoId(),
-  validarCampos,
-],httpArea.putActivar
+router.put(
+  "/inactivar/:id",
+  [
+    validarJWT,
+    validarRolAdmin,
+    check("id", "No exite ID en la petición").not().isEmpty(),
+    check("id", "No es Mongo ID").isMongoId(),
+    validarCampos,
+  ],
+  httpArea.putInactivar
 );
 
+router.put(
+  "/activar/:id",
+  [
+    validarJWT,
+    validarRolAdmin,
+    check("id", "No exite ID en la petición").not().isEmpty(),
+    check("id", "No es Mongo ID").isMongoId(),
+    validarCampos,
+  ],
+  httpArea.putActivar
+);
 
 export default router;

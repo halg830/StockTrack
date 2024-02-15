@@ -17,10 +17,8 @@ router.get('/buscarNombre/:nombre', validarJWT, httpLote.getPorNombre)
 router.post('/agregar',[
     validarJWT,
     validarRolAdmin,
-    check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
-    check("codigo", "Lote ya registrado").custom(helpersLote.validarLoteUnico),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
-    check("descripcion", "Ingrese una descripción").not().isEmpty(),
+    check('nombre').custom(helpersLote.existeNombre),
     validarCampos
 ],httpLote.post)
 
@@ -30,13 +28,8 @@ router.put('/editar/:id', [
     validarRolAdmin,
     check("id", "ID no válido").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
-    check("codigo", "Ingrese el codigo del lote").not().isEmpty(),
-    check("codigo", "Lote ya registrado").custom((value, { req }) => {
-        const { id } = req.params;
-        return helpersLote.validarLoteUnicoEditar(id, value);
-    }),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
-    check("descripcion", "Ingrese una descripción").not().isEmpty(),
+    check('nombre').custom(helpersLote.existeNombre),
     validarCampos
 ], httpLote.putEditar)
 

@@ -8,7 +8,6 @@ const detallePedidoSchema = new mongoose.Schema({
     subTotal: {type: Number, require: true},
     estado:{type:Boolean, default:1},
     createAT : {type:Date,default: Date.now }
-});
-
+})
 
 export default mongoose.model("DetallePedido", detallePedidoSchema)

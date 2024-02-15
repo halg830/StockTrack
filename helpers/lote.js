@@ -1,30 +1,21 @@
 import Lote from "../models/lote.js";
 
 const helpersLote = {
-    validarLoteUnico: async(codigo, )=>{
-        
-        const existe = await Lote.findOne({codigo})
+    existeNombre: async (nombre, req) => {
+        if (nombre) {
     
-        if(existe){
-            throw new Error("La lote ya esta registrado")
+          const existe = await Lote.findOne({ $text: { $search: nombre } });
+          if (existe) {
+            if (req.req.method === "PUT") {
+              throw new Error(
+                `Ya existe ese lote en la base de datos!!! ${nombre}`
+              );
+            } else if (req.req.method === "POST")
+              throw new Error(
+                `Ya existe ese lote en la base de datos!!! ${nombre}`
+              );
+          }
         }
-       
-    }, 
-    validarLoteUnicoEditar: async (id, codigo) => {
-        try {
-            const loteExiste = await Lote.findOne({
-                codigo,
-                _id: { $ne: id },
-            });
-
-            if (loteExiste) {
-                throw new Error("Ya existe un Lote con este codigo");
-            }
-
-            return true;
-        } catch (error) {
-            throw error;
-        }
-    },
+      },
 }
 export default helpersLote
