@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const detallePedidoSchema = new mongoose.Schema({
     cantidad:{ type:Number, require:true},
     idPedido:{type:mongoose.Schema.Types.ObjectId,ref:'Pedido', require:true},
-    idDistribucionLoteFicha: {type:mongoose.Schema.Types.ObjectId,ref:'DistribucionLoteFicha', require:true},
     idProducto:{type:mongoose.Schema.Types.ObjectId,ref:'Producto', require:true},
     subTotal: {type: Number, require: true},
     estado:{type:Boolean, default:1},

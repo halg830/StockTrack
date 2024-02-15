@@ -3,7 +3,7 @@ import DetallePedido from "../models/detallePedido.js";
 const httpDetallePedido = {
   getAll: async (req, res) => {
     try {
-      const detallePedido = await DetallePedido.find();
+      const detallePedido = await DetallePedido.find().populate("idPedido").populate("idProducto");
 
       res.json(detallePedido);
     } catch (error) {
@@ -14,11 +14,21 @@ const httpDetallePedido = {
   getPorId: async (req, res) => {
     try {
       const { id } = req.params;
-      const detallePedido = await DetallePedido.findById({ id });
+      const detallePedido = await DetallePedido.findById({ id }).populate("idPedido").populate("idProducto");
 
       res.json(detallePedido);
     } catch (error) {
       res.status(400).json({ error });
+    }
+  },
+
+  getByPedido: async (req, res) => {
+    try {
+      const { idPedido } = req.params;
+      const pedidos = await DetallePedido.find({ idPedido }).populate("idPedido").populate("idProducto");
+      res.json(pedidos);
+    } catch (error) {
+      res.status(500).json({ error });
     }
   },
 
@@ -27,14 +37,12 @@ const httpDetallePedido = {
       const {
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       } = req.body;
       const detallePedido = new DetallePedido({
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       });
@@ -51,13 +59,12 @@ const httpDetallePedido = {
       const {
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       } = req.body;
       const detallePedido = await DetallePedido.findByIdAndUpdate(
         id,
-        { cantidad, idPedido, idDistribucionLoteFicha, idProducto, subTotal },
+        { cantidad, idPedido, idProducto, subTotal },
         { new: true }
       );
       res.json(detallePedido);

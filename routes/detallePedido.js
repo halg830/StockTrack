@@ -23,6 +23,14 @@ router.get(
   httpDetallePedido.getPorId
 );
 
+router.get("/getPorPedido/:idPedido", [
+  validarJWT,
+  check("idPedido", "Ingrese el pedido").not().isEmpty(),
+  check("idPedido", "Id de pedido no válida").isMongoId(),
+  check("idPedido").custom(helpersPedido.existeId),
+  validarCampos,
+], httpDetallePedido.getByPedido);
+
 router.post(
   "/agregar",
   [
@@ -32,11 +40,6 @@ router.post(
     check("idPedido", "Digite el id del pedido").not().isEmpty(),
     check("idPedido", "No es Mongo Id").isMongoId(),
     check("idPedido").custom(helpersPedido.existeId),
-    check("idDistribucionLoteFicha", "Digite el ID de DistribucionLoteFicha")
-      .not()
-      .isEmpty(),
-    check("idDistribucionLoteFicha", "No es un Mongo ID válido").isMongoId(),
-    check("idDistribucionLoteFicha").custom(helpersDistLoteFicha.existeId),
     check('subTotal', 'Ingrese un subtotal').not().isEmpty(),
     check('subTotal', 'Tipo de dato no válido para subTotal').isNumeric(),
     validarCampos,
@@ -53,11 +56,6 @@ router.put(
     check("idPedido").custom(helpersDetPedido.existeId),
     check("cantidad", "Digite la Cantidad").not().isEmpty(),
     check("cantidad", "Tipo de dato no válido para cantidad").isNumeric(),
-    check("idDistribucionLoteFicha", "Digite el ID de DistribucionLoteFicha")
-      .not()
-      .isEmpty(),
-    check("idDistribucionLoteFicha", "No es un Mongo ID válido").isMongoId(),
-    check("idDistribucionLoteFicha").custom(helpersDistLoteFicha.existeId),
     check('subTotal', 'Ingrese un subtotal').not().isEmpty(),
     check('subTotal', 'Tipo de dato no válido para subTotal').isNumeric(),
     validarCampos,

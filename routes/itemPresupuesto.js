@@ -21,6 +21,7 @@ router.post('/agregar',[
     check('nombre').custom(helpersItem.existeNombre),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ],httpItem.post)
 
@@ -33,6 +34,7 @@ router.put('/editar/:id', [
     check('nombre').custom(helpersItem.existeNombre),
     check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ], httpItem.putEditar)
 

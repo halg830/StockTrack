@@ -1,4 +1,5 @@
 import Ficha from "../models/ficha.js";
+import Area from "../models/area.js";
 
 const httpFicha = {
   getAll: async (req, res) => {
@@ -62,9 +63,12 @@ const httpFicha = {
         nivelFormacion,
         fechaInicio,
         fechaFin,
-        idArea
+        idArea,
       });
       await ficha.save();
+
+      const area = await Area.findById(ficha.idArea);
+      ficha.idArea = area;
 
       res.json(ficha);
     } catch (error) {
@@ -75,13 +79,17 @@ const httpFicha = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea  } =
+      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea } =
         req.body;
       const ficha = await Ficha.findByIdAndUpdate(
         id,
         { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea },
         { new: true }
       );
+
+      const area = await Area.findById(ficha.idArea);
+      ficha.idArea = area;
+
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });
@@ -96,6 +104,10 @@ const httpFicha = {
         { estado: 0 },
         { new: true }
       );
+
+      const area = await Area.findById(ficha.idArea);
+      ficha.idArea = area;
+
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });
@@ -109,6 +121,10 @@ const httpFicha = {
         { estado: 1 },
         { new: true }
       );
+
+      const area = await Area.findById(ficha.idArea);
+      ficha.idArea = area;
+
       res.json(ficha);
     } catch (error) {
       res.status(400).json({ error });

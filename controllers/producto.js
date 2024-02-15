@@ -1,9 +1,10 @@
 import Producto from "../models/producto.js";
+import Lote from "../models/lote.js";
 
 const httpProducto = {
   getAll: async (req, res) => {
     try {
-      const producto = await Producto.find();
+      const producto = await Producto.find().populate("idLote");
       res.json(producto);
     } catch (error) {
       res.status(500).json({ error });
@@ -13,7 +14,7 @@ const httpProducto = {
   getByLote: async (req, res) => {
     try {
       const { idLote } = req.params;
-      const productos = await Producto.findOne({ idLote });
+      const productos = await Producto.find({ idLote }).populate("idLote");
       res.json(productos);
     } catch (error) {
       res.status(500).json({ error });
@@ -68,6 +69,9 @@ const httpProducto = {
       });
       await producto.save();
 
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
       res.json(producto);
     } catch (error) {
       res.status(500).json({ error });
@@ -103,6 +107,10 @@ const httpProducto = {
         },
         { new: true }
       );
+
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
       res.json(producto);
     } catch (error) {
       res.status(500).json({ error });
@@ -117,6 +125,10 @@ const httpProducto = {
         { estado: 1 },
         { new: true }
       );
+
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
       res.json(producto);
     } catch (error) {
       res.status(500).json({ error });
@@ -131,6 +143,10 @@ const httpProducto = {
         { estado: 0 },
         { new: true }
       );
+
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
       res.json(producto);
     } catch (error) {
       res.status(500).json({ error });
