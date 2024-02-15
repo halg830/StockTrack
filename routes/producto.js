@@ -43,11 +43,11 @@ router.post(
     check("precioUnitario", "El precio unitario debe ser mayor a 0").custom(
       helpersProducto.precioValido
     ),
-    check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
     check("idLote", "Ingrese el lote").not().isEmpty(),
     check("idLote", "Id de lote no válida").isMongoId(),
     check("idLote").custom(helpersLote.existeId),
+    check('consumible', 'Especifique si es consumible').not().isEmpty(),
     validarCampos,
   ],
   httpProducto.post
@@ -67,11 +67,11 @@ router.put(
     check("precioUnitario", "El precio unitario debe ser mayor a 0").isFloat({
       gt: 0,
     }),
-    check("tipoProducto", "Especifique el tipo de producto").not().isEmpty(),
     check("iva", "Ingrese el iva").not().isEmpty(),
     check("idLote", "Ingrese el lote").not().isEmpty(),
     check("idLote", "Id de lote no válida").isMongoId(),
     check("idLote").custom(helpersLote.existeId),
+    check('consumible', 'Especifique si es consumible').not().isEmpty(),
     validarCampos,
   ],
   httpProducto.putEditar

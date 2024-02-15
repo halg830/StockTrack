@@ -16,6 +16,7 @@ router.post(
   [
     validarJWT,
     check("nombre", "Digite el nombre").not().isEmpty(),
+    check('apellido', 'Digite el apellido').not().isEmpty(),
     check("identificacion", "Digite la identificacion").not().isEmpty(),
     check("correo", "Digite el correo").not().isEmpty(),
     check("correo", "Digite el correo").isEmail(),
@@ -65,6 +66,7 @@ router.put(
     check("id", "Id no válida").isMongoId(),
     check("id").custom(helpersUsuario.existeHolderById),
     check("nombre", "Digite el nombre").not().isEmpty(),
+    check('apellido', 'Digite el apellido').not().isEmpty(),
     check("identificacion", "Digite la identificacion").not().isEmpty(),
     check("correo", "Digite el correo").not().isEmpty(),
     check("correo", "Digite el correo").isEmail(),
