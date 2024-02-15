@@ -14,9 +14,9 @@ const httpDistribucionesPresupuesto = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuesto, idLotem, idItem  } = req.body;
+      const { presupuesto, idLote, idItem  } = req.body;
 
-      const distribucion = new DistribucionPresupuesto({ presupuesto, idLotem, idItem });
+      const distribucion = new DistribucionPresupuesto({ presupuesto, idLote, idItem });
       await distribucion.save();
 
       res.json(distribucion);
@@ -29,10 +29,10 @@ const httpDistribucionesPresupuesto = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuesto, idLotem, idItem  } = req.body;
+      const { presupuesto, idLote, idItem  } = req.body;
       const distribucion = await DistribucionPresupuesto.findByIdAndUpdate(
         id,
-        { presupuesto, idLotem, idItem  },
+        { presupuesto, idLote, idItem  },
         { new: true }
       );
       res.json(distribucion);
