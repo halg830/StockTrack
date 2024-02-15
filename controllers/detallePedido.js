@@ -27,14 +27,12 @@ const httpDetallePedido = {
       const {
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       } = req.body;
       const detallePedido = new DetallePedido({
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       });
@@ -51,13 +49,12 @@ const httpDetallePedido = {
       const {
         cantidad,
         idPedido,
-        idDistribucionLoteFicha,
         idProducto,
         subTotal,
       } = req.body;
       const detallePedido = await DetallePedido.findByIdAndUpdate(
         id,
-        { cantidad, idPedido, idDistribucionLoteFicha, idProducto, subTotal },
+        { cantidad, idPedido, idProducto, subTotal },
         { new: true }
       );
       res.json(detallePedido);
