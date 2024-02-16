@@ -1,4 +1,4 @@
-import DetPedido from "../models/detallePedido";
+import DetPedido from "../models/detallePedido.js";
 
 const helpersDetPedido = {
   existeId: async (id, req) => {

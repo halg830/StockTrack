@@ -1,4 +1,4 @@
-import Pedido from "../models/pedido";
+import Pedido from "../models/pedido.js";
 
 const helpersPedido = {
   existeId: async (id, req) => {
