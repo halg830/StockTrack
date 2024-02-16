@@ -15,9 +15,9 @@ const httpDistribucionesPresupuesto = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuesto, presupuestoDisponible, idLote, idItem  } = req.body;
+      const { presupuesto, idLote, idItem  } = req.body;
 
-      const distribucion = new DistribucionPresupuesto({ presupuesto, presupuestoDisponible, idLote, idItem }).populate("idLote").populate("idItem");
+      const distribucion = new DistribucionPresupuesto({ presupuesto, presupuestoDisponible:presupuesto, idLote, idItem }).populate("idLote").populate("idItem");
       await distribucion.save();
 
       res.json(distribucion);
