@@ -5,7 +5,7 @@ const pedidoSchema = new mongoose.Schema({
     //fechaEntrega: {type:Date, require:true },
     idInstructorEncargado: {type:mongoose.Schema.Types.ObjectId,ref:'Usuario', require:true},
     idFicha: {type:mongoose.Schema.Types.ObjectId,ref:'Ficha', require:true},
-    total: {type:Number, require:true},
+    total: {type:Number},
     entregado: {type:Boolean, default: 0},
     estado:{type:Boolean, default:0},
     createAT : {type:Date,default: Date.now }
