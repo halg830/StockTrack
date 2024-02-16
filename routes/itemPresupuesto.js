@@ -43,7 +43,7 @@ router.put('/ajustarPresupuesto/:id',[
     validarRolAdmin,
     check("id", "Digite el id").not().isEmpty(),
     check("id", "No es mongo ID").isMongoId(),
-    check("presupuesto","Nothing").not().isEmpty(),
+    check("presupuesto","No hay ningun presupuesto").not().isEmpty(),
     validarCampos,
 ],httpItem.putAjustarPresupuesto)
 

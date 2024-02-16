@@ -52,22 +52,25 @@ const httpDistribucionesPresupuesto = {
     }
   },
 
-  // putAjustarPresupuesto: async (req, res) => {
-  //   try {
-  //       const { id } = req.params;
-  //       const { presupuesto} = req.body;
+  putAjustarPresupuesto: async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { presupuesto} = req.body;
 
-  //       const updatedItem = await ItemPresupuesto.findByIdAndUpdate(id,
-  //           { $inc: { presupuestoDisponible: -presupuesto } }, 
-  //           { new: true }
-  //       ).populate("idLote").populate("idItem");
+        const item = await DistribucionPresupuesto.findById(id)
+        const presupuestoDisponible = item.presupuestoDisponible-presupuesto
 
-  //       res.json(updatedItem);
+        const updatedItem = await DistribucionPresupuesto.findByIdAndUpdate(id,
+            {  presupuestoDisponible }, 
+            { new: true }
+        );
 
-  //   } catch (error) {
-  //       res.status(400).json({ error });
-  //   }
-  // },
+        res.json(updatedItem);
+
+    } catch (error) {
+        res.status(400).json({ error });
+    }
+  },
 
   putInactivar: async (req, res) => {
     try {

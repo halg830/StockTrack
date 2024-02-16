@@ -39,13 +39,14 @@ router.put('/editar/:id', [
     validarCampos
 ], httpDistribucion.putEditar)
 
-// router.put('/cambioPresupuesto/:id',[
-//     validarJWT, 
-//     validarRolAdmin,
-//     check("id", "Digitel el ID").not().isEmpty(),
-//     check("id", "ID no válido").isMongoId(),
-//     validarCampos
-// ])
+router.put('/cambioPresupuesto/:id',[
+    validarJWT,
+    validarRolAdmin,
+    check("id", "Digite el id").not().isEmpty(),
+    check("id", "No es mongo ID").isMongoId(),
+    check("presupuesto","No hay ningun presupuesto").not().isEmpty(),
+    validarCampos,
+], httpDistribucion.putAjustarPresupuesto)
 
 router.put('/inactivar/:id', [
     validarJWT,
