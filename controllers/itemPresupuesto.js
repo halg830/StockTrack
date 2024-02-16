@@ -54,18 +54,18 @@ const httpItemPresupuesto = {
 
   putAjustarPresupuesto: async (req, res) => {
     try {
-      const { id } = req.params;
-      const { presupuesto } = req.body;
-      const item = await Item.findById(id);
+        const { id } = req.params;
+        const { presupuesto} = req.body;
 
-      item.presupuestoDisponible = item.presupuestoDisponible -= presupuesto;
+        const updatedItem = await Item.findByIdAndUpdate(id,
+            { $inc: { presupuestoDisponible: -presupuesto } }, 
+            { new: true }
+        ).populate("idLote").populate("idItem");
 
-      await item.save();
-
-      res.json(item);
+        res.json(updatedItem);
 
     } catch (error) {
-      res.status(400).json({ error });
+        res.status(400).json({ error });
     }
   },
 
