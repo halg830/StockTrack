@@ -1,5 +1,7 @@
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 import ItemPresupuesto from "../models/itemsPresupuesto.js";
+import Lote from "../models/lote.js.js";
+
 
 const httpDistribucionesPresupuesto = {
  
@@ -18,8 +20,12 @@ const httpDistribucionesPresupuesto = {
       const { presupuesto, idLote, idItem  } = req.body;
 
       const distribucion = new DistribucionPresupuesto({ presupuesto, presupuestoDisponible:presupuesto, idLote, idItem });
+
+      const lote = await Lote.findById(distribucion.idLote);
+      distribucion.idLote = lote;
       
-      await distribucion.populate('idLote').populate('idItem').execPopulate();
+      const item = await ItemPresupuesto.findById(distribucion.idItem);
+      distribucion.idItem = item
 
       await distribucion.save();
 
