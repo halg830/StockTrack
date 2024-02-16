@@ -57,10 +57,13 @@ const httpItemPresupuesto = {
         const { id } = req.params;
         const { presupuesto} = req.body;
 
+        const item = await Item.findById(id)
+        const presupuestoDisponible = item.presupuestoDisponible-presupuesto
+
         const updatedItem = await Item.findByIdAndUpdate(id,
-            { $inc: { presupuestoDisponible: -presupuesto } }, 
+            {  presupuestoDisponible }, 
             { new: true }
-        ).populate("idLote").populate("idItem");
+        );
 
         res.json(updatedItem);
 
