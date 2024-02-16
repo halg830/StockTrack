@@ -66,17 +66,17 @@ const httpDistribucionLoteFicha = {
         { new: true }
       );
 
-      const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
+      // const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
+      // asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
 
-      const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
-      asignacion.idDistribucionPresupuesto.idItem = item;
+      // const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
+      // asignacion.idDistribucionPresupuesto.idItem = item;
 
-      const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
-      asignacion.idDistribucionPresupuesto.idItem = lote;
+      // const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
+      // asignacion.idDistribucionPresupuesto.idItem = lote;
 
-      const ficha = await Asignacion.findById(asignacion.idFicha);
-      asignacion.idFicha = ficha;
+      // const ficha = await Asignacion.findById(asignacion.idFicha);
+      // asignacion.idFicha = ficha;
 
       res.json(asignacion);
     } catch (error) {
@@ -91,17 +91,17 @@ const httpDistribucionLoteFicha = {
         { estado: 1 },
         { new: true }
       );
-      const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
+      // const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
+      // asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
 
-      const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
-      asignacion.idDistribucionPresupuesto.idItem = item;
+      // const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
+      // asignacion.idDistribucionPresupuesto.idItem = item;
 
-      const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
-      asignacion.idDistribucionPresupuesto.idItem = lote;
+      // const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
+      // asignacion.idDistribucionPresupuesto.idItem = lote;
 
-      const ficha = await Asignacion.findById(asignacion.idFicha);
-      asignacion.idFicha = ficha;
+      // const ficha = await Asignacion.findById(asignacion.idFicha);
+      // asignacion.idFicha = ficha;
 
       res.json(asignacion);
     } catch (error) {
