@@ -22,10 +22,9 @@ router.get(
 );
 
 router.post(
-  "/guardar",
+  "/agregar",
   [
     validarJWT,
-    check("fechaCreacion", "Digite la fecha de creación").not().isEmpty(),
     //check('fechaEntrega', "Digite la fecha de entrega").not().isEmpty(),
     check("idInstructorEncargado", "Digite el ID de InstructorEncargado")
       .not()
@@ -35,8 +34,6 @@ router.post(
     check("idFicha", "Digite la ficha").not().isEmpty(),
     check("idFicha", "No es un Mongo ID válido").isMongoId(),
     check("idFicha").custom(helpersFicha.existeId),
-    check("total", "Digite el total").not().isEmpty(),
-    check("total", "El total no es válido").isNumeric(),
     validarCampos,
   ],
   httpPedido.post
@@ -48,7 +45,6 @@ router.put(
     validarJWT,
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "No es un Mongo ID válido").isMongoId(),
-    check("fechaCreacion", "Digite la fecha de creación").not().isEmpty(),
     check("idInstructorEncargado", "Digite el ID de InstructorEncargado")
       .not()
       .isEmpty(),
@@ -57,7 +53,6 @@ router.put(
     check("idFicha", "Digite la ficha").not().isEmpty(),
     check("idFicha", "No es un Mongo ID válido").isMongoId(),
     check("idFicha").custom(helpersFicha.existeId),
-    check("total", "Digite el subtotal").not().isEmpty(),
     validarCampos,
   ],
   httpPedido.putEditar
