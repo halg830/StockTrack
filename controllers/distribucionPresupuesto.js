@@ -34,7 +34,7 @@ const httpDistribucionesPresupuesto = {
         id,
         { presupuesto, idLote, idItem  },
         { new: true }
-      );
+      ).populate("idLote").populate("idItem");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -48,7 +48,7 @@ const httpDistribucionesPresupuesto = {
         id,
         { estado: 0 },
         { new: true }
-      );
+      ).populate("idLote").populate("idItem");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -61,7 +61,7 @@ const httpDistribucionesPresupuesto = {
         id,
         { estado: 1 },
         { new: true }
-      );
+      ).populate("idLote").populate("idItem");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
