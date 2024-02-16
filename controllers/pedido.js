@@ -1,9 +1,17 @@
 import Pedido from "../models/pedido.js";
+import DetPedido from '../models/detallePedido.js';
 
 const httpPedido = {
   getAll: async (req, res) => {
     try {
       const pedidos = await Pedido.find().populate("idFicha").populate("idInstructorEncargado");
+
+      const detPedidos = pedidos.map(async (e) => {
+        e.detPedido= await DetPedido.find({idPedido:e._id});
+      });
+
+      await Promise.all(detPedidos);
+
       res.json(pedidos);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -22,13 +30,30 @@ const httpPedido = {
     }
   },
 
+  getNumero: async (req, res) => {
+    try {
+      const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
+      let numero = ultimoPedido ? ultimoPedido.numero : 1;
+      res.json(numero++)       
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
   post: async (req, res) => {
     try {
-      const nuevoPedido = new Pedido(req.body);
+      const {idInstructorEncargado, idFicha, total} = req.body;
+
+      const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
+      let numero = ultimoPedido ? ultimoPedido.numero : 1;
+      numero++
+
+      const nuevoPedido = new Pedido({idInstructorEncargado, idFicha, total, numero});
       const pedidoGuardado = await nuevoPedido.save();
       res.status(201).json(pedidoGuardado);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 

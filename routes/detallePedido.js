@@ -40,8 +40,6 @@ router.post(
     check("idPedido", "Digite el id del pedido").not().isEmpty(),
     check("idPedido", "No es Mongo Id").isMongoId(),
     check("idPedido").custom(helpersPedido.existeId),
-    check('subTotal', 'Ingrese un subtotal').not().isEmpty(),
-    check('subTotal', 'Tipo de dato no válido para subTotal').isNumeric(),
     validarCampos,
   ],
   httpDetallePedido.post
@@ -56,8 +54,6 @@ router.put(
     check("idPedido").custom(helpersDetPedido.existeId),
     check("cantidad", "Digite la Cantidad").not().isEmpty(),
     check("cantidad", "Tipo de dato no válido para cantidad").isNumeric(),
-    check('subTotal', 'Ingrese un subtotal').not().isEmpty(),
-    check('subTotal', 'Tipo de dato no válido para subTotal').isNumeric(),
     validarCampos,
   ],
   httpDetallePedido.putEditar

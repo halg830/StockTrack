@@ -38,8 +38,6 @@ router.put('/inactivar/:id', [
     validarRolAdmin,
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
-    check("nombre", "Ingrese un nombre").not().isEmpty(),
-    check('nombre').custom(helpersLote.existeNombre),
     validarCampos
 ], httpLote.putInactivar)
 

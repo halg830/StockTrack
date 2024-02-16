@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const pedidoSchema = new mongoose.Schema({
-    fechaCreacion: {type:Date, require:true },
+    numero: {type: Number, unique: true},
     //fechaEntrega: {type:Date, require:true },
     idInstructorEncargado: {type:mongoose.Schema.Types.ObjectId,ref:'Usuario', require:true},
     idFicha: {type:mongoose.Schema.Types.ObjectId,ref:'Ficha', require:true},

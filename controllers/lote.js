@@ -30,6 +30,7 @@ const httpLote = {
       await lote.save();
       res.json(lote);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ error });
     }
   },
@@ -41,7 +42,7 @@ const httpLote = {
       const { nombre } = req.body;
       const lote = await Lote.findByIdAndUpdate(id, { nombre }, { new: true });
 
-      res.json({ lote });
+      res.json(lote);
     } catch (error) {
       res.status(400).json({ error });
     }
