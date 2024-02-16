@@ -52,21 +52,22 @@ const httpItemPresupuesto = {
     }
   },
 
-  // putPresupuestoDisponoble: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
-  //     const item = await Item.findById(id);
+  putAjustarPresupuesto: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { presupuesto } = req.body;
+      const item = await Item.findById(id);
 
-      
+      item.presupuestoDisponible = item.presupuestoDisponible -= presupuesto;
 
-  //     await item.save();
+      await item.save();
 
-  //     res.json(item);
+      res.json(item);
 
-  //   } catch (error) {
-  //     res.status(400).json({ error });
-  //   }
-  // },
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
 
   putInactivar: async (req, res) => {
     try {
