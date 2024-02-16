@@ -1,4 +1,6 @@
 import Item from "../models/itemsPresupuesto.js";
+import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+
 
 const httpItemPresupuesto = {
   getAll: async (req, res) => {
@@ -24,7 +26,7 @@ const httpItemPresupuesto = {
   post: async (req, res) => {
     try {
       const { nombre, presupuesto, year } = req.body;
-      const itemPresupuesto = new Item({ nombre, presupuesto, year });
+      const itemPresupuesto = new Item({ nombre, presupuesto, presupuestoDisponible: presupuesto, year });
 
       await itemPresupuesto.save();
       res.json(itemPresupuesto);
@@ -50,18 +52,44 @@ const httpItemPresupuesto = {
     }
   },
 
-  putInactivar: async (req, res) => {
-    const { id } = req.params;
-    const item = await Item.findByIdAndUpdate(id, { estado: 0 }, { new: true });
+  // putPresupuestoDisponoble: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const item = await Item.findById(id);
 
-    res.json(item);
+      
+
+  //     await item.save();
+
+  //     res.json(item);
+
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // },
+
+  putInactivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findByIdAndUpdate(id, { estado: 0 }, { new: true });
+
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+
   },
 
   putActivar: async (req, res) => {
-    const { id } = req.params;
-    const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
+    try {
+      const { id } = req.params;
+      const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
-    res.json(item);
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+
   },
 };
 

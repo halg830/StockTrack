@@ -32,6 +32,7 @@ const httpDistribucionLoteFicha = {
       const asignacion = new Asignacion({
         presupuesto,
         idDistribucionPresupuesto,
+        DistribucionPresupuesto:presupuesto,
         idFicha,
       });
       await asignacion.save();

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const itemsPresupuestoSchema = new mongoose.Schema({
     nombre: { type: String, index: "text", require:true, unique: true},
     presupuesto: { type:Number, require:true},
+    presupuestoDisponible: {type:Number, require:true},
     year: {type: Date, require: true},
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}

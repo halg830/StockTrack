@@ -39,6 +39,14 @@ router.put('/editar/:id', [
     validarCampos
 ], httpDistribucion.putEditar)
 
+// router.put('/cambioPresupuesto/:id',[
+//     validarJWT, 
+//     validarRolAdmin,
+//     check("id", "Digitel el ID").not().isEmpty(),
+//     check("id", "ID no válido").isMongoId(),
+//     validarCampos
+// ])
+
 router.put('/inactivar/:id', [
     validarJWT,
     validarRolAdmin,

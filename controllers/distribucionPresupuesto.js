@@ -16,7 +16,7 @@ const httpDistribucionesPresupuesto = {
     try {
       const { presupuesto, idLote, idItem  } = req.body;
 
-      const distribucion = new DistribucionPresupuesto({ presupuesto, idLote, idItem });
+      const distribucion = new DistribucionPresupuesto({ presupuesto, DistribucionPresupuesto:presupuesto, idLote, idItem });
       await distribucion.save();
 
       res.json(distribucion);
