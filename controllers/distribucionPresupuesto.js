@@ -21,11 +21,11 @@ const httpDistribucionesPresupuesto = {
 
       const distribucion = new DistribucionPresupuesto({ presupuesto, presupuestoDisponible:presupuesto, idLote, idItem });
 
-      const lote = await Lote.findById(distribucion.idLote);
-      distribucion.idLote = lote;
+      // const lote = await Lote.findById(distribucion.idLote);
+      // distribucion.idLote = lote;
       
-      const item = await ItemPresupuesto.findById(distribucion.idItem);
-      distribucion.idItem = item
+      // const item = await ItemPresupuesto.findById(distribucion.idItem);
+      // distribucion.idItem = item
 
       await distribucion.save();
 
