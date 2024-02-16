@@ -21,6 +21,8 @@ router.get(
   httpPedido.getPorId
 );
 
+router.get('/obtener-numero', validarJWT, httpPedido.getNumero)
+
 router.post(
   "/agregar",
   [
