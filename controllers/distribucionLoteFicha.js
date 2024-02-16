@@ -5,7 +5,7 @@ const httpDistribucionLoteFicha = {
   getAll: async (req, res) => {
     try {
       const asignaciones = await Asignacion.find()
-        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" }, populate: { path: "idLote"} })
+        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" ,  path: "idLote"} })
         .populate("idFicha");
       res.json(asignaciones);
     } catch (error) {
@@ -17,7 +17,7 @@ const httpDistribucionLoteFicha = {
     try {
       const { id } = req.params;
       const asignacion = await Asignacion.findById(id)
-        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" }, populate: { path: "idLote"} })
+        .populate({ path: "idDistribucionPresupuesto", populate: { path: "idItem" , path: "idLote"} })
         .populate("idFicha");
       res.json(asignacion);
     } catch (error) {
