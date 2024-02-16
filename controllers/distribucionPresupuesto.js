@@ -18,6 +18,9 @@ const httpDistribucionesPresupuesto = {
       const { presupuesto, idLote, idItem  } = req.body;
 
       const distribucion = new DistribucionPresupuesto({ presupuesto, presupuestoDisponible:presupuesto, idLote, idItem });
+      
+      await distribucion.populate('idLote').populate('idItem').execPopulate();
+
       await distribucion.save();
 
       res.json(distribucion);
