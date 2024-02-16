@@ -1,4 +1,5 @@
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import ItemPresupuesto from "../models/itemsPresupuesto.js";
 
 const httpDistribucionesPresupuesto = {
  
@@ -16,7 +17,7 @@ const httpDistribucionesPresupuesto = {
     try {
       const { presupuesto, idLote, idItem  } = req.body;
 
-      const distribucion = new DistribucionPresupuesto({ presupuesto, DistribucionPresupuesto:presupuesto, idLote, idItem });
+      const distribucion = new DistribucionPresupuesto({ presupuesto, DistribucionPresupuesto:presupuesto, idLote, idItem }).populate("idLote").populate("idItem");
       await distribucion.save();
 
       res.json(distribucion);
@@ -36,6 +37,22 @@ const httpDistribucionesPresupuesto = {
         { new: true }
       ).populate("idLote").populate("idItem");
       res.json(distribucion);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+
+  putAjustarPresupuesto: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { presupuesto, presupustoDisponible } = req.body;
+
+      const item = await ItemPresupuesto.findByIdAndUpdate(id, 
+        { presupustoDisponible: presupustoDisponible-=presupuesto },
+        { new: true }).populate("idLote").populate("idItem");
+
+      res.json(item);
+
     } catch (error) {
       res.status(400).json({ error });
     }
