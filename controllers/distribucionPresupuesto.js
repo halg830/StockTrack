@@ -54,17 +54,18 @@ const httpDistribucionesPresupuesto = {
 
   putAjustarPresupuesto: async (req, res) => {
     try {
-      const { id } = req.params;
-      const { presupuesto, presupuestoDisponible } = req.body;
+        const { id } = req.params;
+        const { presupuesto, presupuestoDisponible } = req.body;
 
-      const item = await ItemPresupuesto.findByIdAndUpdate(id,
-        { presupustoDisponible: presupuestoDisponible -= presupuesto },
-        { new: true }).populate("idLote").populate("idItem");
+        const updatedItem = await ItemPresupuesto.findByIdAndUpdate(id,
+            { $inc: { presupuestoDisponible: -presupuesto } }, 
+            { new: true }
+        ).populate("idLote").populate("idItem");
 
-      res.json(item);
+        res.json(updatedItem);
 
     } catch (error) {
-      res.status(400).json({ error });
+        res.status(400).json({ error });
     }
   },
 
