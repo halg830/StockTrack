@@ -64,19 +64,8 @@ const httpDistribucionLoteFicha = {
         id,
         { estado: 0 },
         { new: true }
-      );
-
-      // const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      // asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
-
-      // const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
-      // asignacion.idDistribucionPresupuesto.idItem = item;
-
-      // const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
-      // asignacion.idDistribucionPresupuesto.idItem = lote;
-
-      // const ficha = await Asignacion.findById(asignacion.idFicha);
-      // asignacion.idFicha = ficha;
+      ).populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
 
       res.json(asignacion);
     } catch (error) {
@@ -90,19 +79,10 @@ const httpDistribucionLoteFicha = {
         id,
         { estado: 1 },
         { new: true }
-      );
-      // const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      // asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
-
-      // const item = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idItem);
-      // asignacion.idDistribucionPresupuesto.idItem = item;
-
-      // const lote = await Asignacion.findById(asignacion.idDistribucionPresupuesto.idLote);
-      // asignacion.idDistribucionPresupuesto.idItem = lote;
-
-      // const ficha = await Asignacion.findById(asignacion.idFicha);
-      // asignacion.idFicha = ficha;
-
+      )
+      .populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
+      
       res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
