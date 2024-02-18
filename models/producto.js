@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const productoSchema = new mongoose.Schema({
-    codigo: {type:String, require:true, unique:true},
+    codigo: {type:String, index: 'text', require:true, unique:true},
     nombre: {type:String, require:true},
     descripcion: {type:String, require:true},
     unidadMedida: {type:String, require:true },

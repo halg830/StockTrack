@@ -168,7 +168,7 @@ const httpUsuario = {
           error: "Usuario / Password no son correctos",
         });
       }
-      if (usuario.estado === 0) {
+      if (usuario.estado == false) {
         return res.status(400).json({
           error: "Usuario Inactivo",
         });
@@ -318,6 +318,7 @@ const httpUsuario = {
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
+
       const usuario = await Usuario.findByIdAndUpdate(
         id,
         { estado: 0 },

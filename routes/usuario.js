@@ -34,8 +34,11 @@ router.post(
     check("nombre", "Digite el nombre").not().isEmpty(),
     check("apellido", "Digite el apellido").not().isEmpty(),
     check("identificacion", "Digite la identificacion").not().isEmpty(),
+    check('identificacion').custom(helpersUsuario.existeIdentificacion),
     check("correo", "Digite el correo").not().isEmpty(),
     check("correo", "Digite el correo").isEmail(),
+    check('correo').custom(helpersUsuario.existeCorreo),
+    check('telefono').custom(helpersUsuario.existeTelefono),
     check("telefono", "Digite el telefono").not().isEmpty(),
     check("rol", "Digite el codigo del rol").not().isEmpty(),
     check("rol", "Rol no válido: admin, instructor, bodega").custom(
@@ -99,8 +102,11 @@ router.put(
     check("nombre", "Digite el nombre").not().isEmpty(),
     check("apellido", "Digite el apellido").not().isEmpty(),
     check("identificacion", "Digite la identificacion").not().isEmpty(),
+    check('identificacion').custom(helpersUsuario.existeIdentificacion),
     check("correo", "Digite el correo").not().isEmpty(),
     check("correo", "Digite el correo").isEmail(),
+    check('correo').custom(helpersUsuario.existeCorreo),
+    check('telefono').custom(helpersUsuario.existeTelefono),
     check("telefono", "Digite el telefono").not().isEmpty(),
     check("rol", "Digite el codigo del rol").not().isEmpty(),
     check("rol", "Rol no válido: admin, instructor, bodega").custom(
@@ -118,6 +124,8 @@ router.put(
     check("id", "Ingrese un ID válido").not().isEmpty(),
     check("id", "Ingrese un ID válido").isMongoId(),
     check("id").custom(helpersUsuario.existeHolderById),
+    check('id').custom(helpersUsuario.desactivarLogeado),
+    check('id').custom(helpersUsuario.esDios),
     validarCampos,
   ],
   httpUsuario.putInactivar

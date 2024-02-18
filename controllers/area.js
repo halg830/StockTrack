@@ -1,3 +1,4 @@
+import helpersGeneral from "../helpers/generales.js";
 import Area from "../models/area.js";
 
 const httpArea = {
@@ -23,7 +24,7 @@ const httpArea = {
   post: async (req, res) => {
     try {
       const { nombre } = req.body;
-      const nuevaArea = new Area({ nombre });
+      const nuevaArea = new Area({ nombre: await helpersGeneral.primeraMayuscula(nombre) });
       const areaGuardada = await nuevaArea.save();
       res.json(areaGuardada);
     } catch (error) {
@@ -37,7 +38,7 @@ const httpArea = {
       const { nombre } = req.body;
       const areaActualizada = await Area.findByIdAndUpdate(
         id,
-        { nombre },
+        { nombre: await helpersGeneral.primeraMayuscula(nombre) },
         { new: true }
       );
       res.json(areaActualizada);

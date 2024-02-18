@@ -10,15 +10,70 @@ const helpersUsuario = {
 
     req.req.UsuarioUpdate = existe;
   },
-  existeCorreo: async (correo, req) => {
-    const existe = await Usuario.findOne({ correo });
 
-    if (!existe) {
-      throw new Error(`El correo no se encuentra registrado`);
+  esDios: async(id, req)=>{
+    if(id=="65748e6f21aa6ded71e490f4"){
+      throw new Error(`Este admin no puede ser desactivado`);
+    }
+  },
+
+  desactivarLogeado: async(id, req)=>{
+    const idLogeado = req.req.UsuarioUpdate._id
+    console.log(idLogeado);
+
+    if(idLogeado==id){
+      throw new Error(`No puedes desactivarte a ti mismo`)
+    }
+  },
+
+  existeIdentificacion: async (identificacion, req) => {
+    const existe = await Usuario.findOne({
+      $text: { $search: identificacion },
+    });
+
+    if (existe) {
+      if (req.req.method === "PUT" && req.req.body._id != existe._id) {
+        throw new Error(`Ya existe ese identificacion en la base de datos!!! `);
+      } else if (req.req.method === "POST") {
+        throw new Error(`Ya existe ese identificacion en la base de datos!!! `);
+      }
     }
 
     req.req.UsuarioUpdate = existe;
   },
+
+  existeTelefono: async (telefono, req) => {
+    const existe = await Usuario.findOne({ $text: { $search: telefono } });
+
+    if (existe) {
+      if (req.req.method === "PUT" && req.req.body._id != existe._id) {
+        throw new Error(`Ya existe ese teléfono en la base de datos!!! `);
+      } else if (req.req.method === "POST") {
+        throw new Error(`Ya existe ese teléfono en la base de datos!!! `);
+      }
+    }
+
+    req.req.UsuarioUpdate = existe;
+  },
+
+  existeCorreo: async (correo, req) => {
+    const existe = await Usuario.findOne({ correo });
+
+    if (!existe && req.req.method === "GET") {
+      throw new Error(`El correo no se encuentra registrado`);
+    }
+
+    if (existe) {
+      if (req.req.method === "PUT" && req.req.body._id != existe._id) {
+        throw new Error(`Ya existe ese correo en la base de datos!!! `);
+      } else if (req.req.method === "POST") {
+        throw new Error(`Ya existe ese correo en la base de datos!!! `);
+      }
+    }
+
+    req.req.UsuarioUpdate = existe;
+  },
+
   validarPassword: async (password, req) => {
     const vali = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
     if (!vali.test(password)) {
@@ -26,6 +81,7 @@ const helpersUsuario = {
     }
     return true;
   },
+
   validarRol: async (rol, req) => {
     const roles = ["admin", "instructor", "bodega"];
     if (!roles.includes(rol.toLowerCase())) {

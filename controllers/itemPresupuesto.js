@@ -1,5 +1,6 @@
 import Item from "../models/itemsPresupuesto.js";
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import helpersGeneral from "../helpers/generales.js";
 
 
 const httpItemPresupuesto = {
@@ -26,7 +27,7 @@ const httpItemPresupuesto = {
   post: async (req, res) => {
     try {
       const { nombre, presupuesto, year } = req.body;
-      const itemPresupuesto = new Item({ nombre, presupuesto, presupuestoDisponible: presupuesto, year });
+      const itemPresupuesto = new Item({ nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible: presupuesto, year });
 
       await itemPresupuesto.save();
       res.json(itemPresupuesto);
@@ -42,7 +43,7 @@ const httpItemPresupuesto = {
       const { nombre, presupuesto, year } = req.body;
       const item = await Item.findByIdAndUpdate(
         id,
-        { nombre, presupuesto, year },
+        { nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, year },
         { new: true }
       );
 
