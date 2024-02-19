@@ -39,7 +39,7 @@ router.put('/editar/:id', [
     validarCampos
 ], httpDistribucion.putEditar)
 
-router.put('/cambioPresupuesto/:id',[
+router.put('/ajustarPresupuesto/:id',[
     validarJWT,
     validarRolAdmin,
     check("id", "Digite el id").not().isEmpty(),
