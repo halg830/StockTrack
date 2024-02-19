@@ -1,16 +1,19 @@
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 
 const helpersDisPresupuesto = {
-    validarDisPreUnica: async ( idItem, idLote, presupuesto) => {
+    validarDisPreUnica: async ( idItem, req) => {
         try {
-            const existe = await DistribucionPresupuesto.find({ 
+            const idLote = req.req.body.idLote;
+            const presupuesto = req.req.body.presupuesto;
+
+            const existe = await DistribucionPresupuesto.findOne({ 
                 idItem: idItem,
                 idLote: idLote,
-                presupuesto:presupuesto
+                presupuesto: presupuesto
             });
         
             if (existe) {
-            throw new Error("Esta distribucion ya existe");
+                throw new Error("Esta distribucion ya existe");
             } 
         } catch (error) {
             throw new Error(error)

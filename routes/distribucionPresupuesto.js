@@ -22,10 +22,7 @@ router.post('/agregar',[
     check("idLote", "ID no válido").isMongoId(),
     check("idItem", "ID no válido").not().isEmpty(),
     check("idItem", "ID no válido").isMongoId(),
-    check("idItem", "ID no válido").custom((idItem, { req }) => {
-        const { idLote, presupuesto} = req.body;
-        return helpersDisPresupuesto.validarDisPreUnica(idItem, idLote, presupuesto);
-        }),
+    check("idItem", "ID no válido").custom(helpersDisPresupuesto.validarDisPreUnica),
     validarCampos
 ],httpDistribucion.post)
 
