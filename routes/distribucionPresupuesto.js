@@ -4,6 +4,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersPresupuesto from "../helpers/presupuesto.js";
+import helpersDisPresupuesto from "../helpers/distribucionPresupuesto.js";
 import { validarRolAdmin } from "../middlewares/validar-rol.js";
 
 const router=new Router()
@@ -21,6 +22,10 @@ router.post('/agregar',[
     check("idLote", "ID no válido").isMongoId(),
     check("idItem", "ID no válido").not().isEmpty(),
     check("idItem", "ID no válido").isMongoId(),
+    check("idItem", "ID no válido").custom((idItem, { req }) => {
+        const { idLote, presupuesto} = req.body;
+        return helpersDisPresupuesto.validarDisPreUnica(idItem, idLote, presupuesto);
+        }),
     validarCampos
 ],httpDistribucion.post)
 
