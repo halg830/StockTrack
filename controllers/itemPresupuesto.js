@@ -27,7 +27,10 @@ const httpItemPresupuesto = {
   post: async (req, res) => {
     try {
       const { nombre, presupuesto, year } = req.body;
-      const itemPresupuesto = new Item({ nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible: presupuesto, year });
+
+      const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
+
+      const itemPresupuesto = new Item({ nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible: presupuesto, year:fecha });
 
       await itemPresupuesto.save();
       res.json(itemPresupuesto);
