@@ -33,7 +33,7 @@ const httpPedido = {
   getNumero: async (req, res) => {
     try {
       const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
-      let numero = ultimoPedido ? ultimoPedido.numero : 1;
+      let numero = ultimoPedido ? ultimoPedido.numero : 0;
       res.json(numero++)       
     } catch (error) {
       console.log(error);
@@ -46,7 +46,7 @@ const httpPedido = {
       const {idInstructorEncargado, idFicha, total} = req.body;
 
       const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
-      let numero = ultimoPedido ? ultimoPedido.numero : 1;
+      let numero = ultimoPedido ? ultimoPedido.numero : 0;
       numero++
 
       const nuevoPedido = new Pedido({idInstructorEncargado, idFicha, total, numero});
