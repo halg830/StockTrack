@@ -35,12 +35,14 @@ const httpDetallePedido = {
   post: async (req, res) => {
     try {
       const {
+        numero,
         cantidad,
         idPedido,
         idProducto,
         subTotal,
       } = req.body;
       const detallePedido = new DetallePedido({
+        numero,
         cantidad,
         idPedido,
         idProducto,
@@ -57,6 +59,7 @@ const httpDetallePedido = {
     try {
       const { id } = req.params;
       const {
+        numero,
         cantidad,
         idPedido,
         idProducto,
@@ -64,7 +67,7 @@ const httpDetallePedido = {
       } = req.body;
       const detallePedido = await DetallePedido.findByIdAndUpdate(
         id,
-        { cantidad, idPedido, idProducto, subTotal },
+        { numero, cantidad, idPedido, idProducto, subTotal },
         { new: true }
       );
       res.json(detallePedido);
