@@ -32,9 +32,11 @@ const httpPedido = {
 
   getNumero: async (req, res) => {
     try {
-      const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
+      const ultimoPedido = await Pedido.findOne().sort({ numero: -1 });    
+      console.log(ultimoPedido);
       let numero = ultimoPedido ? ultimoPedido.numero : 0;
-      res.json(numero++)       
+      numero+=1
+      res.json(numero)       
     } catch (error) {
       console.log(error);
       res.status(500).json({ error });
