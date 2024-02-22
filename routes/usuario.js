@@ -82,7 +82,7 @@ router.put(
 router.put("/nueva-password", [
   check("correo", "Por favor ingrese el correo").not().isEmpty(),
   check("correo", "No es un correo válido").isEmail(),
-  check("correo").custom(helpersUsuario.existeCorreo),
+  check("correo").custom(helpersUsuario.existeCorreoNewPass),
   check('codigo', 'Ingrese el código').not().isEmpty(),
   check('password', 'Ingrese la password').not().isEmpty(),
   check(

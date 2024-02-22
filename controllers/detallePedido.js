@@ -43,7 +43,6 @@ const httpDetallePedido = {
       const { numero, cantidad, idPedido, idProducto, subTotal } = req.body;
       const detallePedido = new DetallePedido({
         numero,
-        numero,
         cantidad,
         idPedido,
         idProducto,
@@ -62,7 +61,6 @@ const httpDetallePedido = {
       const { numero, cantidad, idPedido, idProducto, subTotal } = req.body;
       const detallePedido = await DetallePedido.findByIdAndUpdate(
         id,
-        { numero, cantidad, idPedido, idProducto, subTotal },
         { numero, cantidad, idPedido, idProducto, subTotal },
         { new: true }
       );
