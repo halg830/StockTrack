@@ -1,7 +1,7 @@
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 import ItemPresupuesto from "../models/itemsPresupuesto.js";
 import Lote from "../models/lote.js";
-
+import DistLoteFicha from "../models/distribucionLoteFicha.js";
 
 const httpDistribucionesPresupuesto = {
 
@@ -41,9 +41,20 @@ const httpDistribucionesPresupuesto = {
     try {
       const { id } = req.params;
       const { presupuesto, idLote, idItem } = req.body;
+
+      const disLoteFicha = await DistLoteFicha.find({
+        idDistribucionPresupuesto: id
+      });
+
+      const totalPresupuestos = disLoteFicha.reduce((total, disLoteFicha) => {
+       return total + disLoteFicha.presupuesto;
+      }, 0);
+
+      const presupuestoDisponible = presupuesto - totalPresupuestos;
+
       const distribucion = await DistribucionPresupuesto.findByIdAndUpdate(
         id,
-        { presupuesto, idLote, idItem },
+        { presupuesto, presupuestoDisponible, idLote, idItem },
         { new: true }
       ).populate("idLote").populate("idItem");
       res.json(distribucion);

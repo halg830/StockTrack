@@ -12,12 +12,10 @@ const helpersDistLoteFicha = {
   existeDistribucion: async (idFicha, req) =>{
     try {
       const idDistribucionPresupuesto = req.req.body.idDistribucionPresupuesto;
-      const presupuesto = req.req.body.presupuesto;
 
       const existe = await DistLoteFicha.findOne({ 
           idDistribucionPresupuesto: idDistribucionPresupuesto,
           idFicha: idFicha,
-          presupuesto: presupuesto
       });
   
       if (existe) {
