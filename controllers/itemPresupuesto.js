@@ -45,17 +45,17 @@ const httpItemPresupuesto = {
       const { id } = req.params;
       const { nombre, presupuesto, year } = req.body;
 
-      const disItemLote = DistribucionPresupuesto.findOne({
+
+      const disItemLote = await DistribucionPresupuesto.find({
         idItem: id
       });
 
-      res.json(disItemLote);
-
-      const totalPresupuestos = disItemLotes.reduce((total, disItemLote) => {
+      const totalPresupuestos = disItemLote.reduce((total, disItemLote) => {
        return total + disItemLote.presupuesto;
       }, 0);
 
       const presupuestoDisponible = presupuesto - totalPresupuestos;
+
       
       const item = await Item.findByIdAndUpdate(
         id,
