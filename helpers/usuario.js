@@ -11,14 +11,18 @@ const helpersUsuario = {
     req.req.UsuarioUpdate = existe;
   },
 
-  esDios: async(id, req)=>{
-    if(id=="65748e6f21aa6ded71e490f4"){
-      throw new Error(`Este admin no puede ser desactivado`);
+  desactivarAdmin: async(id, req)=>{
+    const rol = req.req.UsuarioUpdate.rol
+
+    if(rol=='admin'){
+      const usuarios = await Usuario.find({rol: 'admin'})
+      if(usuarios.length<=1) throw new Error(`No se pueden desactivar todos los admin`);
     }
+
   },
 
   desactivarLogeado: async(id, req)=>{
-    const idLogeado = req.req.UsuarioUpdate._id
+    const idLogeado = req.req.usuario._id
     console.log(idLogeado);
 
     if(idLogeado==id){

@@ -125,7 +125,7 @@ router.put(
     check("id", "Ingrese un ID válido").isMongoId(),
     check("id").custom(helpersUsuario.existeHolderById),
     check('id').custom(helpersUsuario.desactivarLogeado),
-    check('id').custom(helpersUsuario.esDios),
+    check('id').custom(helpersUsuario.desactivarAdmin),
     validarCampos,
   ],
   httpUsuario.putInactivar

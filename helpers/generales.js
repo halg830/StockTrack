@@ -45,7 +45,6 @@ const helpersGeneral = {
     );
   },
   primeraMayuscula: async (cadena) => {
-    console.log("C", cadena);
     const mayus = cadena.toLowerCase();
     return mayus.charAt(0).toUpperCase() + mayus.slice(1);
   },

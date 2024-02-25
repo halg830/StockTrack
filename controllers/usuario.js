@@ -142,7 +142,7 @@ const httpUsuario = {
         identificacion,
         correo,
         telefono,
-        rol,
+        rol: rol.toLowerCase(),
         password,
       });
       const salt = bcryptjs.genSaltSync();
@@ -290,7 +290,7 @@ const httpUsuario = {
           identificacion,
           correo,
           telefono,
-          rol,
+          rol: rol.toLowerCase(),
         },
         { new: true }
       );
