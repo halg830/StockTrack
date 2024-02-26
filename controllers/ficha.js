@@ -1,5 +1,6 @@
 import Ficha from "../models/ficha.js";
 import Area from "../models/area.js";
+import helpersGeneral from "../helpers/generales.js";
 
 const httpFicha = {
   getAll: async (req, res) => {
@@ -54,16 +55,17 @@ const httpFicha = {
 
   post: async (req, res) => {
     try {
-      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea } =
+      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea, abreviatura } =
         req.body;
 
       const ficha = new Ficha({
         codigo,
-        nombre,
+        nombre: await helpersGeneral.primeraMayuscula(nombre),
         nivelFormacion,
         fechaInicio,
         fechaFin,
         idArea,
+        abreviatura: abreviatura?.toUpperCase(),
       });
       await ficha.save();
 
@@ -79,11 +81,11 @@ const httpFicha = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea } =
+      const { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea, abreviatura } =
         req.body;
       const ficha = await Ficha.findByIdAndUpdate(
         id,
-        { codigo, nombre, nivelFormacion, fechaInicio, fechaFin, idArea },
+        { codigo, nombre: await helpersGeneral.primeraMayuscula(nombre), nivelFormacion, fechaInicio, fechaFin, idArea, abreviatura: abreviatura?.toUpperCase() },
         { new: true }
       );
 

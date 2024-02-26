@@ -1,4 +1,7 @@
 import Item from "../models/itemsPresupuesto.js";
+import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import helpersGeneral from "../helpers/generales.js";
+
 
 const httpItemPresupuesto = {
   getAll: async (req, res) => {
@@ -24,7 +27,10 @@ const httpItemPresupuesto = {
   post: async (req, res) => {
     try {
       const { nombre, presupuesto, year } = req.body;
-      const itemPresupuesto = new Item({ nombre, presupuesto, year });
+
+      const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
+
+      const itemPresupuesto = new Item({ nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible: presupuesto, year:fecha });
 
       await itemPresupuesto.save();
       res.json(itemPresupuesto);
@@ -38,9 +44,22 @@ const httpItemPresupuesto = {
     try {
       const { id } = req.params;
       const { nombre, presupuesto, year } = req.body;
+
+
+      const disItemLote = await DistribucionPresupuesto.find({
+        idItem: id
+      });
+
+      const totalPresupuestos = disItemLote.reduce((total, disItemLote) => {
+       return total + disItemLote.presupuesto;
+      }, 0);
+
+      const presupuestoDisponible = presupuesto - totalPresupuestos;
+
+      
       const item = await Item.findByIdAndUpdate(
         id,
-        { nombre, presupuesto, year },
+        { nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible, year },
         { new: true }
       );
 
@@ -50,18 +69,48 @@ const httpItemPresupuesto = {
     }
   },
 
-  putInactivar: async (req, res) => {
-    const { id } = req.params;
-    const item = await Item.findByIdAndUpdate(id, { estado: 0 }, { new: true });
+  putAjustarPresupuesto: async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { presupuesto} = req.body;
 
-    res.json(item);
+        const item = await Item.findById(id)
+        const presupuestoDisponible = item.presupuestoDisponible-presupuesto
+
+        const updatedItem = await Item.findByIdAndUpdate(id,
+            {  presupuestoDisponible }, 
+            { new: true }
+        );
+
+        res.json(updatedItem);
+
+    } catch (error) {
+        res.status(400).json({ error });
+    }
+  },
+
+  putInactivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findByIdAndUpdate(id, { estado: 0 }, { new: true });
+
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+
   },
 
   putActivar: async (req, res) => {
-    const { id } = req.params;
-    const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
+    try {
+      const { id } = req.params;
+      const item = await Item.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
-    res.json(item);
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+
   },
 };
 

@@ -36,6 +36,7 @@ router.post(
   [
     validarJWT,
     check("codigo", "Ingrese un codigo").not().isEmpty(),
+    check('codigo').custom(helpersProducto.existeCodigo),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("descripcion", "Ingrese una descripcion").not().isEmpty(),
     check("unidadMedida", "Ingrese la unidad de medida").not().isEmpty(),
@@ -60,6 +61,7 @@ router.put(
     check("id", "Ingrese un ID válido").not().isEmpty(),
     check("id", "Ingrese un ID válido").isMongoId(),
     check("codigo", "Ingrese un codigo").not().isEmpty(),
+    check('codigo').custom(helpersProducto.existeCodigo),
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check("descripcion", "Ingrese una descripcion").not().isEmpty(),
     check("unidadMedida", "Ingrese la unidad de medida").not().isEmpty(),

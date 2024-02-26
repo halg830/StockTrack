@@ -3,8 +3,9 @@ import httpDistribucionLoteFicha from "../controllers/distribucionLoteFicha.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
-import helpersPresupuesto from "../helpers/presupuesto.js";
+// import helpersPresupuesto from "../helpers/presupuesto.js";
 import { validarRolAdmin } from "../middlewares/validar-rol.js";
+import helpersDistLoteFicha from "../helpers/distribucionLoteFicha.js";
 
 const router = new Router();
 
@@ -27,21 +28,11 @@ router.post(
     validarJWT,
     validarRolAdmin,
     check("presupuesto", "Digite el presupuesto").not().isEmpty(),
-    check(
-      "idDistribucionPresupuesto",
-      "Digite el id de la distribución del presupuesto"
-    )
-      .not()
-      .isEmpty(),
-    check(
-      "idDistribucionPresupuesto",
-      "Digite el id de la distribución del presupuesto"
-    ).isMongoId(),
+    check("idDistribucionPresupuesto", "Digite el id de la distribución del presupuesto").not().isEmpty(),
+    check("idDistribucionPresupuesto","Digite el id de la distribución del presupuesto").isMongoId(),
     check("idFicha", "Digite el id de la ficha").not().isEmpty(),
     check("idFicha", "Digite el id de la ficha").isMongoId(),
-    check("idDistribucionPresupuesto", "Presupuesto no valido").custom(
-      helpersPresupuesto.obtenerDistribucionPresupuestoPorId
-    ),
+    check("idFicha", "Presupuesto no valido").custom(helpersDistLoteFicha.existeDistribucion),
     validarCampos,
   ],
   httpDistribucionLoteFicha.post

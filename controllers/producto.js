@@ -1,5 +1,6 @@
 import Producto from "../models/producto.js";
 import Lote from "../models/lote.js";
+import helpersGeneral from "../helpers/generales.js";
 
 const httpProducto = {
   getAll: async (req, res) => {
@@ -14,7 +15,7 @@ const httpProducto = {
   getByLote: async (req, res) => {
     try {
       const { idLote } = req.params;
-      const productos = await Producto.findOne({ idLote }).populate("idLote");
+      const productos = await Producto.find({ idLote }).populate("idLote");
       res.json(productos);
     } catch (error) {
       res.status(500).json({ error });
@@ -58,7 +59,7 @@ const httpProducto = {
       } = req.body;
       const producto = new Producto({
         codigo,
-        nombre,
+        nombre: await helpersGeneral.primeraMayuscula(nombre),
         descripcion,
         unidadMedida,
         precioUnitario,
@@ -96,7 +97,7 @@ const httpProducto = {
         id,
         {
           codigo,
-          nombre,
+          nombre: await helpersGeneral.primeraMayuscula(nombre),
           descripcion,
           unidadMedida,
           precioUnitario,

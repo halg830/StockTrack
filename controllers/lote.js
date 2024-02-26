@@ -1,3 +1,4 @@
+import helpersGeneral from "../helpers/generales.js";
 import Lote from "../models/lote.js";
 
 const httpLote = {
@@ -25,11 +26,12 @@ const httpLote = {
   post: async (req, res) => {
     try {
       const { nombre } = req.body;
-      const lote = new Lote({ nombre });
+      const lote = new Lote({ nombre: await helpersGeneral.primeraMayuscula(nombre) });
 
       await lote.save();
       res.json(lote);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ error });
     }
   },
@@ -39,9 +41,9 @@ const httpLote = {
     try {
       const { id } = req.params;
       const { nombre } = req.body;
-      const lote = await Lote.findByIdAndUpdate(id, { nombre }, { new: true });
+      const lote = await Lote.findByIdAndUpdate(id, { nombre: await helpersGeneral.primeraMayuscula(nombre) }, { new: true });
 
-      res.json({ lote });
+      res.json(lote);
     } catch (error) {
       res.status(400).json({ error });
     }

@@ -5,7 +5,7 @@ const httpDistribucionLoteFicha = {
   getAll: async (req, res) => {
     try {
       const asignaciones = await Asignacion.find()
-        .populate("idDistribucionPresupuesto")
+        .populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
         .populate("idFicha");
       res.json(asignaciones);
     } catch (error) {
@@ -17,8 +17,8 @@ const httpDistribucionLoteFicha = {
     try {
       const { id } = req.params;
       const asignacion = await Asignacion.findById(id)
-        .populate("idDistribucionPresupuesto")
-        .populate("idFicha");
+      .populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
       res.json(asignacion);
     } catch (error) {
       res.status(400).json({ error });
@@ -32,6 +32,7 @@ const httpDistribucionLoteFicha = {
       const asignacion = new Asignacion({
         presupuesto,
         idDistribucionPresupuesto,
+        presupuestoDisponible:presupuesto,
         idFicha,
       });
       await asignacion.save();
@@ -64,13 +65,8 @@ const httpDistribucionLoteFicha = {
         id,
         { estado: 0 },
         { new: true }
-      );
-
-      const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
-
-      const ficha = await Asignacion.findById(asignacion.idFicha);
-      asignacion.idFicha = ficha;
+      ).populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
 
       res.json(asignacion);
     } catch (error) {
@@ -84,12 +80,9 @@ const httpDistribucionLoteFicha = {
         id,
         { estado: 1 },
         { new: true }
-      );
-      const distribucionPresupuesto = await Asignacion.findById(asignacion.idDistribucionPresupuesto);
-      asignacion.idDistribucionPresupuesto =  distribucionPresupuesto;
-
-      const ficha = await Asignacion.findById(asignacion.idFicha);
-      asignacion.idFicha = ficha;
+      )
+      .populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
       
       res.json(asignacion);
     } catch (error) {

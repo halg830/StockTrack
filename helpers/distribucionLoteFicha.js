@@ -9,6 +9,22 @@ const helpersDistLoteFicha = {
 
     req.DistLoteFichaUpdate = distLoteFicha;
   },
+  existeDistribucion: async (idFicha, req) =>{
+    try {
+      const idDistribucionPresupuesto = req.req.body.idDistribucionPresupuesto;
+
+      const existe = await DistLoteFicha.findOne({ 
+          idDistribucionPresupuesto: idDistribucionPresupuesto,
+          idFicha: idFicha,
+      });
+  
+      if (existe) {
+          throw new Error("Esta distribucion ya existe");
+      } 
+  } catch (error) {
+      throw new Error(error)
+  } 
+  }
 };
 
 export default helpersDistLoteFicha;

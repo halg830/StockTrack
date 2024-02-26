@@ -7,7 +7,7 @@ const helpersPresupuesto={
     }
   },
   obtenerDistribucionPresupuestoPorId: async(presupuesto, req) => {
-      const distribucion = await DistribucionPresupuesto.findById(presupuesto);
+      const distribucion = await DistribucionPresupuesto.find({presupuesto});
       if(distribucion.presupuesto < req.req.body.presupuesto){
         throw new Error("El presupuesto debe ser menor al presupuesto asignado a la distribución")
       }
