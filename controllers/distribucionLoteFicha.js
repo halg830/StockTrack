@@ -25,6 +25,18 @@ const httpDistribucionLoteFicha = {
     }
   },
 
+  getByIdDistribucion: async (req, res)=>{
+    try {
+      const { idDistribucionPresupuesto } = req.params
+
+      const asignacion = await Asignacion.find({idDistribucionPresupuesto}).populate({ path: "idDistribucionPresupuesto", populate: [{ path: "idItem" }, { path: "idLote" }] })
+      .populate("idFicha");
+      res.json(asignacion);
+    } catch (error) {
+      res.status(400).json({error})
+    }
+  },
+
   // Post
   post: async (req, res) => {
     try {

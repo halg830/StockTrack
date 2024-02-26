@@ -22,6 +22,14 @@ router.get(
   httpDistribucionLoteFicha.getPorId
 );
 
+router.get('/distribucion/:idDistribucionPresupuesto',[
+  validarJWT,
+  validarRolAdmin,
+  check('idDistribucionPresupuesto','Digite el id de la distribucion').not().isEmpty(),
+  check('idDistribucionPresupuesto','Digite el id de la distribucion').isMongoId(),
+  validarCampos
+],httpDistribucionLoteFicha.getByIdDistribucion)
+
 router.post(
   "/agregar",
   [

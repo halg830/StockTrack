@@ -14,6 +14,18 @@ const httpDistribucionesPresupuesto = {
     }
   },
 
+  getDistribucionById: async(req, res)=>{
+    try {
+      const { idItem } = req.params;
+
+      const distribucion = await DistribucionPresupuesto.find({idItem}).populate("idLote").populate("idItem");
+      res.json(distribucion)
+    } catch (error) {
+      res.status(400).json({ error });
+      
+    }
+  },
+
   // Post
   post: async (req, res) => {
     try {

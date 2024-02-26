@@ -11,6 +11,13 @@ const router=new Router()
 
 // Get
 router.get('/all', validarJWT, httpDistribucion.getAll)
+router.get('/distribucion/:idItem',[
+    validarJWT,
+    validarRolAdmin,
+    check('idItem','Digite el id de la distribucion').not().isEmpty(),
+    check('idItem','Digite el id de la distribucion').isMongoId(),
+    validarCampos
+],httpDistribucion.getDistribucionById)
 
 // Post
 router.post('/agregar',[
