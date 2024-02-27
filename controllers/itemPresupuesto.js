@@ -13,6 +13,17 @@ const httpItemPresupuesto = {
     }
   },
 
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const items = await Item.findById(id);
+      res.json(items);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+
+
   getPorNombre: async (req, res) => {
     try {
       const { nombre } = req.params;

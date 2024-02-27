@@ -12,6 +12,14 @@ const router=new Router()
 // Get
 router.get('/all', validarJWT, httpItem.getAll)
 router.get('/buscarNombre/:nombre', validarJWT, httpItem.getPorNombre) 
+router.get('/buscarId/:id', [ 
+  validarJWT,
+  validarRolAdmin,
+  check('id', 'Digite el id').not().isEmpty(),
+  check('id', 'Digite el id').isMongoId(),
+  validarCampos,
+], httpItem.getById) 
+
 
 // Post
 router.post('/agregar',[
