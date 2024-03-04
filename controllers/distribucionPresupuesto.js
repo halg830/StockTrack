@@ -14,11 +14,22 @@ const httpDistribucionesPresupuesto = {
     }
   },
 
-  getDistribucionById: async(req, res)=>{
+  getDistribucionesById: async(req, res)=>{
     try {
       const { idItem } = req.params;
-
       const distribucion = await DistribucionPresupuesto.find({idItem}).populate("idLote").populate("idItem");
+      res.json(distribucion)
+    } catch (error) {
+      res.status(400).json({ error });
+      
+    }
+  },
+
+  getDistribucionById: async(req, res)=>{
+    try {
+      const { id } = req.params;
+
+      const distribucion = await DistribucionPresupuesto.findById(id).populate("idLote").populate("idItem");
       res.json(distribucion)
     } catch (error) {
       res.status(400).json({ error });
