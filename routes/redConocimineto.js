@@ -31,7 +31,7 @@ router.put('/editar/:id', [
     check('nombre').custom(helpersRedConocimiento.existeNombre),
     validarCampos
 ], httpLote.putEditar)
-
+""
 router.put('/inactivar/:id', [
     validarJWT,
     validarRolAdmin,
