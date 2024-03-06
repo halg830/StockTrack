@@ -1,4 +1,4 @@
-import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import DistribucionPresupuesto from "../models/disDependenciaRed.js";
 
 const helpersPresupuesto={
   validarPresupuesto: async(presupuesto, res) => {

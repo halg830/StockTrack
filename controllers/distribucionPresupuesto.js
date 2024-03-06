@@ -1,4 +1,4 @@
-import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import DistribucionPresupuesto from "../models/disDependenciaRed.js";
 import ItemPresupuesto from "../models/dependencia.js";
 import Lote from "../models/lote.js";
 import DistLoteFicha from "../models/distribucionLoteFicha.js";

@@ -1,5 +1,5 @@
 import Item from "../models/dependencia.js";
-import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
+import DistribucionPresupuesto from "../models/disDependenciaRed.js";
 import helpersGeneral from "../helpers/generales.js";
 
 
