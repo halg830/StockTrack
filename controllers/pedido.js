@@ -47,9 +47,12 @@ const httpPedido = {
     try {
       const {idInstructorEncargado, idFicha, total} = req.body;
 
-      const ultimoPedido = await Pedido.findOne().sort({ createdAt: -1 });    
+      const ultimoPedido = await Pedido.findOne().sort({ numero: -1 });    
+      console.log(ultimoPedido);
       let numero = ultimoPedido ? ultimoPedido.numero : 0;
-      numero++
+      numero+=1
+
+      console.log(numero);
 
       const nuevoPedido = new Pedido({idInstructorEncargado, idFicha, total, numero});
       const pedidoGuardado = await nuevoPedido.save();
