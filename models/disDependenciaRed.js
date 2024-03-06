@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const distribucionPresupuestoSchema = new mongoose.Schema({
-    presupuesto: { type:Number, require:true},
+    presupuestoAsignado: { type:Number, require:true},
     presupuestoDisponible: { type:Number, require:true},
     idDependencia: {type:mongoose.Schema.Types.ObjectId,ref:'Dependencia', require:true},
     idRed : {type:mongoose.Schema.Types.ObjectId,ref:'RedConocimiento', require:true},

@@ -1,13 +1,14 @@
-import Item from "../models/dependencia.js";
-import DistribucionPresupuesto from "../models/disDependenciaRed.js";
+import Dependencia from "../models/dependencia.js";
+import DIS
+ from "../models/disDependenciaRed.js";
 import helpersGeneral from "../helpers/generales.js";
 
 
-const httpItemPresupuesto = {
+const httpDependenciaPresupuesto = {
   getAll: async (req, res) => {
     try {
-      const items = await Item.find();
-      res.json(items);
+      const dependencias = await Dependencia.find().populate('idContrato');
+      res.json(dependencias);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -16,19 +17,27 @@ const httpItemPresupuesto = {
   getById: async (req, res) => {
     try {
       const { id } = req.params;
-      const items = await Item.findById(id);
-      res.json(items);
+      const dependencias = await Dependencia.findById(id).populate('idContrato');
+      res.json(dependencias);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  getsById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const dependencias = await Dependencia.finf(id).populate('idContrato');
+      res.json(dependencias);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
 
-
   getPorNombre: async (req, res) => {
     try {
       const { nombre } = req.params;
-      const item = await Item.find({ nombre });
-      res.json(item);
+      const dependencia = await Dependencia.find({ nombre });
+      res.json(dependencia);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -37,14 +46,14 @@ const httpItemPresupuesto = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, presupuesto, year } = req.body;
+      const { nombre, codigo, idContrato, presupuesto, year } = req.body;
 
       const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
 
-      const itemPresupuesto = new Item({ nombre: await helpersGeneral.primeraMayuscula(nombre), presupuesto, presupuestoDisponible: presupuesto, year:fecha });
+      const dependencia = new Dependencia({ nombre: await helpersGeneral.primeraMayuscula(nombre), codigo, idContrato, presupuesto, presupuestoDisponible: presupuesto, year:fecha });
 
-      await itemPresupuesto.save();
-      res.json(itemPresupuesto);
+      await dependencia.save();
+      res.json(dependencia);
     } catch (error) {
       res.status(400).json({ error });
     }
@@ -54,10 +63,10 @@ const httpItemPresupuesto = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, presupuesto, year } = req.body;
+      const { nombre, codigo, idContrato, presupuesto, year } = req.body;
 
 
-      const disItemLote = await DistribucionPresupuesto.find({
+      const disDependenciaRed = await DistribucionPresupuesto.find({
         idItem: id
       });
 
