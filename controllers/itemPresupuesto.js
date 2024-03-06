@@ -1,4 +1,4 @@
-import Item from "../models/itemsPresupuesto.js";
+import Item from "../models/dependencia.js";
 import DistribucionPresupuesto from "../models/distribucionPresupuesto.js";
 import helpersGeneral from "../helpers/generales.js";
 

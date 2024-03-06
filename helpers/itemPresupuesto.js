@@ -1,4 +1,4 @@
-import Item from "../models/itemsPresupuesto.js";
+import Item from "../models/dependencia.js";
 
 const helpersItem = {
   existeNombre: async (nombre, req) => {
