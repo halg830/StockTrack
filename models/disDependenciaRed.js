@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const distribucionPresupuestoSchema = new mongoose.Schema({
+const disDependenciaRedSchema = new mongoose.Schema({
     presupuestoAsignado: { type:Number, require:true},
     presupuestoDisponible: { type:Number, require:true},
     idDependencia: {type:mongoose.Schema.Types.ObjectId,ref:'Dependencia', require:true},
@@ -11,4 +11,4 @@ const distribucionPresupuestoSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("DistribucionPresupuesto", distribucionPresupuestoSchema)
+export default mongoose.model("DisDependenciaRed", disDependenciaRedSchema)

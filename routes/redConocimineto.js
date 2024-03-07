@@ -1,5 +1,5 @@
 import { Router } from "express"
-import httpLote from "../controllers/lote.js";
+import httpRedConocimiento from "../controllers/redConocimiento.js";
 import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js"
 import { validarJWT } from "../middlewares/validar-jwt.js";
@@ -9,8 +9,8 @@ import helpersRedConocimiento from "../helpers/redConocimiento.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpLote.getAll)
-router.get('/buscarNombre/:nombre', validarJWT, httpLote.getPorNombre) 
+router.get('/all', validarJWT, httpRedConocimiento.getAll)
+router.get('/buscarNombre/:nombre', validarJWT, httpRedConocimiento.getPorNombre) 
 
 // Post
 router.post('/agregar',[
@@ -19,7 +19,7 @@ router.post('/agregar',[
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check('nombre').custom(helpersRedConocimiento.existeNombre),
     validarCampos
-],httpLote.post)
+],httpRedConocimiento.post)
 
 // Put
 router.put('/editar/:id', [
@@ -30,15 +30,16 @@ router.put('/editar/:id', [
     check("nombre", "Ingrese un nombre").not().isEmpty(),
     check('nombre').custom(helpersRedConocimiento.existeNombre),
     validarCampos
-], httpLote.putEditar)
-""
+], httpRedConocimiento.putEditar)
+
+
 router.put('/inactivar/:id', [
     validarJWT,
     validarRolAdmin,
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpLote.putInactivar)
+], httpRedConocimiento.putInactivar)
 
 router.put('/activar/:id', [
     validarJWT,
@@ -46,6 +47,6 @@ router.put('/activar/:id', [
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "ID no válido").isMongoId(),
     validarCampos
-], httpLote.putActivar)
+], httpRedConocimiento.putActivar)
 
 export default router

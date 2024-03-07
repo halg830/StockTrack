@@ -26,8 +26,9 @@ const httpRedConocimiento = {
   post: async (req, res) => {
     try {
       const { nombre } = req.body;
-      const red = new RedConocimiento({ nombre: await helpersGeneral.primeraMayuscula(nombre) });
-
+      const red = new RedConocimiento({ 
+        nombre: await helpersGeneral.primeraMayuscula(nombre) 
+      });
       await red.save();
       res.json(red);
     } catch (error) {
