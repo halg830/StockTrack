@@ -52,6 +52,7 @@ const httpDisDependenciaRed = {
         idRed,
         year,
       });
+      await distribucion.save();
 
       const red = await RedConocimiento.findById(distribucion.idRed);
       distribucion.idRed = red;
@@ -59,7 +60,6 @@ const httpDisDependenciaRed = {
       const dependencia = await Dependencia.findById(distribucion.idDependencia);
       distribucion.idDependencia = dependencia
 
-      await distribucion.save();
 
       res.json(distribucion);
     } catch (error) {

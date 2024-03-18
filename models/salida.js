@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const pedidoSchema = new mongoose.Schema({
+const salidaSchema = new mongoose.Schema({
     numero: {type: Number, unique: true},
     fechaEntrega: {type:Date, require:true },
-    idInstructorEncargado: {type:mongoose.Schema.Types.ObjectId,ref:'Usuario', require:true},
-    idDestino: {type:mongoose.Schema.Types.ObjectId,ref:'Destino', require:true},
+    idBodeguero: {type:mongoose.Schema.Types.ObjectId,ref:'Usuario', require:true},
+    idPedido: {type:mongoose.Schema.Types.ObjectId,ref:'Pedido', require:true},
     total: {type:Number},
     entregado: {type:Boolean, default: 0},
     estado:{type:Boolean, default:0},
@@ -12,4 +12,4 @@ const pedidoSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("Pedido", pedidoSchema)
+export default mongoose.model("Salida", salidaSchema)
