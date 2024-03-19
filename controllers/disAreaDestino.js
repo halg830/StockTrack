@@ -1,33 +1,25 @@
-import Contrato from "../models/contrato.js";
-import helpersGeneral from "../helpers/generales.js";
+import DisAreaDestino from "../models/disAreaDestino.js";
 
-const httpContrato = {
+const httpDisAreaDestino = {
   getAll: async (req, res) => {
     try {
-      const contratos = await Contrato.find();
-      res.json(contratos);
+      const distribucion = await DisAreaDestino.find()
+        .populate("idDisRedArea")
+        .populate("idDestino");
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
 
-  getById: async (req, res) => {
+  getDistribucionesById: async (req, res) => {
     try {
       const { id } = req.params;
-      const contrato = await Contrato.findById(id);
-      res.json(contrato);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Error en el servidor" });
-    }
-  },
-
-  getPorNombre: async (req, res) => {
-    try {
-      const { nombre } = req.params;
-      const contrato = await Contrato.find({ nombre });
-      res.json(contrato);
+      const distribucion = await DisAreaDestino.findById(id)
+        .populate("idDisRedArea")
+        .populate("idDestino");
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -37,19 +29,18 @@ const httpContrato = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, codigo, presupuestoAsignado, year } = req.body;
+      const { presupuestoAsignado, idDisRedArea, idDestino, year } = req.body;
 
-      const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
-
-      const contrato = new Contrato({
-        nombre: await helpersGeneral.primeraMayuscula(nombre),
-        codigo,
+      const distribucion = new DisAreaDestino({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
-        year: fecha,
+        idDisRedArea,
+        idDestino,
+        year,
       });
-      await contrato.save();
-      res.json(contrato);
+      await distribucion.save();
+
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -60,21 +51,22 @@ const httpContrato = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, codigo, presupuestoAsignado, year } = req.body;
+      const { presupuestoAsignado, idDisRedArea, idDestino, year } = req.body;
 
-      const contrato = await Contrato.findByIdAndUpdate(
+      const distribucion = await DisAreaDestino.findByIdAndUpdate(
         id,
         {
-          nombre: await helpersGeneral.primeraMayuscula(nombre),
-          codigo,
           presupuestoAsignado,
           presupuestoDisponible,
+          idDisRedArea,
+          idDestino,
           year,
         },
         { new: true }
-      );
-
-      res.json(contrato);
+      )
+        .populate("idDisRedArea")
+        .populate("idDestino");
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -84,19 +76,17 @@ const httpContrato = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado } = req.body;
+      const { presupuestoDisponible } = req.body;
 
-      const contrato = await Contrato.findById(id);
-      const presupuestoDisponible =
-        contrato.presupuestoDisponible - presupuestoAsignado;
-
-      const updatedContrato = await Contrato.findByIdAndUpdate(
+      const disDependencia = await DisAreaDestino.findByIdAndUpdate(
         id,
         { presupuestoDisponible },
         { new: true }
-      );
+      )
+        .populate("idDisRedArea")
+        .populate("idDestino");
 
-      res.json(updatedContrato);
+      res.json(disDependencia);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -106,34 +96,30 @@ const httpContrato = {
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const contrato = await Contrato.findByIdAndUpdate(
+      const disDependencia = await DisAreaDestino.findByIdAndUpdate(
         id,
         { estado: 0 },
         { new: true }
-      );
-
-      res.json(contrato);
+      ).populate("idDisRedArea");
+      res.json(disDependencia);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
-
   putActivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const contrato = await Contrato.findByIdAndUpdate(
+      const disDependencia = await DisAreaDestino.findByIdAndUpdate(
         id,
         { estado: 1 },
         { new: true }
-      );
-
-      res.json(contrato);
+      ).populate("idDisRedArea");
+      res.json(disDependencia);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
 };
-
-export default httpContrato;
+export default httpDisAreaDestino;

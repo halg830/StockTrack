@@ -1,14 +1,13 @@
 import DisDependenciaRed from "../models/disDependenciaRed.js";
-import Dependencia from "../models/dependencia.js";
+import DisDependencia from "../models/disDependencia.js";
 import RedConocimiento from "../models/RedConocimiento.js";
-import DisRedArea from "../models/disRedArea.js";
 
 const httpDisDependenciaRed = {
 
   getAll: async (req, res) => {
     try {
       const distribucion = await DisDependenciaRed.find()
-        .populate("idDependencia").populate("idRed");
+        .populate("idDisDependencia").populate("idRed");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -19,7 +18,7 @@ const httpDisDependenciaRed = {
     try {
       const { idRed } = req.params;
       const distribucion = await DisDependenciaRed.find({ idRed })
-        .populate("idDependencia").populate("idRed");
+        .populate("idDisDependencia").populate("idRed");
       res.json(distribucion)
     } catch (error) {
       res.status(400).json({ error });
@@ -32,7 +31,7 @@ const httpDisDependenciaRed = {
       const { id } = req.params;
 
       const distribucion = await DisDependenciaRed.findById(id)
-        .populate("idDependencia").populate("idRed");
+        .populate("idDisDependencia").populate("idRed");
       res.json(distribucion)
     } catch (error) {
       res.status(400).json({ error });
@@ -43,12 +42,12 @@ const httpDisDependenciaRed = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDependencia, idRed, year } = req.body;
+      const { presupuestoAsignado, idDisDependencia, idRed, year } = req.body;
 
       const distribucion = new DisDependenciaRed({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
-        idDependencia,
+        idDisDependencia,
         idRed,
         year,
       });
@@ -57,8 +56,8 @@ const httpDisDependenciaRed = {
       const red = await RedConocimiento.findById(distribucion.idRed);
       distribucion.idRed = red;
 
-      const dependencia = await Dependencia.findById(distribucion.idDependencia);
-      distribucion.idDependencia = dependencia
+      const dependencia = await DisDependencia.findById(distribucion.idDisDependencia);
+      distribucion.idDisDependencia = dependencia
 
 
       res.json(distribucion);
@@ -71,7 +70,7 @@ const httpDisDependenciaRed = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDependencia, idRed, year } = req.body;
+      const { presupuestoAsignado, idDisDependencia, idRed, year } = req.body;
 
       const disRedArea = await DisRedArea.find({
         idDisDependenciaRed: id
@@ -88,11 +87,11 @@ const httpDisDependenciaRed = {
         {
           presupuestoAsignado,
           presupuestoDisponible,
-          idDependencia,
+          idDisDependencia,
           idRed,
           year
         }, { new: true }
-      ).populate("idDependencia").populate("idRed");
+      ).populate("idDisDependencia").populate("idRed");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -126,7 +125,7 @@ const httpDisDependenciaRed = {
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idDependencia").populate("idRed");
+      ).populate("idDisDependencia").populate("idRed");
       res.json(disDependenciaRed);
     } catch (error) {
       res.status(400).json({ error });
@@ -139,7 +138,7 @@ const httpDisDependenciaRed = {
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idDependencia").populate("idRed");
+      ).populate("idDisDependencia").populate("idRed");
       res.json(disDependenciaRed);
     } catch (error) {
       res.status(400).json({ error });

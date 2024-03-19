@@ -1,4 +1,3 @@
-import disRedArea from "../models/disRedArea.js";
 import DisRedArea from "../models/disRedArea.js";
 
 const httpDisRedArea = {
