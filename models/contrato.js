@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-const itemsPresupuestoSchema = new mongoose.Schema({
+const contratoSchema = new mongoose.Schema({
     nombre: { type: String, index: "text", require:true, unique: true},
-    presupuesto: { type:Number, require:true},
+    codigo: { type: String, index:"text", require:true, unique:true},
+    presupuestoAsignado: { type:Number, require:true},
     presupuestoDisponible: {type:Number, require:true},
     year: {type: Date, require: true},
     createAT : {type:Date,default: Date.now },
@@ -10,4 +11,4 @@ const itemsPresupuestoSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("ItemPresupuesto", itemsPresupuestoSchema)
+export default mongoose.model("Contrato", contratoSchema)
