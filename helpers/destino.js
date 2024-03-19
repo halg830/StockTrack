@@ -1,13 +1,13 @@
-import Ficha from "../models/ficha.js";
+import Destino from "../models/destino.js";
 
 const helpersFicha = {
   existeId: async (id, req) => {
-    const ficha = await Ficha.findById(id);
-    if (!ficha) {
-      throw new Error(`Ficha no encontrada`);
+    const destino = await Destino.findById(id);
+    if (!destino) {
+      throw new Error(`Destino no encontrado`);
     }
 
-    req.FichaUpdate = ficha;
+    req.FichaUpdate = destino;
   },
 
   validarFechas: async (fechaInicio, req) => {
@@ -22,21 +22,21 @@ const helpersFicha = {
     }
   },
   validarFichaUnica: async (codigo) => {
-    const existe = await Ficha.findOne({ codigo });
+    const existe = await Destino.findOne({ codigo });
 
     if (existe) {
-      throw new Error("La ficha ya esta registrada");
+      throw new Error("El destino ya esta registrado");
     }
   },
   validarFichaUnicaEditar: async (id, codigo) => {
     try {
-      const fichaExiste = await Ficha.findOne({
+      const fichaExiste = await Destino.findOne({
         codigo,
         _id: { $ne: id },
       });
 
       if (fichaExiste) {
-        throw new Error("Ya existe una ficha con este codigo");
+        throw new Error("Ya existe un destino con este codigo");
       }
 
       return true;
