@@ -1,6 +1,6 @@
 import DisDependenciaRed from "../models/disDependenciaRed.js";
 import DisDependencia from "../models/disDependencia.js";
-import RedConocimiento from "../models/RedConocimiento.js";
+import RedConocimiento from "../models/redConocimineto.js";
 
 const httpDisDependenciaRed = {
 

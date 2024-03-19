@@ -18,19 +18,6 @@ router.get('/buscarId/:id',[
     validarCampos
 ],httpDestino.getPorId)
 
-router.get('/buscarNumero/:numero',[
-    validarJWT,
-    check("numero","Digite el código del destino").not().isEmpty(),
-    validarCampos
-],httpDestino.getPorNumero)
-
-router.get('/buscarArea/:idArea',[
-    validarJWT,
-    check("idArea", "Digite el id").not().isEmpty(),
-    check("idArea", "No es mongo ID").isMongoId(),
-    validarCampos
-],httpDestino.getPorArea)
-
 router.get('/buscarEstado/:estado',[
     validarJWT,
     check('estado',"Digite el estado").not().isEmpty(),

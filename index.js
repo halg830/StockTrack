@@ -23,6 +23,7 @@ import pedido from "./routes/pedido.js"
 import producto from "./routes/producto.js"
 import redConocimiento from './routes/redConocimineto.js'
 import salida from './routes/salida.js'
+import entrada from './routes/entrada.js'
 import persona from './routes/usuario.js';
 
 const port=process.env.PORT
@@ -47,6 +48,7 @@ app.use("/api/pedido", pedido)
 app.use("/api/producto", producto)
 app.use("/api/redConocimiento", redConocimiento)
 app.use("/api/salida", salida)
+app.use("/api/entrada", entrada)
 app.use("/api/persona", persona)
 
 app.use(session({

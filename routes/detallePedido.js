@@ -5,7 +5,7 @@ import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersDetPedido from "../helpers/detPedido.js";
 import helpersPedido from "../helpers/pedido.js";
-import helpersDistLoteFicha from "../helpers/distribucionLoteFicha.js";
+
 
 const router = new Router();
 
