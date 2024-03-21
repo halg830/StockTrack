@@ -10,7 +10,9 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpDisDependencia.getAll)
+router.get('/all', validarJWT, httpDisDependencia.getAll);
+
+
 router.get('/buscarId/:id',[
     validarJWT,
     validarRolAdmin,

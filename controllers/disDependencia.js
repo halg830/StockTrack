@@ -75,14 +75,17 @@ const httpDisDependencia = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoDisponible } = req.body;
+      const { presupuestoAsignado } = req.body;
 
-      const disDependencia = await DisDependencia.findByIdAndUpdate(id,
+      const disDependencia  = await DisDependencia.findById(id)
+      const presupuestoDisponible = disDependencia.presupuestoDisponible - presupuestoAsignado
+
+      const disDependenciaUpdate = await DisDependencia.findByIdAndUpdate(id,
         { presupuestoDisponible },
         { new: true }
       ).populate('idDependencia');
 
-      res.json(disDependencia);
+      res.json(disDependenciaUpdate);
 
     } catch (error) {
       console.log(error);

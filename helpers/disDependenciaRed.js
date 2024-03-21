@@ -3,7 +3,7 @@ import DisDependenciaRed from "../models/disDependenciaRed.js";
 const helpersDisDependenciaRed = {
     existeDistribucion: async (idDependencia, req) => {
         const idRed = req.req.body.idRed
-        if (nombre) {
+        if (idDependencia, idRed) {
           const existe = await DisDependenciaRed.findOne({ 
             idDependencia,
             idRed
