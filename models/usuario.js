@@ -8,7 +8,7 @@ const usuarioSchema = new mongoose.Schema({
     telefono: { type: String, index: 'text', required: true, unique:true, minlength:10, maxlength: 10, validate: /^\d{10}$/ },
     rol : {type:String, require:true},
     password : {type:String, require:true},
-    fotoPerfil: { type: String }, 
+    fotoPerfil: {url: { type: String },publicId: { type: String }},    
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}
 });
