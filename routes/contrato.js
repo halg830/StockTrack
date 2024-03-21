@@ -29,8 +29,9 @@ router.post('/agregar',[
     check('nombre').custom(helpersContrato.existeNombre),
     check("codigo", "Ingrese un codigo").not().isEmpty(),
     check('codigo').custom(helpersContrato.existeCodigo),
-    check("presupuesto", "Ingrese un presupuesto").not().isEmpty(),
-    check("presupuesto", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
+    check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto),
+    check("presupuestoDisponible", "Ingrese un presupuesto").not().isEmpty(), 
     check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ],httpContrato.post)
@@ -45,7 +46,8 @@ router.put('/editar/:id', [
     check("codigo", "Ingrese un codigo").not().isEmpty(),
     check('codigo').custom(helpersContrato.existeCodigo),
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
-    check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
+    check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto),
+    check("presupuestoDisponible", "Ingrese un presupuesto").not().isEmpty(),
     check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ], httpContrato.putEditar)
