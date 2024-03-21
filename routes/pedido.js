@@ -4,7 +4,7 @@ import validarCampos from "../middlewares/validar.js";
 import httpPedido from "../controllers/pedido.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersUsuario from "../helpers/usuario.js";
-import helpersFicha from "../helpers/ficha.js";
+import helpersDestino from "../helpers/destino.js";
 
 const router = new Router();
 
@@ -33,9 +33,9 @@ router.post(
       .isEmpty(),
     check("idInstructorEncargado", "No es un Mongo ID válido").isMongoId(),
     check("idInstructorEncargado").custom(helpersUsuario.existeHolderById),
-    check("idFicha", "Digite la ficha").not().isEmpty(),
-    check("idFicha", "No es un Mongo ID válido").isMongoId(),
-    check("idFicha").custom(helpersFicha.existeId),
+    check("idDestino", "Digite la Destino").not().isEmpty(),
+    check("idDestino", "No es un Mongo ID válido").isMongoId(),
+    check("idDestino").custom(helpersDestino.existeId),
     validarCampos,
   ],
   httpPedido.post
@@ -52,9 +52,9 @@ router.put(
       .isEmpty(),
     check("idInstructorEncargado", "No es un Mongo ID válido").isMongoId(),
     check("idInstructorEncargado").custom(helpersUsuario.existeHolderById),
-    check("idFicha", "Digite la ficha").not().isEmpty(),
-    check("idFicha", "No es un Mongo ID válido").isMongoId(),
-    check("idFicha").custom(helpersFicha.existeId),
+    check("idDestino", "Digite la Destino").not().isEmpty(),
+    check("idDestino", "No es un Mongo ID válido").isMongoId(),
+    check("idDestino").custom(helpersDestino.existeId),
     validarCampos,
   ],
   httpPedido.putEditar

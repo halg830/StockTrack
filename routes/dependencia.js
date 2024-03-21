@@ -50,15 +50,6 @@ router.put('/editar/:id', [
     validarCampos
 ], httpDependecia.putEditar)
 
-router.put('/ajustarPresupuesto/:id',[
-  validarJWT,
-    validarRolAdmin,
-    check("id", "Digite el id").not().isEmpty(),
-    check("id", "No es mongo ID").isMongoId(),
-    check("presupuestoAsignado","No hay ningun presupuesto").not().isEmpty(),
-    validarCampos,
-],httpDependecia.putAjustarPresupuesto)
-
 router.put('/inactivar/:id', [
   validarJWT,
   validarRolAdmin,
