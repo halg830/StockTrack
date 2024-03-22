@@ -37,7 +37,7 @@ const httpContrato = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, codigo, presupuestoAsignado, year } = req.body;
+      const { nombre, codigo, presupuestoAsignado } = req.body;
 
       const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
 
@@ -46,7 +46,6 @@ const httpContrato = {
         codigo,
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
-        year: fecha,
       });
       await contrato.save();
       res.json(contrato);
@@ -60,7 +59,7 @@ const httpContrato = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, codigo, presupuestoAsignado, year } = req.body;
+      const { nombre, codigo, presupuestoAsignado } = req.body;
 
       const contrato = await Contrato.findByIdAndUpdate(
         id,
@@ -69,7 +68,6 @@ const httpContrato = {
           codigo,
           presupuestoAsignado,
           presupuestoDisponible,
-          year,
         },
         { new: true }
       );

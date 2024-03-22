@@ -142,5 +142,4 @@ router.put(
   httpUsuario.putActivar
 );
 
-router.get("/logOut", [validarJWT], httpUsuario.logOut);
 export default router;

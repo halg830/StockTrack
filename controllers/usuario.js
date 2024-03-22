@@ -329,20 +329,6 @@ const httpUsuario = {
       res.status(500).json({ error });
     }
   },
-
-  logOut: async (req, res) => {
-    try {
-      req.session.destroy((err) => {
-        if (err) {
-          return res.status(500).json({ error: "Error al cerrar sesión" });
-        }
-        res.clearCookie("stockTrackCokkie");
-        return res.status(200).json({ mensaje: "Sesión cerrada con éxito" });
-      });
-    } catch (error) {
-      return res.status(500).json({ error: "Error interno del servidor" });
-    }
-  },
 };
 
 export default httpUsuario;

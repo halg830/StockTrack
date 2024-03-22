@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const disDependencia = new mongoose.Schema({
+const procesoSchema = new mongoose.Schema({
+    codigo: {type: String, require: true},
     presupuestoAsignado: { type:Number, require:true},
     presupuestoDisponible: { type:Number, require:true},
-    idDependencia: {type:mongoose.Schema.Types.ObjectId,ref:'Dependencia', require:true},
     createAT : {type:Date,default: Date.now },
     estado:{type:Boolean, default:1}
 });
 
 
-export default mongoose.model("DisDependencia", disDependencia)
+export default mongoose.model("Proceso", procesoSchema)

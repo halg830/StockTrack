@@ -2,10 +2,7 @@ import express from 'express';
 import "dotenv/config"
 import mongoose from 'mongoose'
 import http from 'http';
-import * as io from 'socket.io'
-import controllerSockets from "./sockets/controller.js"
 import cors from 'cors'
-import session from 'express-session';
 import bodyParser from 'body-parser';
 import area from "./routes/area.js"
 import contrato from './routes/contrato.js'
@@ -51,16 +48,7 @@ app.use("/api/salida", salida)
 app.use("/api/entrada", entrada)
 app.use("/api/persona", persona)
 
-app.use(session({
-  name: 'stockTrackCokkie', 
-  secret: 'secreto',
-}));
 const server = http.createServer(app)
-
-let ioServer = new io.Server(server);
-app.set('socketio', io)
-
-ioServer.on('connection', controllerSockets);
 
 mongoose.connect(`${process.env.mongoDB}`)
   .then(() => console.log('Connected!'));

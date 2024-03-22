@@ -1,26 +1,21 @@
-import DisDependencia from "../models/disDependencia.js";
-import Dependencia from "../models/dependencia.js";
+import Proceso from "../models/proceso.js";
 
-const httpDisDependencia = {
+const httpProceso = {
   getAll: async (req, res) => {
     try {
-      const distribucion = await DisDependencia.find().populate(
-        "idDependencia"
-      );
-      res.json(distribucion);
+      const proceso = await Proceso.find()
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
 
-  getDistribucionesById: async (req, res) => {
+  getProcesoById: async (req, res) => {
     try {
       const { id } = req.params;
-      const distribucion = await DisDependencia.findById(id).populate(
-        "idDependencia"
-      );
-      res.json(distribucion);
+      const proceso = await Proceso.findById(id)
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -30,21 +25,16 @@ const httpDisDependencia = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDependencia } = req.body;
+      const { presupuestoAsignado, codigo } = req.body;
 
-      const distribucion = new DisDependencia({
+      const proceso = new Proceso({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
-        idDependencia,
+        codigo,
       });
-      await distribucion.save();
+      await proceso.save();
 
-      const dependencia = await Dependencia.findById(
-        distribucion.idDependencia
-      );
-      distribucion.idDependencia = dependencia;
-
-      res.json(distribucion);
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -55,18 +45,18 @@ const httpDisDependencia = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDependencia } = req.body;
+      const { presupuestoAsignado, codigo } = req.body;
 
-      const distribucion = await DisDependencia.findByIdAndUpdate(
+      const proceso = await Proceso.findByIdAndUpdate(
         id,
         {
           presupuestoAsignado,
           presupuestoDisponible: presupuestoAsignado,
-          idDependencia,
+          codigo,
         },
         { new: true }
-      ).populate("idDependencia");
-      res.json(distribucion);
+      )
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -78,17 +68,17 @@ const httpDisDependencia = {
       const { id } = req.params;
       const { presupuestoAsignado } = req.body;
 
-      const disDependencia = await DisDependencia.findById(id);
+      const proceso = await Proceso.findById(id);
       const presupuestoDisponible =
-        disDependencia.presupuestoDisponible - presupuestoAsignado;
+        proceso.presupuestoDisponible - presupuestoAsignado;
 
-      const disDependenciaUpdate = await DisDependencia.findByIdAndUpdate(
+      const procesoUpdate = await Proceso.findByIdAndUpdate(
         id,
         { presupuestoDisponible },
         { new: true }
-      ).populate("idDependencia");
+      )
 
-      res.json(disDependenciaUpdate);
+      res.json(procesoUpdate);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -98,12 +88,12 @@ const httpDisDependencia = {
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const disDependencia = await DisDependencia.findByIdAndUpdate(
+      const proceso = await Proceso.findByIdAndUpdate(
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idDependencia");
-      res.json(disDependencia);
+      )
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -112,16 +102,16 @@ const httpDisDependencia = {
   putActivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const disDependencia = await DisDependencia.findByIdAndUpdate(
+      const proceso = await Proceso.findByIdAndUpdate(
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idDependencia");
-      res.json(disDependencia);
+      )
+      res.json(proceso);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
 };
-export default httpDisDependencia;
+export default httpProceso;

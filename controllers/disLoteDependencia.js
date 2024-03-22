@@ -1,12 +1,11 @@
-import DisDependencia from "../models/disDependencia.js";
-import Dependencia from "../models/dependencia.js";
+import DisLoteDependencia from "../models/disLoteDependencia.js";
 
-const httpDisDependencia = {
+const httpDisLoteDependencia = {
   getAll: async (req, res) => {
     try {
-      const distribucion = await DisDependencia.find().populate(
-        "idDependencia"
-      );
+      const distribucion = await DisLoteDependencia.find()
+        .populate("idDisContratoLote")
+        .populate("idDisdependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -17,9 +16,9 @@ const httpDisDependencia = {
   getDistribucionesById: async (req, res) => {
     try {
       const { id } = req.params;
-      const distribucion = await DisDependencia.findById(id).populate(
-        "idDependencia"
-      );
+      const distribucion = await DisLoteDependencia.findById(id)
+        .populate("idDisContratoLote")
+        .populate("idDisdependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -30,19 +29,17 @@ const httpDisDependencia = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDependencia } = req.body;
+      const { codigo, presupuestoAsignado, idDisContratoLote, idDisdependencia } = req.body;
 
-      const distribucion = new DisDependencia({
+      const distribucion = new DisLoteDependencia({
+        codigo,
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
-        idDependencia,
+        idDisContratoLote,
+        idDisdependencia,
+        year,
       });
       await distribucion.save();
-
-      const dependencia = await Dependencia.findById(
-        distribucion.idDependencia
-      );
-      distribucion.idDependencia = dependencia;
 
       res.json(distribucion);
     } catch (error) {
@@ -55,17 +52,22 @@ const httpDisDependencia = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDependencia } = req.body;
+      const { codigo, presupuestoAsignado, idDisContratoLote, idDisdependencia, year } = req.body;
 
-      const distribucion = await DisDependencia.findByIdAndUpdate(
+      const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         {
+          codigo,
           presupuestoAsignado,
-          presupuestoDisponible: presupuestoAsignado,
-          idDependencia,
+          presupuestoDisponible,
+          idDisContratoLote,
+          idDisdependencia,
+          year,
         },
         { new: true }
-      ).populate("idDependencia");
+      )
+        .populate("idDisContratoLote")
+        .populate("idDisdependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -76,19 +78,17 @@ const httpDisDependencia = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado } = req.body;
+      const { presupuestoDisponible } = req.body;
 
-      const disDependencia = await DisDependencia.findById(id);
-      const presupuestoDisponible =
-        disDependencia.presupuestoDisponible - presupuestoAsignado;
-
-      const disDependenciaUpdate = await DisDependencia.findByIdAndUpdate(
+      const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         { presupuestoDisponible },
         { new: true }
-      ).populate("idDependencia");
+      )
+        .populate("idDisContratoLote")
+        .populate("idDisdependencia");
 
-      res.json(disDependenciaUpdate);
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -98,12 +98,12 @@ const httpDisDependencia = {
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const disDependencia = await DisDependencia.findByIdAndUpdate(
+      const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idDependencia");
-      res.json(disDependencia);
+      ).populate("idDisContratoLote");
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -112,16 +112,16 @@ const httpDisDependencia = {
   putActivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const disDependencia = await DisDependencia.findByIdAndUpdate(
+      const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idDependencia");
-      res.json(disDependencia);
+      ).populate("idDisContratoLote");
+      res.json(distribucion);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
 };
-export default httpDisDependencia;
+export default httpDisLoteDependencia;
