@@ -21,13 +21,13 @@ router.get('/buscarId/:id',[
     validarCampos
 ],httpDisDependencia.getDistribucionesById)
 
-// router.get('/distribucion/:idItem',[
-//     validarJWT,
-//     validarRolAdmin,
-//     check('idItem','Digite el id de la distribucion').not().isEmpty(),
-//     check('idItem','Digite el id de la distribucion').isMongoId(),
-//     validarCampos
-// ],httpDisDependencia.getDistribucionesById)
+router.get('/distribucion/:idDistribucion',[
+    validarJWT,
+    validarRolAdmin,
+    check('idDistribucion','Digite el id de la Dependencia').not().isEmpty(),
+    check('idDistribucion','Digite el id de la Dependencia').isMongoId(),
+    validarCampos
+],httpDisDependencia.getDistribucionesById)
 // Post
 router.post('/agregar',[
     validarJWT,

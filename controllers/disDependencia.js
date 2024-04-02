@@ -17,7 +17,7 @@ const httpDisDependencia = {
   getDistribucionesById: async (req, res) => {
     try {
       const { id } = req.params;
-      const distribucion = await DisDependencia.findById(id).populate(
+      const distribucion = await DisDependencia.find(id).populate(
         "idDependencia"
       );
       res.json(distribucion);
