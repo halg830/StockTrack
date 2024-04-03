@@ -13,17 +13,17 @@ const router=new Router()
 router.get('/all', validarJWT, httpDisDependencia.getAll);
 
 
-router.get('/buscarId/:id',[
-    validarJWT,
-    validarRolAdmin,
-    check('id','Digite el id de la distribucion').not().isEmpty(),
-    check('id','Digite el id de la distribucion').isMongoId(),
-    validarCampos
-],httpDisDependencia.getDistribucionesById)
+// router.get('/buscarId/:id',[
+//     validarJWT,
+//     validarRolAdmin,
+//     check('id','Digite el id de la distribucion').not().isEmpty(),
+//     check('id','Digite el id de la distribucion').isMongoId(),
+//     validarCampos
+// ],httpDisDependencia.getDistribucionById)
 
 router.get('/distribucion/:idDistribucion',[
-    validarJWT,
-    validarRolAdmin,
+    // validarJWT,
+    // validarRolAdmin,
     check('idDistribucion','Digite el id de la Dependencia').not().isEmpty(),
     check('idDistribucion','Digite el id de la Dependencia').isMongoId(),
     validarCampos

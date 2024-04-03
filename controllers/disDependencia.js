@@ -16,16 +16,16 @@ const httpDisDependencia = {
 
   getDistribucionesById: async (req, res) => {
     try {
-      const { id } = req.params;
-      const distribucion = await DisDependencia.find(id).populate(
-        "idDependencia"
-      );
-      res.json(distribucion);
+        const { id } = req.params;
+        const distribuciones = await DisDependencia.find({ idDependencia: id }).populate(
+            "idDependencia"
+        );
+        res.json(distribuciones);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Error en el servidor" });
+        console.log(error);
+        res.status(500).json({ error: "Error en el servidor" });
     }
-  },
+},
 
   // Post
   post: async (req, res) => {
