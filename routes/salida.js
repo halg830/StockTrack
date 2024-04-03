@@ -27,11 +27,11 @@ router.post(
   "/agregar",
   [
     validarJWT,
-    check("idBodeguero", "Digite el ID del bodeguero")
+    check("idAdmin", "Digite el ID del Admin")
       .not()
       .isEmpty(),
-    check("idBodeguero", "No es un Mongo ID válido").isMongoId(),
-    check("idBodeguero").custom(helpersUsuario.existeHolderById),
+    check("idAdmin", "No es un Mongo ID válido").isMongoId(),
+    check("idAdmin").custom(helpersUsuario.existeHolderById),
     check("idPedido", "Digite la ficha").not().isEmpty(),
     check("idPedido", "No es un Mongo ID válido").isMongoId(),
     check("idPedido").custom(helpersDestino.existeId),
@@ -46,11 +46,11 @@ router.put(
     validarJWT,
     check("id", "Digite el ID").not().isEmpty(),
     check("id", "No es un Mongo ID válido").isMongoId(),
-    check("idBodeguero", "Digite el ID del bodeguero")
+    check("idAdmin", "Digite el ID del Admin")
       .not()
       .isEmpty(),
-    check("idBodeguero", "No es un Mongo ID válido").isMongoId(),
-    check("idBodeguero").custom(helpersUsuario.existeHolderById),
+    check("idAdmin", "No es un Mongo ID válido").isMongoId(),
+    check("idAdmin").custom(helpersUsuario.existeHolderById),
     check("idPedido", "Digite la ficha").not().isEmpty(),
     check("idPedido", "No es un Mongo ID válido").isMongoId(),
     check("idPedido").custom(helpersDestino.existeId),

@@ -4,7 +4,7 @@ import DetSalida from '../models/detSalida.js';
 const httpSalida = {
   getAll: async (req, res) => {
     try {
-      const salidas = await Salida.find().populate("idPedido").populate("idBodeguero");
+      const salidas = await Salida.find().populate("idPedido").populate("idAdmin");
 
       const detSalidas = salidas.map(async (e) => {
         e.detSalida= await DetSalida.find({idPedido:e._id});
@@ -20,7 +20,7 @@ const httpSalida = {
 
   getPorId: async (req, res) => {
     try {
-      const salida = await Salida.findById(req.params.id).populate("idPedido").populate("idBodeguero");
+      const salida = await Salida.findById(req.params.id).populate("idPedido").populate("idAdmin");
       if (!salida) {
         return res.status(404).json({ mensaje: "Salida no encontrada" });
       }
@@ -45,7 +45,7 @@ const httpSalida = {
 
   post: async (req, res) => {
     try {
-      const {idBodeguero, idPedido, entregado, total} = req.body;
+      const {idAdmin, idPedido, entregado, total} = req.body;
 
       const ultimoSalida = await Salida.findOne().sort({ numero: -1 });    
       console.log(ultimoSalida);
@@ -54,7 +54,7 @@ const httpSalida = {
 
       console.log(numero);
 
-      const nuevoSalida = new Salida({idBodeguero, idPedido, total, entregado, numero});
+      const nuevoSalida = new Salida({idAdmin, idPedido, total, entregado, numero});
       const salidaGuardado = await nuevoSalida.save();
       res.status(201).json(salidaGuardado);
     } catch (error) {
