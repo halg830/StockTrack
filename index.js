@@ -18,6 +18,7 @@ import disRedArea from './routes/disRedArea.js'
 import lote from './routes/lote.js'
 import pedido from "./routes/pedido.js"
 import producto from "./routes/producto.js"
+import conexionRedLote from "./routes/conexionRedLote.js"
 import redConocimiento from './routes/redConocimineto.js'
 import salida from './routes/salida.js'
 import entrada from './routes/entrada.js'
@@ -43,6 +44,7 @@ app.use("/api/disRedArea", disRedArea)
 app.use("/api/lote", lote)
 app.use("/api/pedido", pedido)
 app.use("/api/producto", producto)
+app.use("/api/conexionRedLote", conexionRedLote)
 app.use("/api/redConocimiento", redConocimiento)
 app.use("/api/salida", salida)
 app.use("/api/entrada", entrada)
