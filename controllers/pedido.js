@@ -20,11 +20,16 @@ const httpPedido = {
 
   getPorId: async (req, res) => {
     try {
+      console.log(req.params.id);
       const pedido = await Pedido.findById(req.params.id).populate("idDestino").populate("idInstructorEncargado");
       if (!pedido) {
         return res.status(404).json({ mensaje: "Pedido no encontrado" });
       }
-      res.json(pedido);
+
+      const idPedido = pedido._id
+      console.log(pedido._id);
+      const detPedidos = await DetPedido.find({idPedido}).populate('idProducto')
+      res.json({pedido, detPedidos});
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
