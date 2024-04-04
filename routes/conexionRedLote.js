@@ -3,6 +3,7 @@ import { check } from "express-validator";
 import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpConexRedLote from "../controllers/conexionRedLote.js";
+import helpersConexionRedLote from "../helpers/conexionRedLote.js";
 
 const router = new Router();
 
@@ -26,8 +27,12 @@ router.post(
   "/agregar",
   [
     validarJWT,
+    check("codigo",).custom(helpersConexionRedLote.existeCodigo),
     check("idRed", "Seleccione una red").not().isEmpty(),
+    check("idRed", "El id es invalido").isMongoId(),
+    check("idRed", "Red no valida").custom(helpersConexionRedLote.existeRed),
     check("idLote", "Seleccione un lote").not().isEmpty(),
+    check("idLote", "El id es invalido").isMongoId(),
   ],
   validarCampos,
   httpConexRedLote.postAgregar
@@ -40,8 +45,12 @@ router.put(
     validarJWT,
     check("id", "Digite el id de la conexión").not().isEmpty(),
     check("id", "El id es invalido").isMongoId(),
+    check("codigo",).custom(helpersConexionRedLote.existeCodigo),
     check("idRed", "Seleccione una red").not().isEmpty(),
+    check("idRed", "El id es invalido").isMongoId(),
+    check("idRed", "Red no valida").custom(helpersConexionRedLote.existeRed),
     check("idLote", "Seleccione un lote").not().isEmpty(),
+    check("idLote", "El id es invalido").isMongoId(),
   ],
   validarCampos,
   httpConexRedLote.putEditar
