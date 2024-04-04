@@ -1,5 +1,6 @@
 import helpersGeneral from "../helpers/generales.js";
 import Lote from "../models/lote.js";
+import conexionRedLote from "../models/conexionRedLote.js";
 
 const httpLote = {
   // Get
@@ -21,6 +22,9 @@ const httpLote = {
       res.status(400).json({ error });
     }
   },
+
+  
+  
 
   // Post
   post: async (req, res) => {

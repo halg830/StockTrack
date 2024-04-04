@@ -26,6 +26,29 @@ const httpConexRedLote = {
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
+  
+  getPorLote: async (req, res) => {
+    const idLote = req.params.idLote;
+
+    try {
+      const conexiones = await ConexRedLote.find( {idLote} ).populate("idRed")
+      res.json(conexiones);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+
+  getPorRed: async (req, res) => {
+    const idRed = req.params.idRed;
+  
+    try {
+      const conexiones = await ConexRedLote.find( {idRed} ).populate("idLote")
+ 
+      res.json(conexiones);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
 
   // Post
   postAgregar: async (req, res) => {

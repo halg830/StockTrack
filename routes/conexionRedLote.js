@@ -22,6 +22,26 @@ router.get(
   httpConexRedLote.getConexionById
 );
 
+router.get("/buscarPorLote/:idLote",
+  [
+    validarJWT,
+    check("idLote", "Digite el id del lote").not().isEmpty(),
+    check("idLote", "El id es invalido").isMongoId(),
+  ], 
+  validarCampos,
+  httpConexRedLote.getPorLote
+);
+
+router.get("/buscarPorRed/:idRed",
+  [
+    validarJWT,
+    check("idRed", "Digite el id de la red de conocimiento").not().isEmpty(),
+    check("idRed", "El id es invalido").isMongoId(),
+  ], 
+  validarCampos,
+  httpConexRedLote.getPorRed
+);
+
 
 router.post(
   "/agregar",
