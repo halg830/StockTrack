@@ -10,7 +10,9 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 const router=new Router()
 
 // Get
-router.get('/all', validarJWT, httpDisDependenciaRed.getAll)
+router.get('/all',
+//  validarJWT, 
+httpDisDependenciaRed.getAll)
 router.get('/buscarId/:id',[
     validarJWT,
     validarRolAdmin,
@@ -28,13 +30,13 @@ router.get('/distribucion/:idDistribucionDependendencia',[
 ],httpDisDependenciaRed.getDistribucionesById)
 // Post
 router.post('/agregar',[
-    validarJWT,
-    validarRolAdmin,
+    // validarJWT,
+    // validarRolAdmin,
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
-    check("idDependencia", "ID no válido").not().isEmpty(),
-    check("idDependencia", "ID no válido").isMongoId(),
-    check("idDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
+    check("idDisDependencia", "ID no válido").not().isEmpty(),
+    check("idDisDependencia", "ID no válido").isMongoId(),
+    check("idDisDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
     check("idRed", "ID no válido").not().isEmpty(),
     check("idRed", "ID no válido").isMongoId(),
     check('year', 'Ingrese un año').not().isEmpty(),
@@ -49,9 +51,9 @@ router.put('/editar/:id', [
     check("id", "ID no válido").isMongoId(),
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
-    check("idDependencia", "ID no válido").not().isEmpty(),
-    check("idDependencia", "ID no válido").isMongoId(),
-    check("idDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
+    check("idDisDependencia", "ID no válido").not().isEmpty(),
+    check("idDisDependencia", "ID no válido").isMongoId(),
+    check("idDisDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
     check("idRed", "ID no válido").not().isEmpty(),
     check("idRed", "ID no válido").isMongoId(),
     check('year', 'Ingrese un año').not().isEmpty(),

@@ -21,11 +21,11 @@ router.get('/all', validarJWT, httpDisDependencia.getAll);
 //     validarCampos
 // ],httpDisDependencia.getDistribucionById)
 
-router.get('/distribucion/:idDistribucion',[
+router.get('/distribucion/:idDependencia',[
     // validarJWT,
     // validarRolAdmin,
-    check('idDistribucion','Digite el id de la Dependencia').not().isEmpty(),
-    check('idDistribucion','Digite el id de la Dependencia').isMongoId(),
+    check('idDependencia','Digite el id de la Dependencia').not().isEmpty(),
+    check('idDependencia','Digite el id de la Dependencia').isMongoId(),
     validarCampos
 ],httpDisDependencia.getDistribucionesById)
 // Post

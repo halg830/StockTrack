@@ -7,7 +7,9 @@ const httpDisDependenciaRed = {
   getAll: async (req, res) => {
     try {
       const distribucion = await DisDependenciaRed.find()
-        .populate("idDisDependencia").populate("idRed");
+        .populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+        
+        .populate("idRed");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -16,8 +18,8 @@ const httpDisDependenciaRed = {
 
   getDistribucionesById: async (req, res) => {
     try {
-      const { idRed } = req.params;
-      const distribucion = await DisDependenciaRed.find({ idRed })
+      const { idDistribucionDependendencia } = req.params;
+      const distribucion = await DisDependenciaRed.find({ idDistribucionDependendencia })
         .populate("idDisDependencia").populate("idRed");
       res.json(distribucion)
     } catch (error) {
