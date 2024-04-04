@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const detSalidaSchema = new mongoose.Schema({
-    numero: {type: Number, require:true},
     cantidadEntregada:{ type:Number, require:true},
     cantidadPendiente:{ type:Number, require:true},
     idSalida:{type:mongoose.Schema.Types.ObjectId,ref:'Salida', require:true},

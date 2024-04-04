@@ -45,7 +45,7 @@ const httpSalida = {
 
   post: async (req, res) => {
     try {
-      const {idAdmin, idPedido, entregado, total} = req.body;
+      const {idAdmin, idPedido, entregado, total, detSalidas} = req.body;
 
       const ultimoSalida = await Salida.findOne().sort({ numero: -1 });    
       console.log(ultimoSalida);
@@ -56,6 +56,10 @@ const httpSalida = {
 
       const nuevoSalida = new Salida({idAdmin, idPedido, total, entregado, numero});
       const salidaGuardado = await nuevoSalida.save();
+
+      detSalidas.forEach(detSalida => {
+        const nuevoDetSalida = new DetSalida({})
+      });
       res.status(201).json(salidaGuardado);
     } catch (error) {
       res.status(500).json({ error: error.message });

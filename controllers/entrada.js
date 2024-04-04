@@ -4,7 +4,7 @@ import Entrada from "../models/entrada.js"
 const httpEntrada = {
     getAll: async (req, res) => {
         try {
-            const entrada = await Entrada.find();
+            const entrada = await Entrada.find().populate('idProducto');
             res.json(entrada);
         } catch (error) {
             res.status(400).json({ error })
