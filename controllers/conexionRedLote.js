@@ -30,9 +30,10 @@ const httpConexRedLote = {
   // Post
   postAgregar: async (req, res) => {
     try {
-      const { idRed, idLote } = req.body;
+      const {codigo, idRed, idLote } = req.body;
 
       const conexion = new ConexRedLote({
+        codigo,
         idRed,
         idLote,
       });
@@ -49,11 +50,12 @@ const httpConexRedLote = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { idRed, idLote } = req.body;
+      const { codigo, idRed, idLote } = req.body;
 
       const conexion = await ConexRedLote.findByIdAndUpdate(
         id,
         {
+          codigo,
           idRed,
           idLote,
         },

@@ -6,10 +6,10 @@ import httpConexRedLote from "../controllers/conexionRedLote.js";
 
 const router = new Router();
 
-// Get all connections
+
 router.get("/all", validarJWT, httpConexRedLote.getTodo);
 
-// Get connection by ID
+
 router.get(
   "/buscarId/:id",
   [
