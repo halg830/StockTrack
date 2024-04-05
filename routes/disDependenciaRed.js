@@ -21,11 +21,11 @@ router.get('/buscarId/:id',[
     validarCampos
 ],httpDisDependenciaRed.getDistribucionById)
 
-router.get('/distribucion/:idDistribucionDependendencia',[
+router.get('/distribucion/:idDisDependencia',[
     validarJWT,
     validarRolAdmin,
-    check('idDistribucionDependendencia','Digite el id de la distribucion').not().isEmpty(),
-    check('idDistribucionDependendencia','Digite el id de la distribucion').isMongoId(),
+    check('idDisDependencia','Digite el id de la distribucion').not().isEmpty(),
+    check('idDisDependencia','Digite el id de la distribucion').isMongoId(),
     validarCampos
 ],httpDisDependenciaRed.getDistribucionesById)
 // Post

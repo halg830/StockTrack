@@ -14,16 +14,27 @@ const httpDisDependencia = {
     }
   },
 
-  getDistribucionesById: async (req, res) => {
+  getDistribucionById: async (req, res) => {
     try {
-        const { idDependencia } = req.params;
-        const distribuciones = await DisDependencia.find({idDependencia}).populate("idDependencia");
+        const { id } = req.params;
+        const distribuciones = await DisDependencia.findById(id).populate("idDependencia");
         res.json(distribuciones);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Error en el servidor" });
     }
 },
+
+  getDistribucionesById: async (req, res) => {
+    try {
+      const { idDependencia } = req.params;
+      const distribuciones = await DisDependencia.find({ idDependencia }).populate("idDependencia");
+      res.json(distribuciones);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  },
 
   // Post
   post: async (req, res) => {
