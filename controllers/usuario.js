@@ -165,7 +165,7 @@ const httpUsuario = {
 
       if (!usuario) {
         return res.status(400).json({
-          error: "Usuario / Password no son correctos",
+          error: "Identificación o Contraseña no son correctos",
         });
       }
       if (usuario.estado == false) {
@@ -176,7 +176,7 @@ const httpUsuario = {
       const validPassword = bcryptjs.compareSync(password, usuario.password);
       if (!validPassword) {
         return res.status(401).json({
-          error: "Password no es correcta",
+          error: "Identificación o Contraseña no son correctos",
         });
       }
       const token = await generarJWT(usuario.id);
