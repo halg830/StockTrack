@@ -4,6 +4,8 @@ import validarCampos from "../middlewares/validar.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpConexRedLote from "../controllers/conexionRedLote.js";
 import helpersConexionRedLote from "../helpers/conexionRedLote.js";
+import helpersRedConocimiento from "../helpers/redConocimiento.js";
+import helpersLote from "../helpers/lote.js";
 
 const router = new Router();
 
@@ -50,9 +52,11 @@ router.post(
     check("codigo",).custom(helpersConexionRedLote.existeCodigo),
     check("idRed", "Seleccione una red").not().isEmpty(),
     check("idRed", "El id es invalido").isMongoId(),
-    check("idRed", "Red no valida").custom(helpersConexionRedLote.existeRed),
+    check('idRed').custom(helpersRedConocimiento.existeId),
     check("idLote", "Seleccione un lote").not().isEmpty(),
     check("idLote", "El id es invalido").isMongoId(),
+    check('idLote').custom(helpersLote.existeId),
+    check("idLote").custom(helpersConexionRedLote.existeConexion),
   ],
   validarCampos,
   httpConexRedLote.postAgregar
