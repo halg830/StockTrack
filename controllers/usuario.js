@@ -274,29 +274,30 @@ const httpUsuario = {
   editarUsuario: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, apellido, identificacion, correo, telefono, rol } =
+      const { nombre, apellido, identificacion, correo, telefono, fotoPerfil, rol } =
         req.body;
 
-      const mayusNombre = await helpersGeneral.mayusAllPalabras(nombre.trim());
-      const mayusApellido = await helpersGeneral.mayusAllPalabras(
-        apellido.trim()
-      );
+      // const mayusNombre = await helpersGeneral.mayusAllPalabras(nombre.trim());
+      // const mayusApellido = await helpersGeneral.mayusAllPalabras(
+      //   apellido.trim()
+      // );
 
       const usuario = await Usuario.findByIdAndUpdate(
         id,
         {
-          nombre: mayusNombre,
-          apellido: mayusApellido,
+          nombre,
+          apellido,
           identificacion,
           correo,
           telefono,
-          rol: rol.toLowerCase(),
+          fotoPerfil,
+          rol,
         },
         { new: true }
       );
 
       res.json(usuario);
-    } catch (error) {
+    } catch (error) { console.log(error);
       res.status(500).json({ error });
     }
   },
