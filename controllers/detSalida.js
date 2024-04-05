@@ -5,7 +5,7 @@ const httpDetSalida = {
     try {
       const detSalida = await DetSalida.find()
         .populate("idSalida")
-        .populate("idEntrada");
+        .populate("idProducto");
 
       res.json(detSalida);
     } catch (error) {
@@ -19,7 +19,7 @@ const httpDetSalida = {
       const { id } = req.params;
       const detSalida = await DetSalida.findById({ id })
         .populate("idSalida")
-        .populate("idEntrada");
+        .populate("idProducto");
 
       res.json(detSalida);
     } catch (error) {
@@ -33,7 +33,7 @@ const httpDetSalida = {
       const { idSalida } = req.params;
       const salidas = await DetSalida.find({ idSalida })
         .populate("idSalida")
-        .populate("idEntrada");
+        .populate("idProducto");
       res.json(salidas);
     } catch (error) {
       res.status(500).json({ error });
@@ -42,13 +42,13 @@ const httpDetSalida = {
 
   post: async (req, res) => {
     try {
-      const { numero, cantidadEntregada, cantidadPendiente, idSalida, idEntrada, subTotal } = req.body;
+      const { numero, cantidadEntregada, cantidadPendiente, idSalida, idProducto, subTotal } = req.body;
       const detSalida = new DetSalida({
         numero,
         cantidadEntregada, 
         cantidadPendiente,
         idSalida,
-        idEntrada,
+        idProducto,
         subTotal,
       });
       await detSalida.save();
@@ -62,10 +62,10 @@ const httpDetSalida = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { numero, cantidadEntregada, cantidadPendiente, idSalida, idEntrada, subTotal } = req.body;
+      const { numero, cantidadEntregada, cantidadPendiente, idSalida, idProducto, subTotal } = req.body;
       const detSalida = await DetSalida.findByIdAndUpdate(
         id,
-        { numero, cantidadEntregada, cantidadPendiente, idSalida, idEntrada, subTotal },
+        { numero, cantidadEntregada, cantidadPendiente, idSalida, idProducto, subTotal },
         { new: true }
       );
       res.json(detSalida);

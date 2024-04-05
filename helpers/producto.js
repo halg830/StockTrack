@@ -1,6 +1,16 @@
 import Producto from "../models/producto.js";
 
 const helpersProducto = {
+  existeId: async (id, req) => {
+    const existe = await Producto.findById(id);
+
+    if (!existe) {
+      throw new Error(`El producto no existe ${id}`);
+    }
+
+    req.req.ProductoUpdate = existe;
+  },
+
   precioValido: async (precio) => {
     if (precio <= 0) {
       throw new Error("Precio no válido");

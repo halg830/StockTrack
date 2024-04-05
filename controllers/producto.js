@@ -54,7 +54,7 @@ const httpProducto = {
         precioUnitario,
         iva,
         tipoProducto,
-        consumible,
+        cantidad,
         idLote,
       } = req.body;
       const producto = new Producto({
@@ -65,7 +65,7 @@ const httpProducto = {
         precioUnitario,
         iva,
         tipoProducto,
-        consumible,
+        cantidad,
         idLote,
       });
       await producto.save();
@@ -90,7 +90,7 @@ const httpProducto = {
         precioUnitario,
         iva,
         tipoProducto,
-        consumible,
+        cantidad,
         idLote,
       } = req.body;
       const producto = await Producto.findByIdAndUpdate(
@@ -103,7 +103,7 @@ const httpProducto = {
           precioUnitario,
           iva,
           tipoProducto,
-          consumible,
+          cantidad,
           idLote,
         },
         { new: true }

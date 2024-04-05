@@ -59,7 +59,7 @@ const httpRedConocimiento = {
 
   putActivar: async (req, res) => {
     const { id } = req.params;
-    const red = await ReD.findByIdAndUpdate(id, { estado: 1 }, { new: true });
+    const red = await RedConocimiento.findByIdAndUpdate(id, { estado: 1 }, { new: true });
 
     res.json(red);
   },

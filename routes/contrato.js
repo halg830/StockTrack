@@ -6,6 +6,8 @@ import { validarJWT } from "../middlewares/validar-jwt.js";
 import helpersPresupuesto from "../helpers/presupuesto.js";
 import { validarRolAdmin } from "../middlewares/validar-rol.js";
 import helpersContrato from "../helpers/contrato.js";
+import helpersUsuario from '../helpers/usuario.js'
+import helpersProveedor from "../helpers/proveedor.js";
 
 const router=new Router()
 
@@ -31,6 +33,12 @@ router.post('/agregar',[
     check('codigo').custom(helpersContrato.existeCodigo),
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto),
+    check('idSupervisor', 'Ingrese un supervisor').not().isEmpty(),
+    check('idSupervisor', 'Supervisor no válido').isMongoId(),
+    check('idSupervisor').custom(helpersUsuario.existeHolderById),
+    check('idProveedor', 'Ingrese un proveedor').not().isEmpty(),
+    check('idProveedor', 'Proveedor no válido').isMongoId(),
+    check('idProveedor').custom(helpersProveedor.existeId),
     validarCampos
 ],httpContrato.post)
 
@@ -45,6 +53,12 @@ router.put('/editar/:id', [
     check('codigo').custom(helpersContrato.existeCodigo),
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto),
+    check('idSupervisor', 'Ingrese un supervisor').not().isEmpty(),
+    check('idSupervisor', 'Supervisor no válido').isMongoId(),
+    check('idSupervisor').custom(helpersUsuario.existeHolderById),
+    check('idProveedor', 'Ingrese un proveedor').not().isEmpty(),
+    check('idProveedor', 'Proveedor no válido').isMongoId(),
+    check('idProveedor').custom(helpersProveedor.existeId),
     validarCampos
 ], httpContrato.putEditar)
 
