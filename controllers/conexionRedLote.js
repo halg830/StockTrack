@@ -31,7 +31,7 @@ const httpConexRedLote = {
     const idLote = req.params.idLote;
 
     try {
-      const conexiones = await ConexRedLote.find( {idLote} ).populate("idRed")
+      const conexiones = await ConexRedLote.find( {idLote} ).populate("idRed").populate("idLote")
       res.json(conexiones);
     } catch (error) {
       res.status(400).json({ error });
@@ -42,7 +42,7 @@ const httpConexRedLote = {
     const idRed = req.params.idRed;
   
     try {
-      const conexiones = await ConexRedLote.find( {idRed} ).populate("idLote")
+      const conexiones = await ConexRedLote.find( {idRed} ).populate("idLote").populate("idRed")
  
       res.json(conexiones);
     } catch (error) {
