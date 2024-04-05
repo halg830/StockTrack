@@ -1,30 +1,20 @@
 import Area from "../models/area.js";
 
 const helpersArea = {
-    validarAreaUnica: async(nombre, )=>{
-        
-        const existe = await Area.findOne({nombre})
-    
-        if(existe){
-            throw new Error("La area ya esta registrada")
-        }
-       
-    }, 
-    validarAreaUnicaEditar: async (id, nombre) => {
-        try {
-            const areaExiste = await Area.findOne({
-                nombre,
-                _id: { $ne: id },
-            });
+  existeNombre: async (nombre, req) => {
+    const existe = await Area.findOne({
+      $text: { $search: nombre },
+    });
 
-            if (areaExiste) {
-                throw new Error("Ya existe un area con este nombre");
-            }
+    if (existe) {
+      if (req.req.method === "PUT" && req.req.body._id != existe._id) {
+        throw new Error(`Ya existe ese nombre en la base de datos!!! `);
+      } else if (req.req.method === "POST") {
+        throw new Error(`Ya existe ese nombre en la base de datos!!! `);
+      }
+    }
 
-            return true;
-        } catch (error) {
-            throw error;
-        }
-    },
-}
-export default helpersArea
+    req.req.AreaUpdate = existe;
+  },
+};
+export default helpersArea;

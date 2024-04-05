@@ -32,8 +32,6 @@ router.post('/agregar', [
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaInicio',"Fecha Invalida").custom(helpersDestino.validarFechas),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
-    check('idArea',"Digite el ID del área").not().isEmpty(),
-    check('idArea',"No es Mongo ID").isMongoId(),
     validarCampos
 ],httpDestino.post)
 
@@ -50,8 +48,6 @@ router.put('/editar/:id',[
     check('nivelFormacion', "Digite el nivel de formacion").not().isEmpty(),
     check('fechaInicio', "Digite la fecha de Inicio").not().isEmpty(),
     check('fechaFin', "Digite la fecha de fin").not().isEmpty(),
-    check('idArea',"Digite el ID del área").not().isEmpty(),
-    check('idArea',"No es Mongo ID").isMongoId(),
     validarCampos
 ],httpDestino.putEditar)
 

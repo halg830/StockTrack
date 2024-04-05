@@ -1,4 +1,5 @@
 import Lote from "../models/lote.js";
+import helpersGeneral from "./generales.js";
 
 const helpersLote = {
   existeId: async (id, req) => {
@@ -13,7 +14,12 @@ const helpersLote = {
 
   existeNombre: async (nombre, req) => {
     if (nombre) {
-      const existe = await Lote.findOne({ $text: { $search: nombre } });
+      const nombreSinTildes = await helpersGeneral.quitarTildes(nombre.toLowerCase());
+      console.log(nombreSinTildes);
+      const primeraMayuscula = await helpersGeneral.primeraMayuscula(nombreSinTildes);
+
+      const existe = await Lote.findOne({ nombre: primeraMayuscula.trim() });
+      console.log(existe);
 
       if(existe){
         if (req.req.method === "PUT" && req.req.body._id != existe._id) {
