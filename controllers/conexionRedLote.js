@@ -59,7 +59,7 @@ const httpConexRedLote = {
         codigo,
         idRed,
         idLote,
-      });
+      }).populate("idLote").populate("idRed")
       await conexion.save();
 
       res.json(conexion);
@@ -83,7 +83,7 @@ const httpConexRedLote = {
           idLote,
         },
         { new: true }
-      );
+      ).populate("idLote").populate("idRed")
       res.json(conexion);
     } catch (error) {
       console.log(error);
@@ -98,7 +98,7 @@ const httpConexRedLote = {
         id,
         { estado: 0 },
         { new: true }
-      );
+      ).populate("idLote").populate("idRed")
       res.json(conexion);
     } catch (error) {
       console.log(error);
@@ -112,7 +112,7 @@ const httpConexRedLote = {
         id,
         { estado: 1 },
         { new: true }
-      );
+      ).populate("idLote").populate("idRed")
       res.json(conexion);
     } catch (error) {
       console.log(error);
