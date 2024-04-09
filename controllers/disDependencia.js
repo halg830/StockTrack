@@ -86,6 +86,7 @@ const httpDisDependencia = {
     try {
       const { id } = req.params;
       const { presupuestoAsignado } = req.body;
+      console.log(id,presupuestoAsignado);
 
       const disDependencia = await DisDependencia.findById(id);
       const presupuestoDisponible =
