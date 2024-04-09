@@ -55,4 +55,42 @@ router.put(
   httpSalida.putEditar
 );
 
+router.put(
+  "/inactivar/:id",
+  [
+    validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpSalida.putInactivar
+);
+router.put(
+  "/activar/:id",
+  [
+    validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpSalida.putActivar
+);
+
+router.put(
+  "/entregado/:id",
+  [
+    validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpSalida.putEntregado
+);
+router.put(
+  "/noEntregado/:id",
+  [
+    validarJWT,
+    check("id", "Ingrese un ID válido").not().isEmpty(),
+    check("id", "Ingrese un ID válido").isMongoId(),
+  ],
+  httpSalida.putNoEntregado
+);
+
 export default router;

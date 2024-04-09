@@ -4,7 +4,9 @@ import DetSalida from '../models/detSalida.js';
 const httpSalida = {
   getAll: async (req, res) => {
     try {
-      const salidas = await Salida.find().populate("idPedido").populate("idAdmin");
+      const salidas = await Salida.find().populate({ path: 'idPedido', populate: { path: 'idDestino' } }) // Populate idPedido con idDestino
+      .populate({ path: 'idPedido', populate: { path: 'idInstructorEncargado' } }) // Populate idPedido con idInstructorEncargado
+      .populate("idAdmin");
 
       const detSalidas = salidas.map(async (e) => {
         e.detSalida= await DetSalida.find({idPedido:e._id});
@@ -45,7 +47,7 @@ const httpSalida = {
 
   post: async (req, res) => {
     try {
-      const {idAdmin, idPedido, entregado, total, detSalidas} = req.body;
+      const {idAdmin, idPedido, fechaEntrega, entregado, total, detSalidas, detPedido} = req.body;
 
       const ultimoSalida = await Salida.findOne().sort({ numero: -1 });    
       console.log(ultimoSalida);
@@ -53,13 +55,24 @@ const httpSalida = {
       numero+=1
 
       console.log(numero);
-
-      const nuevoSalida = new Salida({idAdmin, idPedido, total, entregado, numero});
+      const nuevoSalida = new Salida({idAdmin, idPedido, fechaEntrega, total, entregado, numero});
       const salidaGuardado = await nuevoSalida.save();
-
-      detSalidas.forEach(detSalida => {
-        const nuevoDetSalida = new DetSalida({})
+      
+      console.log(detSalidas, detPedido);
+      
+      const detallesSalida = detSalidas.map(async(detSalida) => {
+        const buscarDetPedido = detPedido.find(det=> det.idProducto._id === detSalida.idProducto._id)
+        
+        const cantidadPendiente = buscarDetPedido.cantidad - detSalida.cantidad
+        const subTotal = detSalida.cantidad*detSalida.idProducto.precioUnitario
+      
+        const nuevoDetSalida = new DetSalida({cantidadEntregada: detSalida.cantidad, cantidadPendiente, idSalida: salidaGuardado._id, idProducto: detSalida.idProducto, subTotal })
+        await nuevoDetSalida.save()
+        console.log(nuevoDetSalida);
       });
+
+      await Promise.all(detallesSalida);
+
       res.status(201).json(salidaGuardado);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -80,7 +93,77 @@ const httpSalida = {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
+
+  putActivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const producto = await Producto.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
+      res.json(producto);
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  },
+
+  putInactivar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const producto = await Producto.findByIdAndUpdate(
+        id,
+        { estado: 0 },
+        { new: true }
+      );
+
+      const lote = await Lote.findById(producto.idLote);
+      producto.idLote = lote;
+
+      res.json(producto);
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  },
+
+  putEntregado: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const producto = await Salida.findByIdAndUpdate(
+        id,
+        { entregado: 1 },
+        { new: true }
+      ).populate({ path: 'idPedido', populate: { path: 'idDestino' } }) // Populate idPedido con idDestino
+      .populate({ path: 'idPedido', populate: { path: 'idInstructorEncargado' } }) // Populate idPedido con idInstructorEncargado
+      .populate("idAdmin");
+
+      res.json(producto);
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  },
+
+  putNoEntregado: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const producto = await Salida.findByIdAndUpdate(
+        id,
+        { entregado: 0 },
+        { new: true }
+      ).populate({ path: 'idPedido', populate: { path: 'idDestino' } }) // Populate idPedido con idDestino
+      .populate({ path: 'idPedido', populate: { path: 'idInstructorEncargado' } }) // Populate idPedido con idInstructorEncargado
+      .populate("idAdmin");
+
+      res.json(producto);
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  },
 }
 
 export default httpSalida

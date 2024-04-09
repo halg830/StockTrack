@@ -24,7 +24,7 @@ router.get(
 );
 
 router.get(
-  "/getPorPedido/:idSalida",
+  "/getPorSalida/:idSalida",
   [
     validarJWT,
     check("idSalida", "Ingrese el salida").not().isEmpty(),
@@ -34,6 +34,7 @@ router.get(
   ],
   httpDetSalida.getBySalida
 );
+
 
 router.post(
   "/agregar",

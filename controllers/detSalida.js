@@ -32,7 +32,6 @@ const httpDetSalida = {
     try {
       const { idSalida } = req.params;
       const salidas = await DetSalida.find({ idSalida })
-        .populate("idSalida")
         .populate("idProducto");
       res.json(salidas);
     } catch (error) {
