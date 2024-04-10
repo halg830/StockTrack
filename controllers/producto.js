@@ -54,7 +54,6 @@ const httpProducto = {
         precioUnitario,
         iva,
         tipoProducto,
-        cantidad,
         idLote,
       } = req.body;
       const producto = new Producto({
@@ -65,7 +64,6 @@ const httpProducto = {
         precioUnitario,
         iva,
         tipoProducto,
-        cantidad,
         idLote,
       });
       await producto.save();

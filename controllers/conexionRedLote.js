@@ -59,10 +59,12 @@ const httpConexRedLote = {
         codigo,
         idRed,
         idLote,
-      }).populate("idLote").populate("idRed")
+      })
       await conexion.save();
+      
+      const conex = await ConexRedLote.findById(conexion._id).populate("idLote").populate("idRed");
 
-      res.json(conexion);
+      res.json(conex);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });

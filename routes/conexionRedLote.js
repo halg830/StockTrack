@@ -57,8 +57,8 @@ router.post(
     check("idLote", "El id es invalido").isMongoId(),
     check('idLote').custom(helpersLote.existeId),
     check("idLote").custom(helpersConexionRedLote.existeConexion),
+    validarCampos,
   ],
-  validarCampos,
   httpConexRedLote.postAgregar
 );
 
@@ -72,11 +72,13 @@ router.put(
     check("codigo",).custom(helpersConexionRedLote.existeCodigo),
     check("idRed", "Seleccione una red").not().isEmpty(),
     check("idRed", "El id es invalido").isMongoId(),
-    check("idRed", "Red no valida").custom(helpersConexionRedLote.existeRed),
+    check("idRed", "Red no valida").custom(helpersRedConocimiento.existeId),
     check("idLote", "Seleccione un lote").not().isEmpty(),
     check("idLote", "El id es invalido").isMongoId(),
+    check('idLote').custom(helpersLote.existeId),
+    check("idLote").custom(helpersConexionRedLote.existeConexion),
+    validarCampos
   ],
-  validarCampos,
   httpConexRedLote.putEditar
 );
 

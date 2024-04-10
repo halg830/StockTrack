@@ -45,7 +45,6 @@ router.post(
       helpersProducto.precioValido
     ),
     check("iva", "Ingrese el iva").not().isEmpty(),
-    check("cantidad", "Ingrese el cantidad").not().isEmpty(),
     check("idLote", "Ingrese el lote").not().isEmpty(),
     check("idLote", "Id de lote no válida").isMongoId(),
     check("idLote").custom(helpersLote.existeId),
@@ -70,7 +69,6 @@ router.put(
       gt: 0,
     }),
     check("iva", "Ingrese el iva").not().isEmpty(),
-    check("cantidad", "Ingrese el cantidad").not().isEmpty(),
     check("idLote", "Ingrese el lote").not().isEmpty(),
     check("idLote", "Id de lote no válida").isMongoId(),
     check("idLote").custom(helpersLote.existeId),

@@ -8,7 +8,7 @@ const productoSchema = new mongoose.Schema({
     precioUnitario: {type:Number, require:true},
     iva: {type:Number, require:true},
     tipoProducto: {type: String, require: true},
-    cantidad: {type:Number, require:true},
+    cantidad: {type:Number, default: 0},
     idLote: {type:mongoose.Schema.Types.ObjectId,ref:'Lote', require:true},
     estado:{type:Boolean, default:1},
     createAT : {type:Date,default: Date.now }
