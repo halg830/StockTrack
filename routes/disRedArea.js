@@ -22,7 +22,7 @@ router.get(
   httpDisRedArea.getPorId
 );
 
-router.get('/distribucion/:idDistribucionPresupuesto',[
+router.get('/distribucion/:idDisDependenciaRed',[
   validarJWT,
   validarRolAdmin,
   check('idDisDependenciaRed','Campo Vacio').not().isEmpty(),
