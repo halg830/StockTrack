@@ -44,7 +44,7 @@ const helpersProveedor = {
   },
 
   existeIdentificacion: async (identificacion, req) => {
-    const existe = await Usuario.findOne({
+    const existe = await Proveedor.findOne({
       $text: { $search: identificacion },
     });
 
@@ -56,7 +56,7 @@ const helpersProveedor = {
       }
     }
 
-    req.req.UsuarioUpdate = existe;
+    req.req.ProveedorUpdate = existe;
   },
 };
 export default helpersProveedor;

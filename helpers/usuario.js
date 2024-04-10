@@ -97,7 +97,7 @@ const helpersUsuario = {
   },
 
   validarRol: async (rol, req) => {
-    const roles = ["admin", "instructor", "bodega"];
+    const roles = ["admin", "instructor", "bodega", 'supervisor'];
     if (!roles.includes(rol.toLowerCase())) {
       throw new Error("Rol no válido");
     }

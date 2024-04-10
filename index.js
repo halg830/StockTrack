@@ -23,6 +23,7 @@ import redConocimiento from './routes/redConocimineto.js'
 import salida from './routes/salida.js'
 import entrada from './routes/entrada.js'
 import persona from './routes/usuario.js';
+import proveedor from './routes/proveedor.js';
 
 const port=process.env.PORT
 let app = express();
@@ -49,6 +50,7 @@ app.use("/api/redConocimiento", redConocimiento)
 app.use("/api/salida", salida)
 app.use("/api/entrada", entrada)
 app.use("/api/persona", persona)
+app.use("/api/proveedor", proveedor)
 
 const server = http.createServer(app)
 
