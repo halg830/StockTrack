@@ -19,13 +19,13 @@ router.get('/buscarId/:id',[
     validarCampos
 ],httpDisAreaDestino.getDistribucionesById)
 
-// router.get('/distribucion/:idItem',[
-//     validarJWT,
-//     validarRolAdmin,
-//     check('idItem','Digite el id de la distribucion').not().isEmpty(),
-//     check('idItem','Digite el id de la distribucion').isMongoId(),
-//     validarCampos
-// ],httpDisAreaDestino.getDistribucionesById)
+router.get('/distribucion/:idDisRedArea',[
+    validarJWT,
+    validarRolAdmin,
+    check('idDisRedArea','Digite el id de la distribucion').not().isEmpty(),
+    check('idDisRedArea','Digite el id de la distribucion').isMongoId(),
+    validarCampos
+],httpDisAreaDestino.getDistribucionesById)
 // Post
 router.post('/agregar',[
     validarJWT,

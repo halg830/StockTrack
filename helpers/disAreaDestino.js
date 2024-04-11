@@ -1,12 +1,12 @@
 import DisAreaDestino from "../models/disAreaDestino.js";
 
 const helpersDisAreaDestino = {
-    existeDistribucion: async (idDependencia, req) => {
-        const idRed = req.req.body.idRed
-        if (nombre) {
+    existeDistribucion: async (idDisRedArea, req) => {
+        const idDestino = req.req.body.idDestino
+        if (idDestino && idDisRedArea) {
           const existe = await DisAreaDestino.findOne({ 
-            idDependencia,
-            idRed
+            idDisRedArea,
+            idDestino
           });
     
           if(existe){

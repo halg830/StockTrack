@@ -15,8 +15,8 @@ const httpDisAreaDestino = {
 
   getDistribucionesById: async (req, res) => {
     try {
-      const { id } = req.params;
-      const distribucion = await DisAreaDestino.findById(id)
+      const { idDisRedArea } = req.params;
+      const distribucion = await DisAreaDestino.find({idDisRedArea})
         .populate("idDisRedArea")
         .populate("idDestino");
       res.json(distribucion);

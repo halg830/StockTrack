@@ -17,7 +17,7 @@ const httpDisRedArea = {
     try {
       const { id } = req.params;
       const disRedArea = await DisRedArea.findById(id)
-      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDisDependencia" }, { path: "idRed" }] })
       .populate("idAreaTematica");
       res.json(disRedArea);
     } catch (error) {
@@ -30,7 +30,7 @@ const httpDisRedArea = {
       const { idDisDependenciaRed } = req.params
 
       const disRedArea = await DisRedArea.find({idDisDependenciaRed})
-      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDisDependencia" }, { path: "idRed" }] })
       .populate("idAreaTematica");
       res.json(disRedArea);
     } catch (error) {
@@ -41,13 +41,12 @@ const httpDisRedArea = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDisDependenciaRed,idAreaTematica ,year } = req.body;
+      const { presupuestoAsignado, idDisDependenciaRed,idAreaTematica } = req.body;
       const disRedArea = new DisRedArea({
         presupuestoAsignado,
         presupuestoDisponible:presupuestoAsignado,
         idDisDependenciaRed,
         idAreaTematica,
-        year
       });
       await disRedArea.save();
       res.json(disRedArea);
@@ -60,10 +59,10 @@ const httpDisRedArea = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica ,year} = req.body;
+      const {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica} = req.body;
       const disRedArea = await DisRedArea.findByIdAndUpdate(
         id,
-        {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica ,year },
+        {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica},
         { new: true }
       );
       res.json(disRedArea);
@@ -130,7 +129,7 @@ const httpDisRedArea = {
         id,
         { estado: 0 },
         { new: true }
-      ).populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+      )     .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDisDependencia" }, { path: "idRed" }] })
       .populate("idAreaTematica");
 
       res.json(disRedArea);
@@ -146,7 +145,7 @@ const httpDisRedArea = {
         { estado: 1 },
         { new: true }
       )
-      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDisDependencia" }, { path: "idRed" }] })
       .populate("idAreaTematica");
       res.json(disRedArea);
     } catch (error) {

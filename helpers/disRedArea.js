@@ -11,7 +11,7 @@ const helpersDisRedArea = {
   },
   existeDistribucion: async (idDisDependenciaRed, req) => {
     const idAreaTematica = req.req.body.idAreaTematica
-    if (nombre) {
+    if (idDisDependenciaRed && idAreaTematica) {
       const existe = await DisRedArea.findOne({ 
         idDisDependenciaRed,
         idAreaTematica
