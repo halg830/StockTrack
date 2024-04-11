@@ -1,5 +1,6 @@
 import Salida from "../models/salida.js";
 import DetSalida from '../models/detSalida.js';
+import Pedido from '../models/pedido.js'
 
 const httpSalida = {
   getAll: async (req, res) => {
@@ -72,6 +73,8 @@ const httpSalida = {
       });
 
       await Promise.all(detallesSalida);
+
+      await Pedido.findByIdAndUpdate(idPedido, {estado: true}, {new: true})
 
       res.status(201).json(salidaGuardado);
     } catch (error) {
