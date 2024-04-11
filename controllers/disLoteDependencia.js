@@ -5,7 +5,7 @@ const httpDisLoteDependencia = {
     try {
       const distribucion = await DisLoteDependencia.find()
         .populate("idDisContratoLote")
-        .populate("idDisdependencia");
+        .populate("idDisDependenciaRed");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -18,7 +18,7 @@ const httpDisLoteDependencia = {
       const { id } = req.params;
       const distribucion = await DisLoteDependencia.findById(id)
         .populate("idDisContratoLote")
-        .populate("idDisdependencia");
+        .populate("idDisDependenciaRed");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -29,14 +29,14 @@ const httpDisLoteDependencia = {
   // Post
   post: async (req, res) => {
     try {
-      const { codigo, presupuestoAsignado, idDisContratoLote, idDisdependencia } = req.body;
+      const { codigo, presupuestoAsignado, idDisContratoLote, idDisDependenciaRed } = req.body;
 
       const distribucion = new DisLoteDependencia({
         codigo,
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idDisContratoLote,
-        idDisdependencia,
+        idDisDependenciaRed,
         year,
       });
       await distribucion.save();
@@ -52,7 +52,7 @@ const httpDisLoteDependencia = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { codigo, presupuestoAsignado, idDisContratoLote, idDisdependencia, year } = req.body;
+      const { codigo, presupuestoAsignado, idDisContratoLote, idDisDependenciaRed, year } = req.body;
 
       const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
@@ -61,13 +61,13 @@ const httpDisLoteDependencia = {
           presupuestoAsignado,
           presupuestoDisponible,
           idDisContratoLote,
-          idDisdependencia,
+          idDisDependenciaRed,
           year,
         },
         { new: true }
       )
         .populate("idDisContratoLote")
-        .populate("idDisdependencia");
+        .populate("idDisDependenciaRed");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -86,7 +86,7 @@ const httpDisLoteDependencia = {
         { new: true }
       )
         .populate("idDisContratoLote")
-        .populate("idDisdependencia");
+        .populate("idDisDependenciaRed");
 
       res.json(distribucion);
     } catch (error) {

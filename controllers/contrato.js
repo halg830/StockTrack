@@ -54,6 +54,7 @@ const httpContrato = {
       console.log(proceso);
       const presupuestoDisponible = proceso.presupuestoDisponible - presupuestoAsignado;
       if(presupuestoDisponible<0) return res.status(400).json({error: 'No hay presupuesto suficiente'})
+      proceso.presupuestoDisponible = presupuestoDisponible
 
       await contrato.save();
       await proceso.save()

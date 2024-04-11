@@ -65,6 +65,7 @@ const httpSalida = {
         const buscarDetPedido = detPedido.find(det=> det.idProducto._id === detSalida.idProducto._id)
         
         const cantidadPendiente = buscarDetPedido.cantidad - detSalida.cantidad
+        if(cantidadPendiente<0) return res.status(400).json({error: 'Se está entregando más de lo que se pidio'})
         const subTotal = detSalida.cantidad*detSalida.idProducto.precioUnitario
       
         const nuevoDetSalida = new DetSalida({cantidadEntregada: detSalida.cantidad, cantidadPendiente, idSalida: salidaGuardado._id, idProducto: detSalida.idProducto, subTotal })
