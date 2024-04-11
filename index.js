@@ -24,6 +24,7 @@ import salida from './routes/salida.js'
 import entrada from './routes/entrada.js'
 import persona from './routes/usuario.js';
 import proveedor from './routes/proveedor.js';
+import proceso from './routes/proceso.js'
 
 const port=process.env.PORT
 let app = express();
@@ -51,6 +52,7 @@ app.use("/api/salida", salida)
 app.use("/api/entrada", entrada)
 app.use("/api/persona", persona)
 app.use("/api/proveedor", proveedor)
+app.use("/api/proceso", proceso)
 
 const server = http.createServer(app)
 

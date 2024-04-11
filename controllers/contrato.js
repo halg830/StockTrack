@@ -1,10 +1,11 @@
 import Contrato from "../models/contrato.js";
+import Proceso from '../models/proceso.js';
 import helpersGeneral from "../helpers/generales.js";
 
 const httpContrato = {
   getAll: async (req, res) => {
     try {
-      const contratos = await Contrato.find();
+      const contratos = await Contrato.find().populate('idSupervisor').populate('idProveedor').populate('idProceso');
       res.json(contratos);
     } catch (error) {
       console.log(error);
@@ -37,10 +38,8 @@ const httpContrato = {
   // Post
   post: async (req, res) => {
     try {
-      const { nombre, codigo, presupuestoAsignado, idSupervisor, idProveedor } =
+      const { nombre, codigo, presupuestoAsignado, idSupervisor, idProveedor, idProceso} =
         req.body;
-
-      const fecha = new Date(`${year}-01-02T00:00:00.000Z`);
 
       const contrato = new Contrato({
         nombre: await helpersGeneral.primeraMayuscula(nombre),
@@ -48,10 +47,19 @@ const httpContrato = {
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idSupervisor,
-        idProveedor,
+        idProveedor, idProceso
       });
+      
+      const proceso = await Proceso.findById(idProceso);
+      console.log(proceso);
+      const presupuestoDisponible = proceso.presupuestoDisponible - presupuestoAsignado;
+      if(presupuestoDisponible<0) return res.status(400).json({error: 'No hay presupuesto suficiente'})
+
       await contrato.save();
-      res.json(contrato);
+      await proceso.save()
+
+      const populateContrato = await Contrato.findById(contrato._id).populate('idSupervisor').populate('idProveedor').populate('idProceso')
+      res.json(populateContrato);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -62,7 +70,7 @@ const httpContrato = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, codigo, presupuestoAsignado, idSupervisor, idProveedor } =
+      const { nombre, codigo, idSupervisor, idProveedor} =
         req.body;
 
       const contrato = await Contrato.findByIdAndUpdate(
@@ -70,10 +78,8 @@ const httpContrato = {
         {
           nombre: await helpersGeneral.primeraMayuscula(nombre),
           codigo,
-          presupuestoAsignado,
-          presupuestoDisponible,
           idSupervisor,
-          idProveedor,
+          idProveedor
         },
         { new: true }
       );
