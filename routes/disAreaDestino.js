@@ -37,7 +37,7 @@ router.post('/agregar',[
     check("idDestino", "ID no válido").custom(helpersDisAreaDestino.existeDistribucion),
     check("idDisRedArea", "ID no válido").not().isEmpty(),
     check("idDisRedArea", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
+    // check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ],httpDisAreaDestino.post)
 
@@ -54,7 +54,7 @@ router.put('/editar/:id', [
     check("idDestino", "ID no válido").custom(helpersDisAreaDestino.existeDistribucion),
     check("idDisRedArea", "ID no válido").not().isEmpty(),
     check("idDisRedArea", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
+    // check('year', 'Ingrese un año').not().isEmpty(), 
     validarCampos
 ], httpDisAreaDestino.putEditar)
 

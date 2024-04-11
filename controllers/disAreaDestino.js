@@ -17,7 +17,7 @@ const httpDisAreaDestino = {
     try {
       const { idDisRedArea } = req.params;
       const distribucion = await DisAreaDestino.find({idDisRedArea})
-        .populate("idDisRedArea")
+        .populate({path:"idDisRedArea",populate: [{ path: "idAreaTematica"}]})
         .populate("idDestino");
       res.json(distribucion);
     } catch (error) {
@@ -29,14 +29,13 @@ const httpDisAreaDestino = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDisRedArea, idDestino, year } = req.body;
+      const { presupuestoAsignado, idDisRedArea, idDestino} = req.body;
 
       const distribucion = new DisAreaDestino({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idDisRedArea,
         idDestino,
-        year,
       });
       await distribucion.save();
 
@@ -51,16 +50,14 @@ const httpDisAreaDestino = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDisRedArea, idDestino, year } = req.body;
+      const { presupuestoAsignado, idDisRedArea, idDestino} = req.body;
 
       const distribucion = await DisAreaDestino.findByIdAndUpdate(
         id,
         {
           presupuestoAsignado,
-          presupuestoDisponible,
           idDisRedArea,
           idDestino,
-          year,
         },
         { new: true }
       )
