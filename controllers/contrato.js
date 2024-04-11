@@ -35,6 +35,17 @@ const httpContrato = {
     }
   },
 
+  getPorProceso: async (req, res) => {
+    try {
+      const { idProceso } = req.params;
+      const contrato = await Contrato.find({ idProceso }).populate('idSupervisor').populate('idProveedor').populate('idProceso');
+      res.json(contrato);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  },
+
   // Post
   post: async (req, res) => {
     try {

@@ -8,6 +8,7 @@ import { validarRolAdmin } from "../middlewares/validar-rol.js";
 import helpersContrato from "../helpers/contrato.js";
 import helpersUsuario from '../helpers/usuario.js'
 import helpersProveedor from "../helpers/proveedor.js";
+import helpersProceso from "../helpers/proceso.js"
 
 const router=new Router()
 
@@ -21,6 +22,16 @@ router.get('/buscarId/:id', [
   check('id', 'Digite el id').isMongoId(),
   validarCampos,
 ], httpContrato.getById) 
+
+router.get("/por-proceso/:idProceso",
+  [
+    validarJWT,
+    check("idProceso", "Digite el id del lote").not().isEmpty(),
+    check("idProceso", "El id es invalido").isMongoId(),
+    validarCampos,
+  ], 
+  httpContrato.getPorProceso
+);
 
 
 // Post
