@@ -61,14 +61,22 @@ const httpSalida = {
       
       console.log(detSalidas, detPedido);
       
-      const detallesSalida = detSalidas.map(async(detSalida) => {
-        const buscarDetPedido = detPedido.find(det=> det.idProducto._id === detSalida.idProducto._id)
+      const detallesSalida = detPedido.map(async(det) => {
+        const buscarDetSalida = detSalidas.find(detS=> detS.idProducto._id === det.idProducto._id)
         
-        const cantidadPendiente = buscarDetPedido.cantidad - detSalida.cantidad
-        if(cantidadPendiente<0) return res.status(400).json({error: 'Se está entregando más de lo que se pidio'})
-        const subTotal = detSalida.cantidad*detSalida.idProducto.precioUnitario
+        let cantidadEntregada = 0
+        let cantidadPendiente = det.cantidad
+        let subTotal = 0
+        if(buscarDetSalida) {
+          cantidadEntregada = buscarDetSalida.cantidad
+          cantidadPendiente = det.cantidad - buscarDetSalida.cantidad
+          if(cantidadPendiente<0) return res.status(400).json({error: 'Se está entregando más de lo que se pidio'})
+          subTotal = buscarDetSalida.cantidad*det.idProducto.precioUnitario
+
+        }
+
       
-        const nuevoDetSalida = new DetSalida({cantidadEntregada: detSalida.cantidad, cantidadPendiente, idSalida: salidaGuardado._id, idProducto: detSalida.idProducto, subTotal })
+        const nuevoDetSalida = new DetSalida({cantidadEntregada, cantidadPendiente, idSalida: salidaGuardado._id, idProducto: det.idProducto._id, subTotal })
         await nuevoDetSalida.save()
         console.log(nuevoDetSalida);
       });
@@ -79,6 +87,7 @@ const httpSalida = {
 
       res.status(201).json(salidaGuardado);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
     }
   },
@@ -102,14 +111,11 @@ const httpSalida = {
   putActivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const producto = await Producto.findByIdAndUpdate(
+      const producto = await Salida.findByIdAndUpdate(
         id,
         { estado: 1 },
         { new: true }
       );
-
-      const lote = await Lote.findById(producto.idLote);
-      producto.idLote = lote;
 
       res.json(producto);
     } catch (error) {
@@ -120,14 +126,11 @@ const httpSalida = {
   putInactivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const producto = await Producto.findByIdAndUpdate(
+      const producto = await Salida.findByIdAndUpdate(
         id,
         { estado: 0 },
         { new: true }
       );
-
-      const lote = await Lote.findById(producto.idLote);
-      producto.idLote = lote;
 
       res.json(producto);
     } catch (error) {

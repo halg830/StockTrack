@@ -12,7 +12,7 @@ const helpersProveedor = {
   },
 
   existeTelefono: async (telefono, req) => {
-    const existe = await Proveedor.findOne({ $text: { $search: telefono } });
+    const existe = await Proveedor.findOne({ telefono  });
 
     if (existe) {
       if (req.req.method === "PUT" && req.req.body._id != existe._id) {

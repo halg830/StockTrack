@@ -35,6 +35,8 @@ router.post('/agregar',[
     check("presupuestoAsignado", "Ingrese un presupuesto").not().isEmpty(),
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     check('codigo', 'Ingrese el código').not().isEmpty(),
+    check('idProceso', 'Ingrese el proceso').not().isEmpty(),
+    check('idProceso').custom(helpersProceso.existeId),
     validarCampos
 ],httpProceso.post)
 

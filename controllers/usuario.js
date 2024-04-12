@@ -106,7 +106,7 @@ const httpUsuario = {
         return res.status(400).json({ error: "El código ha expirado" });
       }
 
-      if (codigo === codigoGuardado) {
+      if (codigo == codigoGuardado) {
         return res.json({ msg: "Código correcto" });
       }
 
@@ -243,7 +243,7 @@ const httpUsuario = {
         return res.status(400).json({ error: "El código ha expirado" });
       }
 
-      if (codigo === codigoGuardado) {
+      if (codigo == codigoGuardado) {
         codigoEnviado = {};
 
         const usuario = req.UsuarioUpdate;

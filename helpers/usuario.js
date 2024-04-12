@@ -11,26 +11,27 @@ const helpersUsuario = {
     req.req.UsuarioUpdate = existe;
   },
 
-  desactivarAdmin: async(id, req)=>{
-    const rol = req.req.UsuarioUpdate.rol
+  desactivarAdmin: async (id, req) => {
+    const rol = req.req.UsuarioUpdate.rol;
 
-    if(rol=='admin'){
-      const usuarios = await Usuario.find({rol: 'admin'})
-      if(usuarios.length<=1) throw new Error(`No se pueden desactivar todos los admin`);
+    if (rol == "admin") {
+      const usuarios = await Usuario.find({ rol: "admin" });
+      if (usuarios.length <= 1)
+        throw new Error(`No se pueden desactivar todos los admin`);
     }
-
   },
 
-  desactivarLogeado: async(id, req)=>{
-    const idLogeado = req.req.usuario._id
+  desactivarLogeado: async (id, req) => {
+    const idLogeado = req.req.usuario._id;
     console.log(idLogeado);
 
-    if(idLogeado==id){
-      throw new Error(`No puedes desactivarte a ti mismo`)
+    if (idLogeado == id) {
+      throw new Error(`No puedes desactivarte a ti mismo`);
     }
   },
 
   existeIdentificacion: async (identificacion, req) => {
+    if (identificacion.length < 7) throw new Error("Identificación no válida");
     const existe = await Usuario.findOne({
       $text: { $search: identificacion },
     });
@@ -47,7 +48,8 @@ const helpersUsuario = {
   },
 
   existeTelefono: async (telefono, req) => {
-    const existe = await Usuario.findOne({ $text: { $search: telefono } });
+    if (telefono.length != 10) throw new Error("Teléfono inválido");
+    const existe = await Usuario.findOne({ telefono });
 
     if (existe) {
       if (req.req.method === "PUT" && req.req.body._id != existe._id) {
@@ -78,7 +80,7 @@ const helpersUsuario = {
     req.req.UsuarioUpdate = existe;
   },
 
-  existeCorreoNewPass: async(correo, req) => {
+  existeCorreoNewPass: async (correo, req) => {
     const existe = await Usuario.findOne({ correo });
 
     if (!existe) {
@@ -97,7 +99,7 @@ const helpersUsuario = {
   },
 
   validarRol: async (rol, req) => {
-    const roles = ["admin", "instructor", "bodega", 'supervisor'];
+    const roles = ["admin", "instructor", "bodega", "supervisor"];
     if (!roles.includes(rol.toLowerCase())) {
       throw new Error("Rol no válido");
     }

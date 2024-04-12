@@ -33,45 +33,11 @@ router.post(
     check("idPedido", "Digite la ficha").not().isEmpty(),
     check("idPedido", "No es un Mongo ID válido").isMongoId(),
     check("idPedido").custom(helpersPedido.existeId),
+    check('detSalidas', 'Ingrese el detalle de salida').not().isEmpty(),
+    check('detPedido', 'Ingrese el detalle de pedido').not().isEmpty(),
     validarCampos,
   ],
   httpSalida.post
-);
-
-router.put(
-  "/editar/:id",
-  [
-    validarJWT,
-    check("id", "Digite el ID").not().isEmpty(),
-    check("id", "No es un Mongo ID válido").isMongoId(),
-    check("idAdmin", "Digite el ID del Admin").not().isEmpty(),
-    check("idAdmin", "No es un Mongo ID válido").isMongoId(),
-    check("idAdmin").custom(helpersUsuario.existeHolderById),
-    check("idPedido", "Digite la ficha").not().isEmpty(),
-    check("idPedido", "No es un Mongo ID válido").isMongoId(),
-    check("idPedido").custom(helpersPedido.existeId),
-    validarCampos,
-  ],
-  httpSalida.putEditar
-);
-
-router.put(
-  "/inactivar/:id",
-  [
-    validarJWT,
-    check("id", "Ingrese un ID válido").not().isEmpty(),
-    check("id", "Ingrese un ID válido").isMongoId(),
-  ],
-  httpSalida.putInactivar
-);
-router.put(
-  "/activar/:id",
-  [
-    validarJWT,
-    check("id", "Ingrese un ID válido").not().isEmpty(),
-    check("id", "Ingrese un ID válido").isMongoId(),
-  ],
-  httpSalida.putActivar
 );
 
 router.put(
