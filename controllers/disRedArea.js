@@ -1,4 +1,6 @@
 import DisRedArea from "../models/disRedArea.js";
+import DisAreaDestino from "../models/disAreaDestino.js";
+import DisDependenciaRed from "../models/disDependenciaRed.js"
 
 const httpDisRedArea = {
   // Get
@@ -76,17 +78,37 @@ const httpDisRedArea = {
   // putEditar: async (req, res) => {
   //   try {
   //     const { id } = req.params;
-  //     const { presupuestoAsignado, idDisDependenciaRed, idAreaTematica, year } = req.body;
+  //     const { presupuestoAsignado, idDisDependenciaRed, idAreaTematica } = req.body;
 
   //     const disAreaDestino = await DisAreaDestino.find({
-  //       idDisAreaDestino: id
+  //       idDisRedArea: id
   //     });
 
+  //     console.log("disAreaDestino", disAreaDestino);
+
+  //     const disDependenciaRed = await DisDependenciaRed.findOne({
+  //       _id:idDisDependenciaRed
+  //     })
+  //     console.log("disDependenciaRed", disDependenciaRed);
+
+  //     const presupuestoDisponibleDependenciaRed = disDependenciaRed.presupuestoDisponible 
+
+  //     console.log(presupuestoDisponibleDependenciaRed);
+
   //     const totalPresupuestos = disAreaDestino.reduce((total, disAreaDestino) => {
-  //       return total + disAreaDestino.presupuesto;
+  //       return total + disAreaDestino.presupuestoAsignado;
   //     }, 0);
 
-  //     const presupuestoDisponible = presupuesto - totalPresupuestos;
+  //     console.log(totalPresupuestos);
+
+  //     const distribucionAnterior = await DisRedArea.findById(id);
+  //     const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
+
+  //     // const presupuestoDisponible = presupuestoDisponible + presupuestoAnterior - presupuestoAsignado;
+
+  //     if (presupuestoDisponible < 0) {
+  //       return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
+  //     }
 
   //     const distribucion = await DisRedArea.findByIdAndUpdate(
   //       id,
@@ -95,7 +117,6 @@ const httpDisRedArea = {
   //         presupuestoDisponible,
   //         idDisDependenciaRed,
   //         idAreaTematica,
-  //         year
   //       }, { new: true }
   //     ).populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
   //     .populate("idAreaTematica");
