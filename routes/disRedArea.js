@@ -68,7 +68,7 @@ router.put(
     check("presupuestoAsignado", "El presupuesto debe ser mayor a 0").custom(helpersPresupuesto.validarPresupuesto), 
     check("idDisDependenciaRed", "Campo Distribucion Vacio").not().isEmpty(),
     check("idDisDependenciaRed","Valor no valido").isMongoId(),
-    check("idDisDependenciaRed", "Ya existe").custom(helpersDisRedArea.existeDistribucion),
+    // check("idDisDependenciaRed", "Ya existe").custom(helpersDisRedArea.existeDistribucion),
     check("idAreaTematica", "Campo Ficha Vacio").not().isEmpty(),
     check("idAreaTematica", "Valor no Valido").isMongoId(),
     validarCampos,

@@ -49,9 +49,7 @@ const httpDisRedArea = {
         presupuestoDisponible:presupuestoAsignado,
         idDisDependenciaRed,
         idAreaTematica,
-      })
-      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
-        .populate("idAreaTematica");
+      });
       await disRedArea.save();
       res.json(disRedArea);
     } catch (error) {
@@ -60,71 +58,75 @@ const httpDisRedArea = {
   },
 
   // Put
-  putEditar: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica} = req.body;
-      const disRedArea = await DisRedArea.findByIdAndUpdate(
-        id,
-        {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica},
-        { new: true }
-      ).populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
-      .populate("idAreaTematica");
-      res.json(disRedArea);
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  },
   // putEditar: async (req, res) => {
   //   try {
   //     const { id } = req.params;
-  //     const { presupuestoAsignado, idDisDependenciaRed, idAreaTematica } = req.body;
-
-  //     const disAreaDestino = await DisAreaDestino.find({
-  //       idDisRedArea: id
-  //     });
-
-  //     console.log("disAreaDestino", disAreaDestino);
-
-  //     const disDependenciaRed = await DisDependenciaRed.findOne({
-  //       _id:idDisDependenciaRed
-  //     })
-  //     console.log("disDependenciaRed", disDependenciaRed);
-
-  //     const presupuestoDisponibleDependenciaRed = disDependenciaRed.presupuestoDisponible 
-
-  //     console.log(presupuestoDisponibleDependenciaRed);
-
-  //     const totalPresupuestos = disAreaDestino.reduce((total, disAreaDestino) => {
-  //       return total + disAreaDestino.presupuestoAsignado;
-  //     }, 0);
-
-  //     console.log(totalPresupuestos);
-
-  //     const distribucionAnterior = await DisRedArea.findById(id);
-  //     const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
-
-  //     // const presupuestoDisponible = presupuestoDisponible + presupuestoAnterior - presupuestoAsignado;
-
-  //     if (presupuestoDisponible < 0) {
-  //       return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
-  //     }
-
-  //     const distribucion = await DisRedArea.findByIdAndUpdate(
+  //     const {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica} = req.body;
+  //     const disRedArea = await DisRedArea.findByIdAndUpdate(
   //       id,
-  //       {
-  //         presupuestoAsignado,
-  //         presupuestoDisponible,
-  //         idDisDependenciaRed,
-  //         idAreaTematica,
-  //       }, { new: true }
-  //     ).populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
-  //     .populate("idAreaTematica");
-  //     res.json(distribucion);
+  //       {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica},
+  //       { new: true }
+  //     );
+  //     res.json(disRedArea);
   //   } catch (error) {
   //     res.status(400).json({ error });
   //   }
   // },
+  putEditar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { presupuestoAsignado, idDisDependenciaRed, idAreaTematica } = req.body;
+
+      const disAreaDestino = await DisAreaDestino.find({
+        idDisRedArea: id
+      });
+
+      const disDependenciaRed = await DisDependenciaRed.findOne({
+        _id:idDisDependenciaRed
+      })
+
+      const presupuestoDisponibleDependenciaRed = disDependenciaRed.presupuestoDisponible 
+
+
+      const totalPresupuestos = disAreaDestino.reduce((total, disAreaDestino) => {
+        return total + disAreaDestino.presupuestoAsignado;
+      }, 0);
+
+      const distribucionAnterior = await DisRedArea.findById(id);
+      const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
+
+
+      const diferencia = presupuestoAnterior - presupuestoAsignado;
+
+      const presupuestoDisponible = presupuestoAsignado - totalPresupuestos;
+
+      if (presupuestoDisponible < 0) {
+        return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
+      } 
+      
+      const updatePresupuestoRed = presupuestoDisponibleDependenciaRed + diferencia
+
+      const presupuestoRed = await DisDependenciaRed.findByIdAndUpdate(idDisDependenciaRed, {
+      presupuestoDisponible: updatePresupuestoRed}, { new: true } );
+
+      if(!presupuestoRed){
+         res.status(200).json({ message: 'El presupuesto de la red fue Arreglado.' });
+      };
+
+      const distribucion = await DisRedArea.findByIdAndUpdate(
+        id,
+        {
+          presupuestoAsignado,
+          presupuestoDisponible,
+          idDisDependenciaRed,
+          idAreaTematica,
+        }, { new: true }
+      );
+      res.json(distribucion);
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
 
   putAjustarPresupuesto: async (req, res) => {
     try {
