@@ -1,15 +1,15 @@
 import DisDependenciaRed from "../models/disDependenciaRed.js";
 import DisDependencia from "../models/disDependencia.js";
 import RedConocimiento from "../models/redConocimineto.js";
+import DisRedArea from "../models/disRedArea.js"
 
 const httpDisDependenciaRed = {
 
   getAll: async (req, res) => {
     try {
       const distribucion = await DisDependenciaRed.find()
-        .populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
-        
-        .populate("idRed");
+      .populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+      .populate("idRed");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -34,7 +34,8 @@ const httpDisDependenciaRed = {
       const { id } = req.params;
 
       const distribucion = await DisDependenciaRed.findById(id)
-        .populate("idDisDependencia").populate("idRed");
+      .populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+      .populate("idRed");
       res.json(distribucion)
     } catch (error) {
       res.status(400).json({ error });
@@ -45,14 +46,13 @@ const httpDisDependenciaRed = {
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idDisDependencia, idRed, year } = req.body;
+      const { presupuestoAsignado, idDisDependencia, idRed} = req.body;
 
       const distribucion = new DisDependenciaRed({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idDisDependencia,
         idRed,
-        year,
       });
       await distribucion.save();
 
@@ -73,28 +73,28 @@ const httpDisDependenciaRed = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDisDependencia, idRed, year } = req.body;
+      const { presupuestoAsignado, idDisDependencia, idRed, } = req.body;
 
-      const disRedArea = await DisRedArea.find({
-        idDisDependenciaRed: id
-      });
+      // const disRedArea = await DisRedArea.find({
+      //   idDisDependenciaRed: id
+      // });
 
-      const totalPresupuestos = disRedArea.reduce((total, disRedArea) => {
-        return total + disRedArea.presupuesto;
-      }, 0);
+      // const totalPresupuestos = disRedArea.reduce((total, disRedArea) => {
+      //   return total + disRedArea.presupuesto;
+      // }, 0);
 
-      const presupuestoDisponible = presupuesto - totalPresupuestos;
+      // const presupuestoDisponible = presupuesto - totalPresupuestos;
 
       const distribucion = await DisDependenciaRed.findByIdAndUpdate(
         id,
         {
           presupuestoAsignado,
-          presupuestoDisponible,
+          presupuestoDisponible:presupuestoAsignado,
           idDisDependencia,
           idRed,
-          year
         }, { new: true }
-      ).populate("idDisDependencia").populate("idRed");
+      ).populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+      .populate("idRed");
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
@@ -106,7 +106,7 @@ const httpDisDependenciaRed = {
       const { id } = req.params;
       const { presupuestoAsignado } = req.body;
 
-      const disDependenciaRed = await disDependenciaRed.findById(id)
+      const disDependenciaRed = await DisDependenciaRed.findById(id)
       const presupuestoDisponible = disDependenciaRed.presupuestoDisponible - presupuestoAsignado
 
       const updatedDisDependenciaRed = await DisDependenciaRed.findByIdAndUpdate(id,
@@ -128,7 +128,8 @@ const httpDisDependenciaRed = {
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idDisDependencia").populate("idRed");
+      ).populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+      .populate("idRed");
       res.json(disDependenciaRed);
     } catch (error) {
       res.status(400).json({ error });
@@ -141,7 +142,8 @@ const httpDisDependenciaRed = {
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idDisDependencia").populate("idRed");
+      ).populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+      .populate("idRed");
       res.json(disDependenciaRed);
     } catch (error) {
       res.status(400).json({ error });

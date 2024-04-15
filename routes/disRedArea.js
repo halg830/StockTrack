@@ -48,14 +48,14 @@ router.post(
 );
 
 
-// router.put('/ajustarPresupuesto/:id',[
-//   validarJWT,
-//   validarRolAdmin,
-//   check("id", "Digite el id").not().isEmpty(),
-//   check("id", "No es mongo ID").isMongoId(),
-//   check("presupuesto","No hay ningun presupuesto").not().isEmpty(),
-//   validarCampos,
-// ], httpDisDependenciaRed.putAjustarPresupuesto)
+router.put('/ajustarPresupuesto/:id',[
+  validarJWT,
+  validarRolAdmin,
+  check("id", "Digite el id").not().isEmpty(),
+  check("id", "No es mongo ID").isMongoId(),
+  check("presupuestoAsignado","No hay ningun presupuesto").not().isEmpty(),
+  validarCampos,
+], httpDisRedArea.putAjustarPresupuesto)
 
 router.put(
   "/editar/:id",

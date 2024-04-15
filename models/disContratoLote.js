@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const  disContratoLoteSchema = new mongoose.Schema({
-    codigo: { type: String, index:"text", require:true, unique:true},
     presupuestoAsignado: { type:Number, require:true},
     presupuestoDisponible: {type:Number, require:true},
     idContrato:{type:mongoose.Schema.Types.ObjectId,ref:'Contrato', require:true},

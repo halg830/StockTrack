@@ -17,15 +17,15 @@ router.get('/buscarId/:id',[
     check('id','Digite el id de la distribucion').not().isEmpty(),
     check('id','Digite el id de la distribucion').isMongoId(),
     validarCampos
-],httpDisContratoLote.getDistribucionesById)
+],httpDisContratoLote.getById)
 
-// router.get('/distribucion/:idItem',[
-//     validarJWT,
-//     validarRolAdmin,
-//     check('idItem','Digite el id de la distribucion').not().isEmpty(),
-//     check('idItem','Digite el id de la distribucion').isMongoId(),
-//     validarCampos
-// ],httpDisContratoLote.getDistribucionesById)
+router.get('/distribucion/:idContrato',[
+    validarJWT,
+    validarRolAdmin,
+    check('idContrato','Digite el id de la distribucion').not().isEmpty(),
+    check('idContrato','Digite el id de la distribucion').isMongoId(),
+    validarCampos
+],httpDisContratoLote.getDistribucionesById)
 // Post
 router.post('/agregar',[
     validarJWT,
@@ -37,7 +37,6 @@ router.post('/agregar',[
     check("idContrato", "ID no válido").custom(helpersDisContratoLote.existeDistribucion),
     check("idLote", "ID no válido").not().isEmpty(),
     check("idLote", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ],httpDisContratoLote.post)
 
@@ -54,7 +53,6 @@ router.put('/editar/:id', [
     check("idContrato", "ID no válido").custom(helpersDisContratoLote.existeDistribucion),
     check("idLote", "ID no válido").not().isEmpty(),
     check("idLote", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ], httpDisContratoLote.putEditar)
 

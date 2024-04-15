@@ -39,7 +39,6 @@ router.post('/agregar',[
     check("idDisDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
     check("idRed", "ID no válido").not().isEmpty(),
     check("idRed", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ],httpDisDependenciaRed.post)
 
@@ -56,7 +55,6 @@ router.put('/editar/:id', [
     check("idDisDependencia", "ID no válido").custom(helpersDisDependenciaRed.existeDistribucion),
     check("idRed", "ID no válido").not().isEmpty(),
     check("idRed", "ID no válido").isMongoId(),
-    check('year', 'Ingrese un año').not().isEmpty(),
     validarCampos
 ], httpDisDependenciaRed.putEditar)
 

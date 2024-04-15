@@ -73,7 +73,10 @@ const httpDisAreaDestino = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoDisponible } = req.body;
+      const { presupuestoAsignado } = req.body;
+
+      const disAreaDestino = await DisAreaDestino.findById(id)
+      const presupuestoDisponible = disAreaDestino.presupuestoDisponible - presupuestoAsignado
 
       const disDependencia = await DisAreaDestino.findByIdAndUpdate(
         id,

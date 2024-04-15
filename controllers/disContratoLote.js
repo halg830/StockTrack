@@ -6,6 +6,7 @@ const httpDisContratoLote = {
       const distribucion = await DisContratoLote.find()
         .populate("idContrato")
         .populate("idLote");
+        console.log(distribucion);
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -13,7 +14,7 @@ const httpDisContratoLote = {
     }
   },
 
-  getDistribucionesById: async (req, res) => {
+  getById: async (req, res) => {
     try {
       const { id } = req.params;
       const distribucion = await DisContratoLote.findById(id)
@@ -26,17 +27,30 @@ const httpDisContratoLote = {
     }
   },
 
+  getDistribucionesById: async (req, res) => {
+    try {
+      const { idContrato } = req.params;
+      const distribucion = await DisContratoLote.find({idContrato})
+        .populate("idContrato")
+        .populate("idLote");
+      res.json(distribucion);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  },
+
   // Post
   post: async (req, res) => {
     try {
-      const { presupuestoAsignado, idContrato, idLote, year } = req.body;
+      const { presupuestoAsignado, idContrato, idLote } = req.body;
 
       const distribucion = new DisContratoLote({
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idContrato,
         idLote,
-        year,
+        
       });
       await distribucion.save();
 
@@ -51,16 +65,15 @@ const httpDisContratoLote = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idContrato, idLote, year } = req.body;
+      const { presupuestoAsignado, idContrato, idLote } = req.body;
 
       const distribucion = await DisContratoLote.findByIdAndUpdate(
         id,
         {
           presupuestoAsignado,
-          presupuestoDisponible,
+          presupuestoDisponible:presupuestoAsignado,
           idContrato,
           idLote,
-          year,
         },
         { new: true }
       )
@@ -76,9 +89,12 @@ const httpDisContratoLote = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoDisponible } = req.body;
+      const { presupuestoAsignado } = req.body;
+      
+      const disContratoLote = await DisContratoLote.findById(id)
+      const presupuestoDisponible = disContratoLote.presupuestoDisponible - presupuestoAsignado
 
-      const disDependencia = await DisContratoLote.findByIdAndUpdate(
+      const newPresupuesto = await DisContratoLote.findByIdAndUpdate(
         id,
         { presupuestoDisponible },
         { new: true }
@@ -86,7 +102,8 @@ const httpDisContratoLote = {
         .populate("idContrato")
         .populate("idLote");
 
-      res.json(disDependencia);
+      res.json(newPresupuesto);
+
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -100,7 +117,9 @@ const httpDisContratoLote = {
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idContrato");
+      )
+      .populate("idContrato")
+      .populate("idLote");
       res.json(disDependencia);
     } catch (error) {
       console.log(error);
@@ -114,7 +133,9 @@ const httpDisContratoLote = {
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idContrato");
+      )
+      .populate("idContrato")
+      .populate("idLote");
       res.json(disDependencia);
     } catch (error) {
       console.log(error);

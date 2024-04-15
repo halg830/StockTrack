@@ -4,8 +4,8 @@ const httpDisLoteDependencia = {
   getAll: async (req, res) => {
     try {
       const distribucion = await DisLoteDependencia.find()
-        .populate("idDisContratoLote")
-        .populate("idDisDependenciaRed");
+      .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+        .populate("idDependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -13,12 +13,24 @@ const httpDisLoteDependencia = {
     }
   },
 
-  getDistribucionesById: async (req, res) => {
+  getById: async (req, res) => {
     try {
       const { id } = req.params;
       const distribucion = await DisLoteDependencia.findById(id)
-        .populate("idDisContratoLote")
-        .populate("idDisDependenciaRed");
+        .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+        .populate("idDependencia");
+      res.json(distribucion);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  },
+  getDistribucionesById: async (req, res) => {
+    try {
+      const { idDependencia } = req.params;
+      const distribucion = await DisLoteDependencia.find({idDependencia})
+        .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+        .populate("idDependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -29,15 +41,13 @@ const httpDisLoteDependencia = {
   // Post
   post: async (req, res) => {
     try {
-      const { codigo, presupuestoAsignado, idDisContratoLote, idDisDependenciaRed } = req.body;
+      const { presupuestoAsignado, idDisContratoLote, idDependencia } = req.body;
 
       const distribucion = new DisLoteDependencia({
-        codigo,
         presupuestoAsignado,
         presupuestoDisponible: presupuestoAsignado,
         idDisContratoLote,
-        idDisDependenciaRed,
-        year,
+        idDependencia,
       });
       await distribucion.save();
 
@@ -52,22 +62,20 @@ const httpDisLoteDependencia = {
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { codigo, presupuestoAsignado, idDisContratoLote, idDisDependenciaRed, year } = req.body;
+      const { presupuestoAsignado, idDisContratoLote, idDependencia } = req.body;
 
       const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         {
-          codigo,
           presupuestoAsignado,
-          presupuestoDisponible,
+          presupuestoDisponible:presupuestoAsignado,
           idDisContratoLote,
-          idDisDependenciaRed,
-          year,
+          idDependencia,
         },
         { new: true }
       )
-        .populate("idDisContratoLote")
-        .populate("idDisDependenciaRed");
+        .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+        .populate("idDependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -78,15 +86,18 @@ const httpDisLoteDependencia = {
   putAjustarPresupuesto: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoDisponible } = req.body;
+      const { presupuestoAsignado } = req.body;
+
+      const disLoteDependencia = await DisLoteDependencia.findById(id)
+      const presupuestoDisponible = disLoteDependencia.presupuestoDisponible - presupuestoAsignado
 
       const distribucion = await DisLoteDependencia.findByIdAndUpdate(
         id,
         { presupuestoDisponible },
         { new: true }
       )
-        .populate("idDisContratoLote")
-        .populate("idDisDependenciaRed");
+        .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+        .populate("idDependencia");
 
       res.json(distribucion);
     } catch (error) {
@@ -102,7 +113,9 @@ const httpDisLoteDependencia = {
         id,
         { estado: 0 },
         { new: true }
-      ).populate("idDisContratoLote");
+      )
+      .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+      .populate("idDependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);
@@ -116,7 +129,9 @@ const httpDisLoteDependencia = {
         id,
         { estado: 1 },
         { new: true }
-      ).populate("idDisContratoLote");
+      )
+      .populate({ path: "idDisContratoLote", populate: [{ path: "idContrato" }, { path: "idLote" }] })
+      .populate("idDependencia");
       res.json(distribucion);
     } catch (error) {
       console.log(error);

@@ -47,7 +47,9 @@ const httpDisRedArea = {
         presupuestoDisponible:presupuestoAsignado,
         idDisDependenciaRed,
         idAreaTematica,
-      });
+      })
+      .populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+        .populate("idAreaTematica");
       await disRedArea.save();
       res.json(disRedArea);
     } catch (error) {
@@ -64,7 +66,8 @@ const httpDisRedArea = {
         id,
         {  presupuestoAsignado, idDisDependenciaRed,idAreaTematica},
         { new: true }
-      );
+      ).populate({ path: "idDisDependenciaRed", populate: [{ path: "idDependencia" }, { path: "idRed" }] })
+      .populate("idAreaTematica");
       res.json(disRedArea);
     } catch (error) {
       res.status(400).json({ error });
@@ -113,7 +116,7 @@ const httpDisRedArea = {
       const updatedDisRedArea = await DisRedArea.findByIdAndUpdate(id,
         { presupuestoDisponible },
         { new: true }
-      );
+      )
 
       res.json(updatedDisRedArea);
 

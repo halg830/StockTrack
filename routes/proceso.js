@@ -16,8 +16,8 @@ router.get('/all', validarJWT, httpProceso.getAll);
 router.get('/buscarId/:id',[
     validarJWT,
     validarRolAdmin,
-    check('id','Digite el id de la distribucion').not().isEmpty(),
-    check('id','Digite el id de la distribucion').isMongoId(),
+    check('id','Ingrese el Proceso').not().isEmpty(),
+    check('id','Valor no valido').isMongoId(),
     validarCampos
 ],httpProceso.getProcesoById)
 

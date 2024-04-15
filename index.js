@@ -12,8 +12,8 @@ import detallePedido from "./routes/detallePedido.js"
 import detSalida from './routes/detSalida.js'
 import disAreaDestino from './routes/disAreaDestino.js'
 import disContratoLote from './routes/disContratoLote.js';
-import disDependencia from './routes/disDependencia.js';
 import disDependenciaRed from './routes/disDependenciaRed.js';
+import disLoteDependencia from './routes/disLoteDependencia.js';
 import disRedArea from './routes/disRedArea.js'
 import lote from './routes/lote.js'
 import pedido from "./routes/pedido.js"
@@ -40,8 +40,8 @@ app.use("/api/detallePedido", detallePedido)
 app.use("/api/detSalida", detSalida)
 app.use("/api/disAreaDestino", disAreaDestino)
 app.use("/api/disContratoLote", disContratoLote)
-app.use("/api/disDependencia", disDependencia)
 app.use("/api/disDependenciaRed", disDependenciaRed)
+app.use("/api/disLoteDependencia", disLoteDependencia)
 app.use("/api/disRedArea", disRedArea)
 app.use("/api/lote", lote)
 app.use("/api/pedido", pedido)

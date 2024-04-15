@@ -3,7 +3,7 @@ import DisContratoLote from "../models/disContratoLote.js";
 const helpersDisContratoLote = {
     existeDistribucion: async (idDependencia, req) => {
         const idLote = req.req.body.idLote
-        if (nombre) {
+        if (idLote || idDependencia) {
           const existe = await DisContratoLote.findOne({ 
             idDependencia,
             idLote
