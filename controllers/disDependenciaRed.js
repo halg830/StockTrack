@@ -1,6 +1,6 @@
 import DisDependenciaRed from "../models/disDependenciaRed.js";
-import DisDependencia from "../models/disDependencia.js";
 import RedConocimiento from "../models/redConocimineto.js";
+import DisLoteDependencia from "../models/disLoteDependencia.js";
 import DisRedArea from "../models/disRedArea.js"
 
 const httpDisDependenciaRed = {
@@ -70,36 +70,89 @@ const httpDisDependenciaRed = {
   },
 
   // Put
+  // putEditar: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const { presupuestoAsignado, idDisDependencia, idRed, } = req.body;
+
+  //     // const disRedArea = await DisRedArea.find({
+  //     //   idDisDependenciaRed: id
+  //     // });
+
+  //     // const totalPresupuestos = disRedArea.reduce((total, disRedArea) => {
+  //     //   return total + disRedArea.presupuesto;
+  //     // }, 0);
+
+  //     // const presupuestoDisponible = presupuesto - totalPresupuestos;
+
+  //     const distribucion = await DisDependenciaRed.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         presupuestoAsignado,
+  //         presupuestoDisponible:presupuestoAsignado,
+  //         idDisDependencia,
+  //         idRed,
+  //       }, { new: true }
+  //     ).populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
+  //     .populate("idRed");
+  //     res.json(distribucion);
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // },
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { presupuestoAsignado, idDisDependencia, idRed, } = req.body;
+      const { presupuestoAsignado, idDisDependencia, idRed } = req.body;
 
-      // const disRedArea = await DisRedArea.find({
-      //   idDisDependenciaRed: id
-      // });
+      const disRedArea = await idDisRedArea.find({
+        idDisRedArea: id
+      });
 
-      // const totalPresupuestos = disRedArea.reduce((total, disRedArea) => {
-      //   return total + disRedArea.presupuesto;
-      // }, 0);
+      const disLoteDependencia = await DisLoteDependencia.findOne({
+        _id:idDisDependencia
+      })
 
-      // const presupuestoDisponible = presupuesto - totalPresupuestos;
+      const presupuestoDisponibleDependenciaRed = disLoteDependencia.presupuestoDisponible 
 
-      const distribucion = await DisDependenciaRed.findByIdAndUpdate(
+
+      const totalPresupuestos = disRedArea.reduce((total, disRedArea) => {
+        return total + disRedArea.presupuestoAsignado;
+      }, 0);
+
+      const distribucionAnterior = await DisDependenciaRed.findById(id);
+      const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
+
+
+      const diferencia = presupuestoAnterior - presupuestoAsignado;
+
+      const presupuestoDisponible = presupuestoAsignado - totalPresupuestos;
+
+      if (presupuestoDisponible < 0) {
+        return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
+      } 
+      
+      const updatePresupuestoRed = presupuestoDisponibleDependenciaRed + diferencia
+
+      const presupuestoRed = await disLoteDependencia.findByIdAndUpdate(idDisDependencia, {
+      presupuestoDisponible: updatePresupuestoRed}, { new: true } );
+
+      if(!presupuestoRed){
+         res.status(200).json({ message: 'La red no tiene ningun presupuesto' });
+      };
+
+      const distribucion = await DisRedArea.findByIdAndUpdate(
         id,
         {
-          presupuestoAsignado,
-          presupuestoDisponible:presupuestoAsignado,
-          idDisDependencia,
-          idRed,
+          presupuestoAsignado,presupuestoDisponible, idDisDependencia, idRed
         }, { new: true }
-      ).populate({ path: "idDisDependencia", populate: [{ path: "idDependencia" }] })
-      .populate("idRed");
+      );
       res.json(distribucion);
     } catch (error) {
       res.status(400).json({ error });
     }
   },
+
 
   putAjustarPresupuesto: async (req, res) => {
     try {

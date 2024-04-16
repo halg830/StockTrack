@@ -1,4 +1,6 @@
 import DisContratoLote from "../models/disContratoLote.js";
+import Contrato from "../models/contrato.js";
+import DisLoteDependencia from "../models/disLoteDependencia.js";
 
 const httpDisContratoLote = {
   getAll: async (req, res) => {
@@ -62,29 +64,83 @@ const httpDisContratoLote = {
   },
 
   // Put
+  // putEditar: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const { presupuestoAsignado, idContrato, idLote } = req.body;
+
+  //     const distribucion = await DisContratoLote.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         presupuestoAsignado,
+  //         presupuestoDisponible:presupuestoAsignado,
+  //         idContrato,
+  //         idLote,
+  //       },
+  //       { new: true }
+  //     )
+  //       .populate("idContrato")
+  //       .populate("idLote");
+  //     res.json(distribucion);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(500).json({ error: "Error en el servidor" });
+  //   }
+  // },
+
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
       const { presupuestoAsignado, idContrato, idLote } = req.body;
 
+      const disAreaDestino = await DisLoteDependencia.find({
+        idDisContratoLote: id
+      });
+
+      const disContrato = await Contrato.findOne({
+        _id:idContrato
+      })
+
+      const presupuestoDisponibleContrato = disContrato.presupuestoDisponible 
+
+
+      const totalPresupuestos = disAreaDestino.reduce((total, disAreaDestino) => {
+        return total + disAreaDestino.presupuestoAsignado;
+      }, 0);
+
+      const distribucionAnterior = await DisContratoLote.findById(id);
+      const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
+
+
+      const diferencia = presupuestoAnterior - presupuestoAsignado;
+
+      const presupuestoDisponible = presupuestoAsignado - totalPresupuestos;
+
+      if (presupuestoDisponible < 0) {
+        return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
+      } 
+      
+      const updatePresupuestoRed = presupuestoDisponibleContrato + diferencia
+
+      const presupuestoRed = await Contrato.findByIdAndUpdate(idContrato, {
+      presupuestoDisponible: updatePresupuestoRed}, { new: true } );
+
+      if(!presupuestoRed){
+         res.status(200).json({ message: 'La red no tiene ningun presupuesto' });
+      };
+
       const distribucion = await DisContratoLote.findByIdAndUpdate(
         id,
         {
-          presupuestoAsignado,
-          presupuestoDisponible:presupuestoAsignado,
-          idContrato,
-          idLote,
-        },
-        { new: true }
-      )
-        .populate("idContrato")
-        .populate("idLote");
+          presupuestoAsignado, presupuestoDisponible, idContrato, idLote
+        }, { new: true }
+      );
       res.json(distribucion);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Error en el servidor" });
+      res.status(400).json({ error });
     }
   },
+
 
   putAjustarPresupuesto: async (req, res) => {
     try {

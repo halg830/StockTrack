@@ -110,7 +110,7 @@ const httpDisRedArea = {
       presupuestoDisponible: updatePresupuestoRed}, { new: true } );
 
       if(!presupuestoRed){
-         res.status(200).json({ message: 'El presupuesto de la red fue Arreglado.' });
+         res.status(200).json({ message: 'La red no tiene ningun presupuesto' });
       };
 
       const distribucion = await DisRedArea.findByIdAndUpdate(

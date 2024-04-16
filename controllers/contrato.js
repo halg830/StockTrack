@@ -1,5 +1,6 @@
 import Contrato from "../models/contrato.js";
 import Proceso from '../models/proceso.js';
+import DisContratoLote from "../models/disContratoLote.js";
 import helpersGeneral from "../helpers/generales.js";
 
 const httpContrato = {
@@ -79,29 +80,88 @@ const httpContrato = {
   },
 
   // Put
+  // putEditar: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const { nombre, codigo, idSupervisor, idProveedor} =
+  //       req.body;
+
+  //     const contrato = await Contrato.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         nombre: await helpersGeneral.primeraMayuscula(nombre),
+  //         codigo,
+  //         idSupervisor,
+  //         idProveedor
+  //       },
+  //       { new: true }
+  //     );
+
+  //     res.json(contrato);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(500).json({ error: "Error en el servidor" });
+  //   }
+  // },
   putEditar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, codigo, idSupervisor, idProveedor} =
-        req.body;
+      const { nombre, codigo, presupuestoAsignado, idSupervisor, idProveedor, idProceso} = req.body;
 
-      const contrato = await Contrato.findByIdAndUpdate(
+      const disContratoLote = await disContratoLote.find({
+        idContrato: id
+      });
+
+      const disProceso = await Proceso.findOne({
+        _id:idProceso
+      })
+
+      const presupuestoDisponibleProceso = disProceso.presupuestoDisponible 
+
+
+      const totalPresupuestos = DisContratoLote.reduce((total, disContratoLote) => {
+        return total + disContratoLote.presupuestoAsignado;
+      }, 0);
+
+      const distribucionAnterior = await Contrato.findById(id);
+      const presupuestoAnterior = distribucionAnterior.presupuestoAsignado;
+
+
+      const diferencia = presupuestoAnterior - presupuestoAsignado;
+
+      const presupuestoDisponible = presupuestoAsignado - totalPresupuestos;
+
+      if (presupuestoDisponible < 0) {
+        return res.status(400).json({ message: 'El nuevo presupuesto es menor que la cantidad ya distribuida.' });
+      } 
+      
+      const updatedProceso = presupuestoDisponibleProceso + diferencia
+
+      const presupuestoRed = await Proceso.findByIdAndUpdate(idProceso, {
+      presupuestoDisponible: updatedProceso}, { new: true } );
+
+      if(!presupuestoRed){
+         res.status(200).json({ message: 'La red no tiene ningun presupuesto' });
+      };
+
+      const distribucion = await Contrato.findByIdAndUpdate(
         id,
         {
-          nombre: await helpersGeneral.primeraMayuscula(nombre),
+          nombre,
           codigo,
+          presupuestoAsignado,
+          presupuestoDisponible,
           idSupervisor,
-          idProveedor
-        },
-        { new: true }
+          idProveedor,
+          idProceso,
+        }, { new: true }
       );
-
-      res.json(contrato);
+      res.json(distribucion);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Error en el servidor" });
+      res.status(400).json({ error });
     }
   },
+
 
   putAjustarPresupuesto: async (req, res) => {
     try {
